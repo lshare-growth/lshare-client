@@ -1,0 +1,10 @@
+export const INIT_PATH = '/';
+export const MAIN_PATH = '/api/studies';
+export const SIGN_UP_PATH = '/signup';
+export const WRITE_PATH = '/write';
+export const MEMBER_EDIT_PATH = '/memberEdit';
+export const MEMBER_DETAIL_PATH = '/memberDetail';
+export const MEMBER_MANAGE_PATH = '/memberManage';
+export const STUDY_MANAGE_PATH = '/studyManage';
+export const LOAD_PATH = '/loading';
+export const ETC_PATH = '/*';

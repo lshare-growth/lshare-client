@@ -1,0 +1,25 @@
+const tags = [
+  { id: 1, content: 'ts' },
+  { id: 2, content: 'js' },
+  { id: 3, content: '프론트' },
+  { id: 4, content: 'ts' },
+  { id: 5, content: 'js' },
+  { id: 6, content: '프론트' },
+  { id: 7, content: 'ts' },
+  { id: 8, content: 'js' },
+  { id: 9, content: '프론트' },
+  { id: 10, content: 'ts' },
+  { id: 11, content: 'js' },
+  { id: 12, content: '프론트' },
+  { id: 13, content: 'ts' },
+  { id: 14, content: 'js' },
+  { id: 15, content: '프론트' },
+  { id: 16, content: 'ts' },
+  { id: 17, content: 'js' },
+  { id: 18, content: '프론트' },
+  { id: 19, content: 'ts' },
+  { id: 20, content: 'js' },
+  { id: 21, content: '프론트' },
+].map(({ id, content }) => ({ id, content: `${content}` }));
+
+export default tags;
