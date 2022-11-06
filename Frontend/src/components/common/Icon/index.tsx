@@ -22,7 +22,15 @@ import Hash from '@assets/icons/hash.svg';
 import Logo from '@assets/icons/logo.svg';
 import Github from '@assets/icons/github.svg';
 import TodoList from '@assets/icons/todoList.svg';
+import Avatar from '@assets/icons/avatar.svg';
+import Notification from '@assets/icons/notification.svg';
+import Delete from '@assets/icons/delete.svg';
+import Check from '@assets/icons/check.svg';
+import District from '@assets/icons/district.svg';
+import Link from '@assets/icons/link.svg';
+import GithubUrl from '@assets/icons/githubUrl.svg';
 import theme from '@style/theme';
+import { VscBellDot, VscBell, VscHome } from 'react-icons/vsc';
 
 type iconsKeyType =
   | 'alert'
@@ -46,7 +54,16 @@ type iconsKeyType =
   | 'hash'
   | 'logo'
   | 'github'
-  | 'todoList';
+  | 'todoList'
+  | 'avatar'
+  | 'notification'
+  | 'delete'
+  | 'check'
+  | 'unReadAlert'
+  | 'readAlert'
+  | 'district'
+  | 'link'
+  | 'githubUrl';
 
 type IconsType = Record<iconsKeyType, any>;
 
@@ -57,7 +74,7 @@ const icons: IconsType = {
   down: Down,
   edit: Edit,
   emoji: Emoji,
-  home: Home,
+  home: VscHome,
   back: Back,
   left: Left,
   moon: Moon,
@@ -73,6 +90,15 @@ const icons: IconsType = {
   logo: Logo,
   github: Github,
   todoList: TodoList,
+  avatar: Avatar,
+  notification: Notification,
+  delete: Delete,
+  check: Check,
+  unReadAlert: VscBellDot,
+  readAlert: VscBell,
+  district: District,
+  link: Link,
+  githubUrl: GithubUrl,
 };
 
 type IconProps = {
@@ -88,13 +114,17 @@ type colorType = Record<string, any>;
 const colors: colorType = {
   default: theme.colors.title,
   accent: theme.colors.accent.initial,
+  disabled: theme.colors.default.disabled,
+  subTitle: theme.colors.subTitle,
 };
 
 const Icon = ({ mode, color = 'default', className, handleClick }: IconProps) => {
   const TargetIcon = icons[mode];
   const stroke = colors[color] || color;
+  const size = (mode === 'unReadAlert' || mode === 'readAlert' || mode === 'home') && '18';
 
-  return <TargetIcon stroke={stroke} className={className} onClick={handleClick} />;
+  return <TargetIcon stroke={stroke} color={stroke} size={size} className={className} onClick={handleClick} />;
+  // return <TargetIcon stroke={stroke} color={stroke} className={className} onClick={handleClick} />;
 };
 
 export default Icon;

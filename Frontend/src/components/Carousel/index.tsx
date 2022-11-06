@@ -27,17 +27,19 @@ const Carousel = ({ children, showingSlideCardNum = DEFAULT_SHOWING_CARD_NUM, it
 
   return (
     <S.Container buttonSizeOnBothSide={buttonSizeOnBothSide}>
-      <CarouselButton
+      {/* <CarouselButton
         showingSlideCardNum={showingSlideCardNum}
         handleClickSlide={handleClickSlide}
         cardNum={children?.length || items.length}
         isMoving={isMoving}
         buttonSizeOnBothSide={buttonSizeOnBothSide}
-      />
+      /> */}
       <S.Wrapper itemGap={itemGap} buttonSize={buttonSizeOnBothSide}>
         <ItemContainer showingSlideCardNum={showingSlideCardNum} slidingSize={slidingSize} handleTransitionEnd={handleTransitionEnd} itemGap={itemGap}>
           {items.map(({ id, content }) => (
-            <S.ChildrenItem key={`item-${id}`}>{content}</S.ChildrenItem>
+            <S.ChildrenItem key={`item-${id}`}>
+              <S.ImgItem src={content} alt="" width="100%" height="200px" />
+            </S.ChildrenItem>
           ))}
         </ItemContainer>
       </S.Wrapper>

@@ -27,6 +27,10 @@ export const sizes: any = {
     width: '157px',
     height: '48px',
   },
+  smallSmall: {
+    width: '144px',
+    height: '30px',
+  },
   xsmall: {
     width: '77px',
     height: '48px',

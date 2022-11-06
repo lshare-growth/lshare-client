@@ -8,20 +8,18 @@ type CommentContentProps = {
   content: string;
   className?: string;
   clamp?: number;
+  isLoading?: boolean;
+  handleClick?: () => void;
 };
 
 const DEFAULT_CLAMP = 5;
 
-const CommentContent = ({
-  content = LONG_CONTENT,
-  className,
-  clamp = DEFAULT_CLAMP,
-}: CommentContentProps) => {
+const CommentContent = ({ content = LONG_CONTENT, className, clamp = DEFAULT_CLAMP, isLoading, handleClick }: CommentContentProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isClosed, setIsClosed] = useState(true);
   const [isOverflowing, setIsOverflowing] = useState(false);
 
-  const handleClick = () => {
+  const handleClickDetail = () => {
     setIsClosed(!isClosed);
   };
 
@@ -36,13 +34,15 @@ const CommentContent = ({
     }
   }, []);
 
-  return (
-    <S.Container className={className}>
+  return isLoading ? (
+    <S.SkeletonContent />
+  ) : (
+    <S.Container className={className} onClick={handleClick}>
       <S.Content ref={ref} isClosed={isClosed} clamp={clamp}>
         {content}
       </S.Content>
       {isOverflowing && (
-        <TextButton mode="default" handleClick={handleClick}>
+        <TextButton mode="default" handleClick={handleClickDetail}>
           {isClosed ? '자세히 보기' : '간략히'}
         </TextButton>
       )}

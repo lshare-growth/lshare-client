@@ -17,12 +17,7 @@ type TagModeType = Record<modeType, any>;
 const DEFAULT_MODE = 'default';
 const TAG = '# ';
 
-const Tag = ({
-  children,
-  mode = DEFAULT_MODE,
-  className,
-  handleClick,
-}: TagProps) => {
+const Tag = ({ children, mode = DEFAULT_MODE, className, handleClick }: TagProps) => {
   const TagMode: TagModeType = {
     default: TAG + children,
     custom: children,
@@ -30,13 +25,14 @@ const Tag = ({
 
   switch (mode) {
     case 'default':
-      return <S.Tag className={className}>{TagMode[mode]}</S.Tag>;
+      return (
+        <S.Tag className={className} onClick={() => handleClick(children as string)}>
+          {TagMode[mode]}
+        </S.Tag>
+      );
     case 'custom':
       return (
-        <S.CustomTag
-          className={className}
-          onClick={() => handleClick(children as string)}
-        >
+        <S.CustomTag className={className} onClick={() => handleClick(children as string)}>
           <S.Container>{`${TagMode[mode]} `}</S.Container>
           <S.Container>
             <Icon mode="cancel" />

@@ -26,6 +26,7 @@ export const CustomButton = styled(Button)`
 `;
 
 export const CustomLink = styled(Link)`
+  width: 1000px;
   color: inherit;
   text-decoration: none;
   overflow: hidden;
@@ -33,6 +34,6 @@ export const CustomLink = styled(Link)`
 `;
 
 export const HorizontalDivider = styled(Divider)`
-  width: 912px;
+  width: 1100px;
   margin: 0 auto;
 `;

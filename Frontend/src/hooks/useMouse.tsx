@@ -10,6 +10,7 @@ type UseMouseType = {
   handleMouseUp: () => void;
   handleClick: () => void;
   resetClick: () => void;
+  handleKeep: () => void;
 };
 
 const useMouse = (inintialState = false): UseMouseType => {
@@ -39,6 +40,10 @@ const useMouse = (inintialState = false): UseMouseType => {
     setIsClicked(!isClicked);
   };
 
+  const handleKeep = () => {
+    setIsMouseOvered(true);
+  };
+
   const resetClick = () => {
     setIsClicked(false);
   };
@@ -53,6 +58,7 @@ const useMouse = (inintialState = false): UseMouseType => {
     handleMouseUp,
     handleClick,
     resetClick,
+    handleKeep,
   };
 };
 

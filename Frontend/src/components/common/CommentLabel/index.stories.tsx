@@ -7,18 +7,16 @@ export default {
   component: CommentLabel,
 } as ComponentMeta<typeof CommentLabel>;
 
-const Template: ComponentStory<typeof CommentLabel> = (args) => (
-  <CommentLabel {...args} />
-);
+const Template: ComponentStory<typeof CommentLabel> = (args) => <CommentLabel {...args} />;
 
 export const DefaultCommentLabel = Template.bind({});
 DefaultCommentLabel.args = {
-  isWriter: false,
+  isStudyOrganizer: false,
   nickname: '이든',
 };
 
 export const WriterCommentLabel = Template.bind({});
 WriterCommentLabel.args = {
-  isWriter: true,
+  isStudyOrganizer: true,
   nickname: 'Jun',
 };

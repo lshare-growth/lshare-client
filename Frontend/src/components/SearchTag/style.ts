@@ -3,13 +3,12 @@ import Button from '@components/common/Button';
 import Input from '@components/common/Input';
 
 export const DefaultTagContainer = styled.ul`
-  ${({ theme }) =>
-    theme.mixins.flexBox({ justify: 'center', align: 'center' })};
+  ${({ theme }) => theme.mixins.flexBox({ justify: 'center', align: 'center' })};
   flex-wrap: wrap;
 `;
 
 export const DefaultTagBox = styled.div`
-  width: 602px;
+  width: 100%;
 `;
 
 export const Item = styled.li`
@@ -19,8 +18,7 @@ export const Item = styled.li`
 export const DefaultTag = styled.li``;
 
 export const Container = styled.div`
-  ${({ theme }) =>
-    theme.mixins.flexBox({ justify: 'flex-start', align: 'center' })};
+  ${({ theme }) => theme.mixins.flexBox({ justify: 'flex-start', align: 'center' })};
 `;
 
 export const CustomButton = styled(Button)`

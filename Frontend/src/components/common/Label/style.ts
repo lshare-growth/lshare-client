@@ -7,7 +7,7 @@ const mediumSize = css`
 `;
 
 const mediumUiStyle = css`
-  border-radius: 2px;
+  border-radius: 4px;
 `;
 
 const mediumStyle = css`
@@ -21,8 +21,12 @@ const smallSize = css`
 `;
 
 const smallUiStyle = css`
-  padding: 8px;
-  border-radius: 2px;
+  padding: 8px 4px;
+  border-radius: 4px;
+`;
+
+const xsmallUiStyle = css`
+  border-radius: 4px;
 `;
 
 const smallStyle = css`
@@ -30,9 +34,16 @@ const smallStyle = css`
   ${smallUiStyle};
 `;
 
+// TODO : 리팩토링, 크기는 small과 동일한것
+const xsmallStyle = css`
+  ${smallSize};
+  ${xsmallUiStyle};
+`;
+
 const labelStyles: any = {
   medium: mediumStyle,
   small: smallStyle,
+  xsmall: xsmallStyle,
 };
 
 const defaultStyle = css``;
@@ -53,11 +64,14 @@ const modeStyles: any = {
 
 type labelProps = {
   mode: 'default' | 'accent' | 'done';
-  size: 'medium' | 'small';
+  size: 'medium' | 'small' | 'xsmall';
 };
 
 const StyledLabel = styled.span<labelProps>`
-  padding: 8px;
+  width: 48px;
+  height: 30px;
+  padding: 4px 6px;
+  font-size: 12px;
   text-align: center;
   vertical-align: middle;
   ${({ size }) => labelStyles[size]};

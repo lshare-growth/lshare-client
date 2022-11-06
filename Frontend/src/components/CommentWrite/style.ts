@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import Avatar from '@common/Avatar';
 import Button from '@common/Button';
+import Icon from '@components/common/Icon';
 
 const mediumSize = css`
   width: 930px;
@@ -30,6 +31,12 @@ export const Container = styled.div`
 export const CustomAvatar = styled(Avatar)`
   margin: 0 16px 0 0;
   cursor: auto;
+`;
+
+export const IconAvatar = styled(Icon)``;
+
+export const AvatarContainer = styled.span`
+  margin: 0 16px 0 0;
 `;
 
 export const ContentContainer = styled.div``;

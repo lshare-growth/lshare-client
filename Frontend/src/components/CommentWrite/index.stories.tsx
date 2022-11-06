@@ -7,9 +7,7 @@ export default {
   component: CommentWrite,
 } as ComponentMeta<typeof CommentWrite>;
 
-const Template: ComponentStory<typeof CommentWrite> = (args) => (
-  <CommentWrite {...args} />
-);
+const Template: ComponentStory<typeof CommentWrite> = (args) => <CommentWrite {...args} />;
 
 export const DefaultCommentWrite = Template.bind({});
 DefaultCommentWrite.args = {

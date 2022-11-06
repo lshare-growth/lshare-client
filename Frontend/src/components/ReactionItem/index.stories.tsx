@@ -7,13 +7,10 @@ export default {
   component: ReactionItem,
 } as ComponentMeta<typeof ReactionItem>;
 
-const Template: ComponentStory<typeof ReactionItem> = (args) => (
-  <ReactionItem {...args} />
-);
+const Template: ComponentStory<typeof ReactionItem> = (args) => <ReactionItem {...args} />;
 
 export const DefaultReactionItem = Template.bind({});
 DefaultReactionItem.args = {
-  id: 1,
   content: '😀',
   count: 7,
   label: 'smile',
@@ -22,7 +19,6 @@ DefaultReactionItem.args = {
 
 export const SelectedReactionItem = Template.bind({});
 SelectedReactionItem.args = {
-  id: 1,
   content: '😀',
   count: 7,
   label: 'smile',

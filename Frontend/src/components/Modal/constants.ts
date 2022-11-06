@@ -10,8 +10,8 @@ export const ALERT_CONTENT = '댓글이 삭제 되었습니다.';
 
 export const LOGIN_TITLE = 'lnshare 로그인 하기';
 
-export const SIGN_UP_TITLE = 'GitHub 회원가입 하기';
+export const SIGN_UP_TITLE = '회원가입 하기';
 
 export const LOGIN_BUTTON_CONTENT = 'GitHub 로그인';
 
-export const SIGN_UP_BUTTON_CONTENT = 'GitHub 회원가입 하기';
+export const SIGN_UP_BUTTON_CONTENT = 'GitHub 회원가입';

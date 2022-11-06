@@ -12,12 +12,13 @@ type SearchType = {
   className?: string;
   value?: string;
   handleChangeValue?: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
-const Search = ({ size, id, handleClickSearch, handleFocusDefault, className, value, handleChangeValue }: SearchType) => (
+const Search = ({ size, id, handleKeyPress, handleClickSearch, handleFocusDefault, className, value, handleChangeValue }: SearchType) => (
   <S.Container className={className}>
-    <Input id={id} size={size} handleFocusDefault={handleFocusDefault} value={value} handleChangeValue={handleChangeValue} />
-    <S.CustomButton size="small" handleClick={handleClickSearch}>
+    <S.CustomInput id={id} size={size} handleFocusDefault={handleFocusDefault} value={value} handleChangeValue={handleChangeValue} handleKeyPress={handleKeyPress} />
+    <S.CustomButton size="xsmall" handleClick={handleClickSearch}>
       검색
     </S.CustomButton>
   </S.Container>

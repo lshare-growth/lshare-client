@@ -1,11 +1,25 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const StyledLoadingSpinner = styled.div`
+const largeSize = css`
+  width: 48px;
+  height: 48px;
+`;
+
+const mediumSize = css`
+  width: 24px;
+  height: 24px;
+`;
+
+const sizes = {
+  large: largeSize,
+  medium: mediumSize,
+};
+
+const StyledLoadingSpinner = styled.div<{ size: 'large' | 'medium' }>`
   border: 8px solid ${({ theme }) => theme.colors.default.hover};
   border-top: 8px solid ${({ theme }) => theme.colors.default.disabled};
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  ${({ size }) => sizes[size]}
   animation: spin 2s linear infinite;
   @keyframes spin {
     0% {

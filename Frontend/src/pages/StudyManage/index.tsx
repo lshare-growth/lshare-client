@@ -1,25 +1,27 @@
+import AuthorizedLayout from '@components/AuthorizedLayout';
 import Layout from '@components/Layout';
 import Posting from '@components/Posting';
-import { postings } from '@components/mocks';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import myStudiesState from '@store/MyStudies';
-import { useEffect } from 'react';
+import studiesState from '@store/Studies';
+import { MEMBER_MANAGE_PATH, STUDY_PATH } from '../../constants/route';
 import * as S from './style';
 
 const StudyManage = () => {
   const navigate = useNavigate();
-  const [studies, setStudies] = useRecoilState(myStudiesState);
+  // eslint-disable-next-line no-unused-vars
+  const [studies, setStudies] = useRecoilState(studiesState);
 
-  useEffect(() => {
-    // TODO: 서버요청으로 postings받아오기
-    setStudies(postings);
-  }, []);
+  // useEffect(() => {
+  //   // TODO: 서버요청으로 postings받아오기
+  //   setStudies(postings);
+  // }, []);
 
   const handleClickManage = () => {
-    navigate('/memberManage');
+    navigate(`${MEMBER_MANAGE_PATH}`);
   };
 
+  // <AuthorizedLayout url={`${process.env.END_POINT}member/my-studies`}>
   return (
     <Layout>
       <S.Container>
@@ -29,7 +31,7 @@ const StudyManage = () => {
           {studies.map(({ id, nickName, time, title, infos, viewCount, likeCount, commentCount, isRecruiting, content, tags }) => (
             <>
               <S.Item key={`studyMange-posting-${id}`}>
-                <S.CustomLink to={`/api/studies/${id}`}>
+                <S.CustomLink to={`${STUDY_PATH}/${id}`}>
                   <Posting
                     nickName={nickName}
                     time={time}

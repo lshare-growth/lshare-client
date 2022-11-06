@@ -14,24 +14,8 @@ type ImageProps = {
   handleError: (event: React.SyntheticEvent<HTMLImageElement, Event>) => void;
 };
 
-const Image = ({
-  mode,
-  size,
-  className,
-  src,
-  alt = 'defalut image',
-  handleClick,
-  handleError,
-}: ImageProps) => (
-  <StyledImage
-    className={className}
-    mode={mode}
-    size={size}
-    src={src || DEFAULT_IMAGES[size]}
-    alt={alt}
-    onClick={handleClick}
-    onError={handleError}
-  />
+const Image = ({ mode, size, className, src, alt = 'defalut image', handleClick, handleError }: ImageProps) => (
+  <StyledImage className={className} mode={mode} size={size} src={src || DEFAULT_IMAGES[size]} alt={alt} onClick={handleClick} onError={handleError} />
 );
 
 export default Image;

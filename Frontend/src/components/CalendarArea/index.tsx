@@ -1,4 +1,5 @@
 /* eslint-disable react/require-default-props */
+import Button from '@common/Button';
 import CalendarCaoursel from './CalendarCourousel';
 import StyledContainer from './style';
 
@@ -13,11 +14,15 @@ interface CalendarAreaProps {
   handleClickDate?: (selectedDate: DateType) => void;
   className?: string;
   handleClickReset?: () => void;
+  initDate?: Date;
+  handleClickCancel?: () => void;
+  handleClickConfirm?: () => void;
+  isEditing?: boolean;
 }
 //
-const CalendarArea = ({ handleClickDate, handleClickReset, className }: CalendarAreaProps) => (
+const CalendarArea = ({ handleClickCancel, handleClickConfirm, handleClickDate, handleClickReset, initDate, className, isEditing }: CalendarAreaProps) => (
   <StyledContainer className={className}>
-    <CalendarCaoursel initDate={new Date()} itemGap={26} showingCardNum={1} hiddenCardNum={2} handleClickDate={handleClickDate} handleClickReset={handleClickReset} />
+    <CalendarCaoursel initDate={initDate} itemGap={26} showingCardNum={1} hiddenCardNum={2} handleClickDate={handleClickDate} handleClickReset={handleClickReset} isEditing={isEditing} />
   </StyledContainer>
 );
 export default CalendarArea;

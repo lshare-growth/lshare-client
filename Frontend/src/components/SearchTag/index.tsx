@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/require-default-props */
 import Tag from '@common/Tag';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import tagType from '@components/types/Tags';
 import * as S from './style';
 import { DEFAULT_MODE } from './constants';
@@ -14,13 +15,14 @@ type SearchTagType = {
   tags?: tagType[];
   label?: string;
   handleFocusDefault?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  handleClick?: (tag: string) => void;
+  handleChangeValue?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const INPUT_SIZE = 'medium';
 
-const SearchTag = ({ className, mode = DEFAULT_MODE, id, size, isTagSingly = true, tags, label, handleFocusDefault }: SearchTagType) => {
-  const handleClick = () => {};
-
+const SearchTag = ({ className, mode = DEFAULT_MODE, id, size, isTagSingly = true, tags, label, handleFocusDefault, handleClick, handleChangeValue }: SearchTagType) => {
   const [isResetTag, setIsResetTag] = useState(false);
 
   const initializeIsRestTag = () => {
@@ -31,14 +33,16 @@ const SearchTag = ({ className, mode = DEFAULT_MODE, id, size, isTagSingly = tru
     setIsResetTag(true);
   };
 
+  const handleClickTag = (selectedTag: string) => {};
   switch (mode) {
     case 'default':
       return (
         <S.DefaultTagBox className={className}>
           <S.DefaultTagContainer>
             {tags?.map((tag) => (
-              <S.Item key={`serachTag-${tag.id}`}>
-                <Tag handleClick={handleClick}>{tag.content}</Tag>
+              // eslint-disable-next-line react/no-array-index-key
+              <S.Item key={`serachTag-${tag?.id}`}>
+                <Tag handleClick={handleClick || handleClickTag}>{tag?.content}</Tag>
               </S.Item>
             ))}
           </S.DefaultTagContainer>
@@ -57,8 +61,9 @@ const SearchTag = ({ className, mode = DEFAULT_MODE, id, size, isTagSingly = tru
             initializeIsRestTag={initializeIsRestTag}
             isTagSingly={isTagSingly}
             tags={tags}
+            handleChangeValue={handleChangeValue}
           />
-          <S.CustomButton size="small" handleClick={handleClickReset}>
+          <S.CustomButton size="medium" handleClick={handleClickReset}>
             초기화
           </S.CustomButton>
         </S.Container>

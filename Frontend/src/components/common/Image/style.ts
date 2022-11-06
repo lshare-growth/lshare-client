@@ -1,6 +1,11 @@
 import styled, { css } from 'styled-components';
 import { shapeTyep, sizeType } from './constants';
 
+const megaLargeSize = css`
+  width: 386px;
+  height: 386px;
+`;
+
 const xLargeSize = css`
   width: 96px;
   height: 96px;
@@ -26,6 +31,11 @@ const xSmallSize = css`
   height: 40px;
 `;
 
+const xxSmallSize = css`
+  width: 24px;
+  height: 24px;
+`;
+
 const squareStyle = css`
   border-radius: 2px;
 `;
@@ -35,11 +45,13 @@ const circleStyle = css`
 `;
 
 const sizes = {
+  megaLarge: megaLargeSize,
   xlarge: xLargeSize,
   large: largeSize,
   medium: mediumSize,
   small: smallSize,
   xsmall: xSmallSize,
+  xxsmall: xxSmallSize,
 };
 
 const shapes = {
@@ -53,6 +65,8 @@ const StyledImage = styled.img<{
 }>`
   ${({ mode }) => shapes[mode]}
   ${({ size }) => sizes[size]}
+  box-shadow: 0 3px 5px ${({ theme }) => theme.colors.line};
+  object-fit: cover;
   cursor: pointer;
 `;
 

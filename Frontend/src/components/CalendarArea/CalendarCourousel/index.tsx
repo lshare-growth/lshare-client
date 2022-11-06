@@ -1,20 +1,21 @@
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-use-before-define */
 import { useState } from 'react';
-
 import Calendar from './Calendar';
 import { LAST_MONTH, INCREASED_YEAR, INCREASED_MONTH, INCREASED_SLIDE_X_COUNT, INITIAL_MOVE_X_COUNT, FIRST_MONTH, MONTH_LENGTH, DECREASE_YEAR, DECREASE_MONTH, SLIDE_ACTION } from './constants';
 
 import * as S from './style';
 
 interface CalendarCaourselProps {
-  initDate: Date;
+  initDate?: Date;
   itemGap: number;
   showingCardNum: number;
   hiddenCardNum: number;
   // eslint-disable-next-line no-unused-vars, react/require-default-props
   handleClickDate?: (selectedDate: DateType) => void;
   handleClickReset?: () => void;
+  isEditing?: boolean;
 }
 
 interface SlideAction {
@@ -35,32 +36,50 @@ export interface SelectedDateType {
   isSelectedDone?: boolean;
 }
 
-const CalendarCaoursel = ({ initDate, itemGap, showingCardNum, hiddenCardNum, handleClickDate, handleClickReset }: CalendarCaourselProps) => {
-  const initYear = initDate.getFullYear();
-  const initMonth = initDate.getMonth();
+const CalendarCaoursel = ({ initDate = new Date(), itemGap, showingCardNum, hiddenCardNum, handleClickDate, handleClickReset, isEditing }: CalendarCaourselProps) => {
+  const initYear = initDate?.getFullYear();
+  const initMonth = initDate?.getMonth();
+  const currentDate = initDate?.getDate();
+
   const slideCardsLength = showingCardNum + hiddenCardNum;
 
-  const [activeMonth, setActiveMonth] = useState(initMonth);
+  const [activeMonth, setActiveMonth] = useState<number>(initMonth);
   const [slideXCount, setSlideXCount] = useState(INITIAL_MOVE_X_COUNT);
   const [slideAction, setSlideAction] = useState<SlideAction>({
     isSliding: false,
     actionType: SLIDE_ACTION.PAUSE,
   });
 
-  const currentDate = initDate.getDate();
-
   const [checkIn, setCheckIn] = useState({
-    year: initYear,
-    month: initMonth,
-    date: currentDate,
+    year: isEditing ? 0 : initYear,
+    month: isEditing ? 0 : initMonth,
+    date: isEditing ? 0 : currentDate,
   });
 
   const [checkOut, setCheckOut] = useState({
-    year: initYear,
-    month: initMonth,
-    date: currentDate + 1,
+    year: 0,
+    month: 0,
+    date: 0,
     isSelectedDone: false,
   });
+
+  // useEffect(() => {
+  //   console.log('calendare dates');
+  //   console.log(dates);
+  //   if (dates.length === 2) {
+  //     setCheckIn({
+  //       year: dates[0]?.year,
+  //       month: dates[0]?.month,
+  //       date: dates[0]?.date,
+  //     });
+  //     setCheckOut({
+  //       year: dates[1]?.year,
+  //       month: dates[1]?.month,
+  //       date: dates[1]?.date,
+  //       isSelectedDone: false,
+  //     });
+  //   }
+  // }, [dates]);
 
   const calendarHeaderDate = getMonthsWithYear(slideCardsLength, activeMonth, initYear);
 

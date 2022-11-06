@@ -40,8 +40,14 @@ const mediumStyle = css`
 `;
 
 const smallSize = css`
-  width: 84px;
-  height: 46px;
+  width: 78px; //84px;
+  height: 40px;
+`;
+
+const xsmallSize = css`
+  width: 64px;
+  height: 32px;
+  line-height: 16px;
 `;
 
 const smallBorderStyle = css`
@@ -58,16 +64,17 @@ const xsmallBorderStyle = css`
 `;
 
 const tinySize = css`
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
 `;
 
 const tinyBorderStyle = css`
   border-radius: 4px;
 `;
 
+/* padding: 8px; */
 const xsmallStyle = css`
-  padding: 8px;
+  ${xsmallSize};
   ${xsmallBorderStyle};
 `;
 
@@ -108,6 +115,7 @@ const StyledButton = styled(BasicButton)<buttonProps>`
     background-color: ${({ theme, mode }) => theme.colors[mode].disabled};
     opacity: 50%;
   }
+  text-align: center;
 `;
 
 export default StyledButton;

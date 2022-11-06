@@ -9,9 +9,7 @@ export default {
   component: Comment,
 } as ComponentMeta<typeof Comment>;
 
-const Template: ComponentStory<typeof Comment> = (args) => (
-  <Comment {...args} />
-);
+const Template: ComponentStory<typeof Comment> = (args) => <Comment {...args} />;
 
 export const DefaultComment = Template.bind({});
 DefaultComment.args = {
@@ -19,12 +17,11 @@ DefaultComment.args = {
   nickname: '이든',
   time: '10분',
   isEditied: true,
-  replyNum: 5,
-  commentId: 1,
+  // replyNum: 5,
   content,
   avatorSrc: '',
   avatorAlt: '',
   emojis,
   isAuthorized: true,
-  writer: '이든',
+  // writer: '이든',
 };

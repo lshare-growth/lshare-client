@@ -3,6 +3,7 @@ import Input from '@components/common/Input';
 import Layout from '@components/Layout';
 import { useNavigate } from 'react-router-dom';
 import options from './constants';
+import { MAIN_PATH } from '../../constants/route';
 import * as S from './style';
 
 const SignUp = () => {
@@ -10,7 +11,7 @@ const SignUp = () => {
 
   const handleClickSignUp = () => {
     // TODO: 서버에게 가입 요청
-    navigate('/api/studies');
+    navigate(`${MAIN_PATH}`);
   };
 
   return (

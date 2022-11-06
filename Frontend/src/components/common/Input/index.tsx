@@ -7,6 +7,10 @@ import useDateForm from '@hooks/useDateForm';
 import { useRecoilState } from 'recoil';
 import tagsState from '@store/Tags';
 import tagType from '@components/types/Tags';
+import Hash from '@assets/img/hash.png';
+import keywordsState from '@store/Keyword';
+import showingInputValueState from '@store/ShowingInputValue';
+import Button from '@components/common/Button';
 import * as S from './style';
 import { DEFAULT_MODE, DEFAULT_SIZE, sizes } from './constants';
 
@@ -28,6 +32,7 @@ type InputProps = {
   handleFocusDefault?: () => void;
   value?: string;
   handleChangeValue?: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const Input = ({
@@ -48,6 +53,7 @@ const Input = ({
   tags,
   value,
   handleChangeValue,
+  handleKeyPress,
 }: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -59,9 +65,16 @@ const Input = ({
   const [isClickAway, setIsClickAway] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const targetInput = useRef<HTMLInputElement>(null);
-  const [keywords, setKeywords] = useState(tags?.map(({ content }) => content) || []);
+  const [keywords, setKeywords] = useRecoilState(keywordsState);
   const [currentTags, setCurrentTags] = useRecoilState(tagsState);
+  // const [keywords, setKeywords] = useState<string[]>([]);
+  // const [currentTags, setCurrentTags] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState('');
+  const MAX_TAG_TEXT_LENGTH = 15;
+  const MIN_TAG_TEXT_LENGTH = 2;
+  const MAX_TAG_NUM = 8;
+  const [showingInputValue, setShowingInputValue] = useRecoilState(showingInputValueState);
+  const [tag, setTag] = useState('');
 
   useEffect(() => {
     const handleClickAway = (event: MouseEvent) => {
@@ -116,7 +129,6 @@ const Input = ({
     if (!keywords) {
       return;
     }
-
     const newKeywords = keywords.filter((keyword) => keyword !== selectedKeyword);
 
     setKeywords([...newKeywords]);
@@ -135,6 +147,7 @@ const Input = ({
       [id: string]: { value: string };
     };
     const newValue = target[id].value;
+
     target[id].value = '';
     setSearchWord(newValue);
   };
@@ -149,18 +162,26 @@ const Input = ({
     const newKeyword = targetElements[id].value;
     targetElements[id].value = '';
 
+    if (keywords.length >= MAX_TAG_NUM) {
+      return;
+    }
+
+    if (newKeyword.length > MAX_TAG_TEXT_LENGTH || newKeyword.length === 0 || newKeyword.length < MIN_TAG_TEXT_LENGTH) {
+      return;
+    }
+
     const isExistKeyword = keywords?.find((keyword) => keyword === newKeyword);
     if (isExistKeyword) {
       return;
     }
     const newAllKeywords = [...keywords, newKeyword];
-    setKeywords(newAllKeywords);
 
+    setKeywords(newAllKeywords);
+    setCurrentTags(newAllKeywords);
     if (isTagSingly) {
       // TODO: 서버에 tag 하나씩 요청
     }
 
-    setCurrentTags(newAllKeywords);
     // TODO: 서버에 tag 한번에 모두 요청
   };
 
@@ -182,8 +203,26 @@ const Input = ({
     if (!handleChangeValue) {
       return;
     }
+    setTag(event.target.value);
     handleChangeValue(event);
   };
+
+  const handleTagKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (tag.length > 0) {
+      setTag('');
+      return;
+    }
+    if (event.key === 'Backspace') {
+      const keywordsLen = keywords.length;
+      const remainKeywords = keywords.slice(0, keywordsLen - 1);
+      setKeywords([...remainKeywords]);
+      setCurrentTags([...remainKeywords]);
+    }
+  };
+
+  useEffect(() => {
+    setShowingInputValue(showingValue);
+  }, [showingValue]);
 
   useEffect(() => {
     updateShowingInput({ delimiter });
@@ -201,7 +240,18 @@ const Input = ({
                 </S.SearchLabel>
                 {isEssential && <S.HighlightLabel>*</S.HighlightLabel>}
               </S.LabelContainer>
-              <S.DefaultInput type="text" id={id} placeholder={placeholder} width={width} height={height} disabled={disabled} value={value} onFocus={handleFocusDefault} onChange={handleChange} />
+              <S.DefaultInput
+                type="text"
+                id={id}
+                placeholder={placeholder}
+                width={width}
+                height={height}
+                disabled={disabled}
+                value={value}
+                onFocus={handleFocusDefault}
+                onChange={handleChange}
+                onKeyPress={handleKeyPress}
+              />
             </S.LabelInputContainer>
           ) : (
             <>
@@ -211,7 +261,18 @@ const Input = ({
                 </S.SearchLabel>
                 {isEssential && <S.HighlightLabel>*</S.HighlightLabel>}
               </S.LabelContainer>
-              <S.DefaultInput type="text" id={id} placeholder={placeholder} width={width} height={height} disabled={disabled} onFocus={handleFocusDefault} value={value} onChange={handleChange} />
+              <S.DefaultInput
+                type="text"
+                id={id}
+                placeholder={placeholder}
+                width={width}
+                height={height}
+                disabled={disabled}
+                onFocus={handleFocusDefault}
+                value={value}
+                onChange={handleChange}
+                onKeyPress={handleKeyPress}
+              />
             </>
           )}
         </S.SearchForm>
@@ -224,7 +285,8 @@ const Input = ({
               {label}
             </S.SearchLabel>
             <S.InputContainer width={width} height={height} onClick={handleFocus} ref={ref} isFocused={isFocused}>
-              <Icon mode="hash" />
+              {/* <div style={{ flexWrap: 'wrap' }}> */}
+              <img src={Hash} alt="hash" width="16px" height="16px" />
               <S.TagsContainer>
                 {currentTags?.map((keyword) => (
                   <S.Tags key={`keyword-${keyword}`}>
@@ -234,7 +296,18 @@ const Input = ({
                   </S.Tags>
                 ))}
               </S.TagsContainer>
-              <S.Input type="text" id={id} placeholder={placeholder} ref={targetInput} onKeyDown={handleKeyDown} onFocus={handleFocusDefault} />
+              <S.Input
+                type="text"
+                id={id}
+                name={id}
+                placeholder={placeholder}
+                ref={targetInput}
+                onKeyDown={handleKeyDown}
+                onFocus={handleFocusDefault}
+                onChange={handleChange}
+                onKeyDownCapture={handleTagKeyDown}
+              />
+              {/* </div> */}
             </S.InputContainer>
           </S.SearchForm>
         </S.Container>
@@ -257,7 +330,7 @@ const Input = ({
                 height={height}
                 disabled={disabled}
                 onFocus={handleFocusDefault}
-                value={value && showingValue} // value || showingValue
+                value={value || showingValue}
                 onChange={(event) => handleDateChangeValue(event)}
               />
             </S.CalendarInputContainer>

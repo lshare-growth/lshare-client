@@ -4,17 +4,12 @@ import StyledLabel from './style';
 
 type labelType = {
   mode: 'default' | 'accent' | 'done';
-  size: 'medium' | 'small';
+  size: 'medium' | 'small' | 'xsmall';
   children?: React.ReactNode;
   className?: string;
 };
 
-const Label = ({
-  mode = 'default',
-  size = 'small',
-  children,
-  className,
-}: labelType) => (
+const Label = ({ mode = 'default', size = 'small', children, className }: labelType) => (
   <StyledLabel mode={mode} size={size} className={className}>
     {children}
   </StyledLabel>

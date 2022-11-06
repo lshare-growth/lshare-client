@@ -10,6 +10,6 @@ export const Item = styled.li`
 `;
 
 export const ItemContainer = styled.div`
-  padding: 10px;
+  padding: 4px;
   cursor: default;
 `;

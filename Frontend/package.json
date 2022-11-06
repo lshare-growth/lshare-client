@@ -9,7 +9,9 @@
     "build": "webpack",
     "storybook": "start-storybook -p 9001",
     "build:dev": "webpack --config ./webpack.development.js",
-    "build:prod": "webpack --config ./webpack.production.js"
+    "build:prod": "cp ./.env.prod ./.env && webpack --config ./webpack.production.js",
+    "build:test": "cp ./.env.test ./.env && webpack --config ./webpack.production.js",
+    "analyze": "webpack-bundle-analyzer ./dist/bundle-report.json --default-sizes gzip"
   },
   "repository": {
     "type": "git",
@@ -49,11 +51,15 @@
   "dependencies": {
     "@storybook/cli": "6.5.9",
     "@storybook/react": "6.5.9",
+    "@types/crypto-js": "4.1.1",
     "@types/react": "18.0.9",
     "@types/react-dom": "18.0.4",
+    "@types/react-icons": "3.0.0",
     "@types/styled-components": "5.1.25",
+    "@types/webpack-bundle-analyzer": "4.6.0",
     "axios": "0.27.2",
     "clean-webpack-plugin": "4.0.0",
+    "crypto-js": "4.1.1",
     "css-minimizer-webpack-plugin": "4.0.0",
     "dotenv": "16.0.0",
     "eslint-config-prettier": "8.5.0",
@@ -61,11 +67,13 @@
     "react": "18.1.0",
     "react-cookie": "4.1.1",
     "react-dom": "18.1.0",
+    "react-icons": "4.4.0",
     "react-router-dom": "6.3.0",
     "recoil": "0.7.4",
     "styled-components": "5.3.5",
     "styled-reset": "4.4.2",
     "terser-webpack-plugin": "5.3.6",
+    "webpack-bundle-analyzer": "4.6.1",
     "webpack-merge": "5.8.0"
   }
 }

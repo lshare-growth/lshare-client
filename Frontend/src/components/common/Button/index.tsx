@@ -1,5 +1,5 @@
 /* eslint-disable react/require-default-props */
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import StyledButton from './style';
 
@@ -12,10 +12,12 @@ type ButtonProps = {
   handleClick?: () => void;
 };
 
-const Button = ({ mode = 'default', size = 'medium', disabled = false, children = '', className, handleClick }: ButtonProps) => (
-  <StyledButton mode={mode} size={size} disabled={disabled} className={className} handleClick={handleClick}>
+type Ref = HTMLButtonElement;
+
+const Button = forwardRef<Ref, ButtonProps>(({ mode = 'default', size = 'medium', disabled = false, children = '', className, handleClick }, ref) => (
+  <StyledButton ref={ref} mode={mode} size={size} disabled={disabled} className={className} handleClick={handleClick}>
     {children}
   </StyledButton>
-);
+));
 
 export default Button;

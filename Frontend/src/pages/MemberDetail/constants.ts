@@ -16,3 +16,8 @@ export const memberDetailTabs = [
     content: '작성한 글',
   },
 ];
+
+export const contents = [
+  { id: 1, content: '팔로워', count: 0, path: 'followers' },
+  { id: 2, content: '팔로우', count: 0, path: 'following' },
+];

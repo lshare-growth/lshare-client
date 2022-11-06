@@ -4,6 +4,7 @@ import Input from '@components/common/Input';
 import Image from '@common/Image';
 import Icon from '@components/common/Icon';
 import Divider from '@components/common/Divider';
+import DropDown from '@components/DropDown';
 
 export const Container = styled.div`
   width: 432px;
@@ -12,11 +13,13 @@ export const Container = styled.div`
 
 export const FlexBox = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const BetweenBox = styled.div`
   display: flex;
-  ${({ theme }) => theme.mixins.flexBox({ justify: 'space-between', align: 'stretch' })}
+  margin: 16px 0 32px 0;
+  ${({ theme }) => theme.mixins.flexBox({ justify: 'space-between', align: 'strecth' })}
 `;
 
 export const Title = styled.h1`
@@ -25,6 +28,10 @@ export const Title = styled.h1`
 `;
 
 export const CustomInput = styled(Input)`
+  margin: 24px 0 0 0;
+`;
+
+export const BirthContainer = styled.div`
   margin: 32px 0 0 0;
 `;
 
@@ -37,13 +44,12 @@ const buttonStyle = css`
 `;
 
 export const UserInfos = styled.div`
-  margin: 8px 0 0 64px;
+  margin: 8px 0 0 16px;
 `;
 
 export const UserInfoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 0 0 8px 0;
+  ${({ theme }) => theme.mixins.flexBox({ justify: 'space-between' })};
+  margin: 8px 0 0 0;
 `;
 
 export const NickName = styled.h3`
@@ -74,4 +80,44 @@ export const EditButton = styled(Button)`
 
 export const HorizontalDivider = styled(Divider)`
   margin: 16px 0;
+`;
+
+export const Label = styled.span`
+  margin: 16px 8px 0 0;
+`;
+
+export const CustomDropDown = styled(DropDown)`
+  margin: 24px 0 0 0;
+`;
+
+export const NickNameInput = styled(Input)`
+  /* margin: 0 8px 0 0; */
+`;
+
+export const CustomButton = styled(Button)`
+  margin: 0 0 0 12px;
+  height: 50px;
+`;
+
+export const NickNameMsg = styled.div<{ isDuplicated?: boolean }>`
+  color: ${({ theme }) => theme.colors.accent.initial};
+  font-size: 10px;
+  margin: 8px 0 0 0;
+`;
+
+export const Msg = styled.div`
+  font-size: 10px;
+  margin: 8px 0 0 0;
+`;
+
+export const NickNameLabel = styled.span``;
+
+export const BirthLabel = styled.span`
+  margin: 0 0 8px 0;
+`;
+
+export const LoadingContainer = styled.div`
+  ${({ theme }) => theme.mixins.flexBox({})};
+  height: 100vh;
+  vertical-align: 'middle';
 `;

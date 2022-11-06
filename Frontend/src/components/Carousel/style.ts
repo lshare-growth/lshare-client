@@ -14,9 +14,11 @@ export const ChildrenItem = styled.div`
   text-align: center;
   font-size: 2rem;
   line-height: 140px;
-  height: 150px;
+  height: 200px;
   border-radius: 8px;
 `;
+
+export const ImgItem = styled.img``;
 
 export const StoryBookContainer = styled.div`
   margin-top: 50px;

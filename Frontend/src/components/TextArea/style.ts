@@ -42,4 +42,5 @@ export const TextArea = styled.textarea<{
     border-color: ${({ theme }) => theme.colors.accent.initial};
     outline: 1px solid ${({ theme }) => theme.colors.accent.initial};
   }
+  overflow: auto;
 `;

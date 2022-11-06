@@ -19,7 +19,7 @@ type DropDownProps = {
   handleSelect: (operation: string) => void;
 };
 
-const DropDown = ({ type, width = '48px', height = '48px', children, selectTitle, optionsWidth = '100%', isStartFromRight, options, className, handleSelect }: DropDownProps) => {
+const DropDown = ({ type, width = '100%', height = '100%', children, selectTitle, optionsWidth = '100%', isStartFromRight, options, className, handleSelect }: DropDownProps) => {
   const { isClicked, handleMouseOver, handleMouseOut, handleMouseDown, handleMouseUp, handleClick } = useMouse(false);
   const [isClickAway, setIsClickAway] = useState(false);
   const drop = useRef<HTMLDivElement>(null);
@@ -45,7 +45,7 @@ const DropDown = ({ type, width = '48px', height = '48px', children, selectTitle
   };
 
   return (
-    <S.Container ref={drop} className={className}>
+    <S.Container ref={drop} className={className} onClick={handleClick} onMouseDown={handleMouseDown}>
       <S.SelectContainer width={width} height={height}>
         <S.CustomSelect handleMouseOver={handleMouseOver} handleMouseOut={handleMouseOut} handleMouseDown={handleMouseDown} handleMouseUp={handleMouseUp} handleClick={handleClick}>
           {children}

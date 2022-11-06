@@ -8,12 +8,9 @@ export default {
   component: ReactionList,
 } as ComponentMeta<typeof ReactionList>;
 
-const Template: ComponentStory<typeof ReactionList> = (args) => (
-  <ReactionList {...args} />
-);
+const Template: ComponentStory<typeof ReactionList> = (args) => <ReactionList {...args} />;
 
 export const DefaultReactionList = Template.bind({});
 DefaultReactionList.args = {
   emojis,
-  commentId: 1,
 };

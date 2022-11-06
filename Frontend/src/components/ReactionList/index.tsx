@@ -6,29 +6,14 @@ import StyledContainer from './style';
 type ReactionListProps = {
   className?: string;
   emojis: emojisType[];
-  commentId: number;
   // eslint-disable-next-line no-unused-vars
-  handleClick?: (selectedId: number) => void;
+  handleClick?: (selectedContent: string) => void;
 };
 
-const ReactionList = ({
-  className,
-  emojis,
-  commentId,
-  handleClick,
-}: ReactionListProps) => (
+const ReactionList = ({ className = 'reaction', emojis, handleClick }: ReactionListProps) => (
   <StyledContainer className={className}>
     {emojis.map(({ id, type, value, count, isSelected }) => (
-      <ReactionItem
-        key={`ReactionList-emoji-${id}`}
-        id={id}
-        commentId={commentId}
-        content={value}
-        count={count}
-        label={type}
-        isSelected={isSelected}
-        handleClick={handleClick}
-      />
+      <ReactionItem className="reaction" key={`ReactionList-emoji-${id}`} content={value} count={count} label={type} isSelected={isSelected} handleClick={handleClick} />
     ))}
   </StyledContainer>
 );

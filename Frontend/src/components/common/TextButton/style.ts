@@ -7,6 +7,7 @@ const StyledButton = styled(BasicButton)<{ mode: 'default' | 'accent' }>`
   :hover {
     text-decoration: underline;
   }
+  font-size: 11px;
 `;
 
 export default StyledButton;

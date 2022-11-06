@@ -18,6 +18,10 @@ const tagStyle = css`
 
 export const Tag = styled.span`
   ${tagStyle}
+  cursor:pointer;
+  :hover {
+    filter: brightness(90%);
+  }
 `;
 
 export const CustomTag = styled.span`

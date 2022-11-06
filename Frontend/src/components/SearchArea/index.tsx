@@ -13,9 +13,12 @@ type SearchAreaProps = {
   handleBlur: () => void;
   handleBlurTag?: () => void;
   isFocusedTag?: boolean;
+  handleClickSearch: () => void;
+  // eslint-disable-next-line no-unused-vars
+  handleKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
-const SearchArea = ({ className, id, value, handleChangeValue, handleFocusDefault, handleBlur, handleBlurTag, isFocusedTag }: SearchAreaProps) => {
+const SearchArea = ({ className, id, value, handleKeyPress, handleChangeValue, handleFocusDefault, handleBlur, handleBlurTag, isFocusedTag, handleClickSearch }: SearchAreaProps) => {
   const target = useRef<HTMLDivElement>(null);
   const [isClickAway, setIsClickAway] = useState(false);
   const handleBlurDefault = () => {
@@ -49,7 +52,16 @@ const SearchArea = ({ className, id, value, handleChangeValue, handleFocusDefaul
   }, [isClickAway]);
   return (
     <S.Container className={className} ref={target}>
-      <Search className="search" id={id} size="medium" handleFocusDefault={handleFocusDefault} value={value} handleChangeValue={handleChangeValue} />
+      <Search
+        className="search"
+        id={id}
+        size="smallSmall"
+        handleFocusDefault={handleFocusDefault}
+        value={value}
+        handleChangeValue={handleChangeValue}
+        handleClickSearch={handleClickSearch}
+        handleKeyPress={handleKeyPress}
+      />
     </S.Container>
   );
 };

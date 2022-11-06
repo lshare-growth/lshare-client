@@ -1,3 +1,3 @@
-export type sizeType = 'xlarge' | 'large' | 'medium' | 'small' | 'xsmall';
+export type sizeType = 'xlarge' | 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall';
 
-export const DEFAULT_SIZE = 'small';
+export const DEFAULT_SIZE = 'xsmall';

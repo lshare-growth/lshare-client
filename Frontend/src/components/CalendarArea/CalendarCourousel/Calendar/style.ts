@@ -45,18 +45,19 @@ export const DayItem = styled.li<{
   isSelectedDateRange: boolean;
   isAciveMonth: boolean;
 }>`
+  // TODO: 추가됨
+  padding: 4px;
+  border-radius: 4px;
+  //
   ${textCenter}
   :hover {
     background-color: ${({ theme }) => theme.colors.accent.initial};
   }
-  background-color: ${({ isSelectedDatePoint, isAciveMonth, theme }) =>
-    isSelectedDatePoint && isAciveMonth ? theme.colors.titlePlaceholder : ''};
-  background-color: ${({ isSelectedDateRange, isAciveMonth, theme }) =>
-    isSelectedDateRange && isAciveMonth ? theme.colors.line : ''};
-  color: ${({ isAciveMonth, theme }) =>
-    isAciveMonth ? theme.colors.title : theme.colors.default.disabled};
+  background-color: ${({ isSelectedDatePoint, isAciveMonth, theme }) => (isSelectedDatePoint && isAciveMonth ? theme.colors.titlePlaceholder : '')};
+  background-color: ${({ isSelectedDateRange, isAciveMonth, theme }) => (isSelectedDateRange && isAciveMonth ? theme.colors.line : '')};
+  color: ${({ isAciveMonth, theme }) => (isAciveMonth ? theme.colors.title : theme.colors.default.disabled)};
   pointer-events: ${({ isAciveMonth }) => (isAciveMonth ? 'all' : 'none')};
-  border-radius: 50%;
+  text-align: center;
   margin: 10px;
   cursor: pointer;
 `;

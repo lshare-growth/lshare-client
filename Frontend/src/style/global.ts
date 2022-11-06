@@ -3,6 +3,9 @@ import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
+  h1, h2, h3, p, span, div {
+    font-family: 'Open Sans', sans-serif;
+  }
   button {
     background: none;
     border: none;

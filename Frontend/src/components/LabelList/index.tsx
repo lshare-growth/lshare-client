@@ -13,12 +13,7 @@ type LabelListProps = {
 const LabelList = ({ className, mode, size, items }: LabelListProps) => (
   <StyledContainer className={className}>
     {items.map((item) => (
-      <Item
-        key={`labelList-${item.id}-${item.content}`}
-        item={item}
-        mode={mode}
-        size={size}
-      />
+      <Item key={`labelList-${item.id}-${item.content}`} item={item} mode={mode} size={size} />
     ))}
   </StyledContainer>
 );

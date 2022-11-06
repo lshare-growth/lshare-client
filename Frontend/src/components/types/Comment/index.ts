@@ -1,5 +1,9 @@
-type keyType =
+export type keyType =
+  | 'writerId'
   | 'id'
+  | 'commentId'
+  | 'isStudyOrganizer'
+  | 'isMyComment'
   | 'nickname'
   | 'time'
   | 'isEditied'
@@ -9,7 +13,8 @@ type keyType =
   | 'avatorSrc'
   | 'avatorAlt'
   | 'emojis'
-  | 'isAuthorized';
+  | 'isAuthorized'
+  | 'isDeleted';
 
 type replyType = Record<keyType, any>;
 

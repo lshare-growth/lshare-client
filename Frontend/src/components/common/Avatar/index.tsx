@@ -9,25 +9,9 @@ type AvatarProps = {
   className?: string;
   handleClick?: () => void;
 };
-const Avatar = ({
-  size = DEFAULT_SIZE,
-  src,
-  alt,
-  className,
-  handleClick,
-}: AvatarProps) => {
+const Avatar = ({ size = DEFAULT_SIZE, src, alt, className, handleClick }: AvatarProps) => {
   const handleError = () => {};
-  return (
-    <Image
-      className={className}
-      mode="circle"
-      size={size}
-      src={src}
-      alt={alt}
-      handleClick={handleClick}
-      handleError={handleError}
-    />
-  );
+  return <Image className={className} mode="circle" size={size} src={src} alt={alt} handleClick={handleClick} handleError={handleError} />;
 };
 
 export default Avatar;

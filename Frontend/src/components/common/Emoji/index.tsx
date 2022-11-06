@@ -7,13 +7,8 @@ type EmojiProps = {
   label: string;
 };
 
-const Emoji = ({ className, content, label = '' }: EmojiProps) => (
-  <StyledEmoji
-    className={className}
-    role="img"
-    aria-label={label}
-    aria-hidden={label ? 'false' : 'true'}
-  >
+const Emoji = ({ className = 'reaction', content, label = '' }: EmojiProps) => (
+  <StyledEmoji className={className} role="img" aria-label={label} aria-hidden={label ? 'false' : 'true'}>
     {content}
   </StyledEmoji>
 );

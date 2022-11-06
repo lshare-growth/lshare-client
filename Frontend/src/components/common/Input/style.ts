@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Tag from '@common/Tag';
 
 export const CustomTag = styled(Tag)`
-  margin: 0 0 0 8px;
+  /* margin: 0 0 0 8px; */
 `;
 
 export const Container = styled.div`
@@ -60,14 +60,17 @@ export const SearchLabel = styled.label<{ hasLabel: boolean }>`
 
 export const TagsContainer = styled.ul`
   display: flex;
+  flex-wrap: wrap;
 `;
 
-export const Tags = styled.li``;
+export const Tags = styled.li`
+  padding: 4px;
+`;
 
 export const LabelContainer = styled.div`
   display: flex;
   vertical-align: center;
-  margin: 0 8px 0 0;
+  /* margin: 0 8px 0 0; */
 `;
 
 export const HighlightLabel = styled.h3`

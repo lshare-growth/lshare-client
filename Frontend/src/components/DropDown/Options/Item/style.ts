@@ -4,8 +4,7 @@ export const Item = styled.li<{ isMouseOvered?: boolean }>`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background-color: ${({ isMouseOvered, theme }) =>
-    isMouseOvered && theme.colors.default.hover};
+  background-color: ${({ isMouseOvered, theme }) => isMouseOvered && theme.colors.default.hover};
   :last-child {
     border-radius: 0 0 4px 4px;
   }
@@ -16,5 +15,5 @@ export const Item = styled.li<{ isMouseOvered?: boolean }>`
 export const Title = styled.h1``;
 
 export const ItemContainer = styled.div`
-  padding: 10px;
+  padding: 4px;
 `;

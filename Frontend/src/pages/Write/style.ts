@@ -19,6 +19,7 @@ export const SelectsContainer = styled.div`
 export const CustomTextArea = styled(TextArea)`
   width: 992px;
   border-radius: 4px;
+  margin: 8px 0 0 0;
 `;
 
 export const ButtonContainer = styled.div`
@@ -39,31 +40,37 @@ export const CustomTagInput = styled(Input)`
   margin: 16px 0 0 0;
 `;
 
-export const Selects = styled(Input)`
-  margin: 0 16px 0 0;
-`;
+export const Selects = styled(Input)``;
 
-export const CustomCalendarInput = styled(Input)`
-  margin: 0 0 0 16px;
-`;
+export const CustomCalendarInput = styled(Input)``;
 
 export const CustomSearchTag = styled(SearchTag)`
   margin: 8px 0;
 `;
 
-export const Progress = styled.span`
-  margin: 0 8px 0 0;
+export const LastLabel = styled.span`
+  margin: 0 0 0 16px;
 `;
 
 export const Label = styled.span`
-  margin: 0 8px 0 0;
+  margin: 0 8px 0 16px;
+`;
+
+export const TagLabel = styled.span`
+  margin: 16px 0 16px 0;
+`;
+
+export const TitleLabel = styled.div`
+  margin: 12px 8px 0 16px;
+  color: ${({ theme }) => theme.colors.accent.initial};
+  font-size: 14px;
 `;
 
 // TODO: Input스타일과 중복제거
 export const CalendarAreaContainer = styled.div<{ isClicked: boolean }>`
   position: absolute;
   display: ${({ isClicked }) => (isClicked ? 'block' : 'none')};
-  height: 264px;
+  height: 448px;
   padding: 8px;
   background-color: ${({ theme }) => theme.colors.background};
   top: 56px;
@@ -89,10 +96,33 @@ export const FloatBox = styled.div`
 `;
 
 export const ErrorMessage = styled.div`
-  margin: 8px 0;
+  margin: 8px 0 16px 0;
   color: ${({ theme }) => theme.colors.accent.initial};
+  font-size: 14px;
 `;
 
 export const ErrorMsg = styled.div`
   color: ${({ theme }) => theme.colors.accent.initial};
+  font-size: 14px;
+`;
+
+export const RightErrorMsg = styled.div`
+  margin: 8px 0;
+  color: ${({ theme }) => theme.colors.accent.initial};
+  text-align: right;
+  font-size: 14px;
+`;
+
+export const CalendarButton = styled(Button)`
+  margin: 0 8px 0 0;
+`;
+
+export const CalendarButtonContainer = styled.div`
+  float: right;
+  padding: 0 16px;
+`;
+
+export const AlertMsg = styled.h3`
+  margin: 0 8px;
+  font-size: 8px;
 `;
