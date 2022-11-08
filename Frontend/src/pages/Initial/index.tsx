@@ -68,6 +68,11 @@ const Initial = () => {
   }, [contentControls?.hasNext]);
 
   useEffect(() => {
+    const myRefreshToken = cookies.get(`ST-HIS`);
+    console.log(myRefreshToken);
+  }, [cookies]);
+
+  useEffect(() => {
     if (showingStudies.length < limit) {
       setIsLastContent(true);
     }

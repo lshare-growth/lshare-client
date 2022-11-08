@@ -33,7 +33,7 @@ const Loading = () => {
 
     const getToken = async (currentCode: string) => {
       try {
-        const response = await axios.get(`${process.env.END_POINT}${CALL_BACK_URL}${currentCode}`, body);
+        const response = await axios.get(`${process.env.END_POINT}${CALL_BACK_URL}${currentCode}`);
 
         cookies.remove('logined', {
           path: '/',
