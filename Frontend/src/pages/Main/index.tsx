@@ -18,6 +18,7 @@ import Modal from '@components/Modal';
 import Portal from '@components/Modal/Portal';
 import AlertModalArea from '@components/Modal/AlertModalArea';
 import isLoginModalVisibleState from '@store/LoginModal';
+import { getHeaders } from '@pages/util';
 import { SEARCHING_PATH, TAG_SEARCHING_PATH, FORBIDDEN_PATH, ETC_PATH, LOGIN_PATH, NEW_STUDY_PATH, STUDY_PATH, LANDING_PATH, SERVER_ERROR_PATH, MAIN_PATH } from '../../constants/route';
 
 const DEFAULT_SIZE_NUM = 10;
@@ -114,11 +115,7 @@ const Main = () => {
 
     const token = localStorage.getItem('accessToken');
     const refreshToken = cookies.get(`SEC_EKIL15`);
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      RefreshToken: `Bearer ${refreshToken}`,
-      'Content-Type': 'application/json',
-    };
+    const headers = getHeaders();
 
     const params = {
       title: decodeURI(searchKeyword) || '',
@@ -253,11 +250,7 @@ const Main = () => {
   const searchTagResult = async (tag: string) => {
     const token = localStorage.getItem('accessToken');
     const refreshToken = cookies.get(`SEC_EKIL15`);
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      RefreshToken: `Bearer ${refreshToken}`,
-      'Content-Type': 'application/json',
-    };
+    const headers = getHeaders();
 
     const params = {
       tagName: decodeURI(tag),
@@ -488,11 +481,7 @@ const Main = () => {
     const getTopTags = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       try {
         const body = token ? { headers } : {};
@@ -540,11 +529,7 @@ const Main = () => {
     try {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       const body = token ? { headers } : {};
 
@@ -804,11 +789,7 @@ const Main = () => {
       const token = localStorage.getItem('accessToken');
 
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'app lication/json',
-      };
+      const headers = getHeaders();
       const url = NEW_STUDY_PATH.slice(1);
       const body = token
         ? {

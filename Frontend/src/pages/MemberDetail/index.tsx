@@ -19,6 +19,7 @@ import BasicButton from '@components/common/BasicButton';
 import useLogOut from '@hooks/useLogout';
 import { contents } from '@pages/MemberDetail/constants';
 import isAlertModalVisibleState from '@store/AlertModal';
+import { getHeaders } from '@pages/util';
 import { user } from './constants';
 import { LOGIN_PATH, ETC_PATH, SERVER_ERROR_PATH, STUDY_PATH, MEMBER_DETAIL_PATH } from '../../constants/route';
 import * as S from './style';
@@ -106,11 +107,7 @@ const MemberDetail = () => {
 
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token ? { data, headers } : { data };
 
       // const res = await axios.get(`${process.env.END_POINT}api/members/${memberId}/my-studies`, {
@@ -216,11 +213,7 @@ const MemberDetail = () => {
     const follow = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const data = {
         targetId: userMemberId,
       };
@@ -275,11 +268,7 @@ const MemberDetail = () => {
   const getUserInfoByNickName = async () => {
     const token = localStorage.getItem('accessToken');
     const refreshToken = cookies.get(`SEC_EKIL15`);
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      RefreshToken: `Bearer ${refreshToken}`,
-      'Content-Type': 'application/json',
-    };
+    const headers = getHeaders();
     const data = {
       // targetId:
     };
@@ -339,11 +328,7 @@ const MemberDetail = () => {
     const getIsFollowing = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token ? { headers } : {};
       const url = `api/members/${userMemberId}/friendship/follow-history`;
       try {
@@ -439,11 +424,7 @@ const MemberDetail = () => {
     const getFollowers = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token ? { headers } : {};
       const url = `api/members/${userMemberId}/friendship/follower-list?cursorTarget=0&size=5`;
       try {
@@ -499,11 +480,7 @@ const MemberDetail = () => {
     const getFollowings = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token ? { headers } : {};
 
       // userInfos.memberId
@@ -692,11 +669,7 @@ const MemberDetail = () => {
           const addData = async (url: string) => {
             const token = localStorage.getItem('accessToken');
             const refreshToken = cookies.get(`SEC_EKIL15`);
-            const headers = {
-              Authorization: `Bearer ${token}`,
-              RefreshToken: `Bearer ${refreshToken}`,
-              'Content-Type': 'application/json',
-            };
+            const headers = getHeaders();
 
             const body = token ? { headers } : {};
 
@@ -819,7 +792,7 @@ const MemberDetail = () => {
             <S.UserInfo>
               <S.User>{userNickName}</S.User>
               {userInfos?.nickName !== userNickName && (
-                <S.CustomButton handleClick={handleClickFollow} size="xsmall">
+                <S.CustomButton handleClick={handleClickFollow} size="xsmall" disabled={userMemberId === 0}>
                   {followHistory === 'EXIST' ? '언팔로우' : '팔로우'}
                 </S.CustomButton>
               )}

@@ -21,6 +21,7 @@ import replyState, { replyType } from '@store/Reply';
 import { Cookies } from 'react-cookie';
 import reactionModalInfoState from '@store/ReactionModal';
 import items from '@components/CommentManageMenu/constants';
+import { getHeaders } from '@pages/util';
 import { ETC_PATH, LANDING_PATH, SERVER_ERROR_PATH, LOGIN_PATH } from '../../constants/route';
 import * as S from './style';
 
@@ -110,11 +111,7 @@ const CommentReply = ({
       };
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       try {
         // const response = await axios.delete(`${process.env.END_POINT}api/comments/${parentId}/recomments/${id}`, { headers });
 
@@ -237,11 +234,7 @@ const CommentReply = ({
     const postEmoji = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       try {
         const data = {
           emotion: selectedEmoji.value,
@@ -341,11 +334,7 @@ const CommentReply = ({
     const postEmoji = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       try {
         const data = {
           emotion: newEmoji,

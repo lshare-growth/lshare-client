@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import userInfosState from '@store/UserInfos';
 import useLogOut from '@hooks/useLogout';
 import { Cookies } from 'react-cookie';
+import { getHeaders } from '@pages/util';
 import { getDate, sizes, ERROR_MSG } from './constants';
 import * as S from './style';
 import { ETC_PATH, LANDING_PATH, SERVER_ERROR_PATH, LOGIN_PATH } from '../../constants/route';
@@ -108,11 +109,7 @@ const CommentWrite = ({
       // const data = {
       //   content: value,
       // };
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       // const newReplies = [
       //   {
@@ -330,11 +327,7 @@ const CommentWrite = ({
           };
           const token = localStorage.getItem('accessToken');
           const refreshToken = cookies.get(`SEC_EKIL15`);
-          const headers = {
-            Authorization: `Bearer ${token}`,
-            RefreshToken: `Bearer ${refreshToken}`,
-            'Content-Type': 'application/json',
-          };
+          const headers = getHeaders();
 
           // const URL = parentId ?  : `${process.env.END_POINT}api/comments/${currentCommentId}`;
           const body = token
@@ -408,11 +401,7 @@ const CommentWrite = ({
         };
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
 
         const body = token
           ? {

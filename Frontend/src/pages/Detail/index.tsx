@@ -43,6 +43,7 @@ import loginInfoState from '@store/LoginInfo';
 import studyState, { initialStudy } from '@store/Study';
 import Avatar from '@common/Avatar';
 import isAlertModalVisibleState from '@store/AlertModal';
+import { getHeaders } from '@pages/util';
 import * as S from './style';
 import { ETC_PATH, MAIN_PATH, UPDATE_PATH, LANDING_PATH, SERVER_ERROR_PATH, LOGIN_PATH } from '../../constants/route';
 // const items = [
@@ -237,11 +238,7 @@ const Detail = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
 
         // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
         const body = token ? { headers } : {};
@@ -522,11 +519,7 @@ const Detail = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
 
         const body = token ? { headers } : {};
 
@@ -556,11 +549,7 @@ const Detail = () => {
     const getTags = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       try {
         const body = token ? { headers } : {};
@@ -614,11 +603,7 @@ const Detail = () => {
     const getComments = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
       const body = token ? { headers } : {};
@@ -938,11 +923,7 @@ const Detail = () => {
     const getStudyMembers = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       const body = token
         ? {
@@ -988,11 +969,7 @@ const Detail = () => {
     const getEmotions = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const EMOTION_URL = 'api/reactions/comment-reactions';
       const body = token
         ? {
@@ -1064,11 +1041,7 @@ const Detail = () => {
     const postLikePosting = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       const body = token
         ? {
@@ -1119,11 +1092,7 @@ const Detail = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
 
         const body = token
           ? {
@@ -1165,11 +1134,7 @@ const Detail = () => {
     const postDone = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       try {
         const data = {
           studyStatus: study?.isRecruiting ? 'RECRUITMENT_COMPLETE' : 'RECRUITING',
@@ -1209,11 +1174,7 @@ const Detail = () => {
       // const data = {
       //   studyId,
       // };
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token
         ? {
             headers,
@@ -1281,11 +1242,7 @@ const Detail = () => {
           const addData = async () => {
             const token = localStorage.getItem('accessToken');
             const refreshToken = cookies.get(`SEC_EKIL15`);
-            const headers = {
-              Authorization: `Bearer ${token}`,
-              RefreshToken: `Bearer ${refreshToken}`,
-              'Content-Type': 'application/json',
-            };
+            const headers = getHeaders();
 
             const body = token
               ? {
@@ -1448,11 +1405,7 @@ const Detail = () => {
     const getIsFollowing = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token ? { headers } : {};
 
       const url = `api/members/${study?.studyOrganizerId}/friendship/follow-history`;
@@ -1484,11 +1437,7 @@ const Detail = () => {
     const getProfile = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token ? { headers } : {};
 
       const url = `api/members/${study?.studyOrganizerId}/hover-info`;
@@ -1538,11 +1487,7 @@ const Detail = () => {
     const follow = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const data = {
         targetId: study?.studyOrganizerId,
       };

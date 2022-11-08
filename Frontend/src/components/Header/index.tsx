@@ -29,7 +29,7 @@ import Bell from '@assets/img/notification.png';
 import DefaultBell from '@assets/img/notificationDefault.png';
 import studiesState from '@store/Studies';
 import timeForToday from '@pages/Detail/util';
-import { encrypt, decrypt } from '@pages/util';
+import { encrypt, decrypt, getHeaders } from '@pages/util';
 import LoadingSpinner from '@components/common/LoadingSpinner';
 import AlertModalArea from '@components/Modal/AlertModalArea';
 import useLogOut from '@hooks/useLogout';
@@ -393,11 +393,7 @@ const Header = ({ className, type, alt = '' }: HeaderProps) => {
 
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       // const body = token ? { headers } : {};
 
       const url = 'api/notifications/my-notifications';
@@ -527,11 +523,7 @@ const Header = ({ className, type, alt = '' }: HeaderProps) => {
 
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       // const blogUrl = 'www.tistory.com';
       const data = {
@@ -649,11 +641,7 @@ const Header = ({ className, type, alt = '' }: HeaderProps) => {
     const search = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       const params = {
         title: decodeURI(searchKeyword) || '',

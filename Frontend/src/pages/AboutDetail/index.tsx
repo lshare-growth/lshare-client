@@ -23,6 +23,7 @@ import userInfosState from '@store/UserInfos';
 import useLogOut from '@hooks/useLogout';
 import reactionsState from '@store/Reactions';
 import { Cookies } from 'react-cookie';
+import { getHeaders } from '@pages/util';
 import * as S from './style';
 import { INTRODUCE_PATH, ETC_PATH, MAIN_PATH, UPDATE_PATH, LANDING_PATH, SERVER_ERROR_PATH, LOGIN_PATH } from '../../constants/route';
 
@@ -109,11 +110,7 @@ const Detail = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
 
         const body = token ? { headers } : {};
 
@@ -161,11 +158,7 @@ const Detail = () => {
       // const data = {
       //   studyId,
       // };
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       const body = token
         ? {

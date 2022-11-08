@@ -18,6 +18,7 @@ import Portal from '@components/Modal/Portal';
 import AlertModalArea from '@components/Modal/AlertModalArea';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LabelList from '@components/LabelList';
+import { getHeaders } from '@pages/util';
 import { STUDY_PATH, INTRODUCE_DETAIL_PATH } from '../../constants/route';
 import * as S from './style';
 
@@ -67,9 +68,6 @@ const Initial = () => {
   }, [contentControls?.hasNext]);
 
   useEffect(() => {
-    console.log('limit');
-    console.log(limit);
-    console.log(showingStudies);
     if (showingStudies.length < limit) {
       setIsLastContent(true);
     }
@@ -85,11 +83,7 @@ const Initial = () => {
       // TODO: 주석풀기
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       // if (!contentControls?.hasNext) {
       //   return;

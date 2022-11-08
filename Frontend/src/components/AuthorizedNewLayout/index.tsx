@@ -11,6 +11,7 @@ import { Cookies } from 'react-cookie';
 import loginInfoState from '@store/LoginInfo';
 import { useRecoilState } from 'recoil';
 import userInfosState from '@store/UserInfos';
+import { getHeaders } from '@pages/util';
 import * as S from './style';
 import { STUDY_PATH, MAIN_PATH, NEW_STUDY_PATH, UPDATE_PATH, MEMBER_EDIT_PATH, ETC_PATH, LANDING_PATH, LOGIN_PATH, SERVER_ERROR_PATH, FORBIDDEN_PATH } from '../../constants/route';
 
@@ -44,11 +45,7 @@ const AuthorizedNewLayout = ({ children, url, params }: AuthorizedNewLayoutProps
       const token = localStorage.getItem('accessToken');
 
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'app lication/json',
-      };
+      const headers = getHeaders();
 
       const body = token
         ? {

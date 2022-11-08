@@ -28,6 +28,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useLogOut from '@hooks/useLogout';
 import reactionModalInfoState from '@store/ReactionModal';
 import items from '@components/CommentManageMenu/constants';
+import { getHeaders } from '@pages/util';
 import * as S from './style';
 import { ETC_PATH, LANDING_PATH, LOGIN_PATH, SERVER_ERROR_PATH } from '../../constants/route';
 
@@ -230,11 +231,7 @@ const Comment = ({
 
     const token = localStorage.getItem('accessToken');
     const refreshToken = cookies.get(`SEC_EKIL15`);
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      RefreshToken: `Bearer ${refreshToken}`,
-      'Content-Type': 'app lication/json',
-    };
+    const headers = getHeaders();
 
     // const currentPageIdx = isToggledComments ? contentPageIdx : 0;
 
@@ -493,11 +490,7 @@ const Comment = ({
     const postEmoji = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       try {
         const data = {
@@ -576,11 +569,7 @@ const Comment = ({
     const postEmoji = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       try {
         const data = {
           emotion: selectedEmoji.value,
@@ -634,11 +623,7 @@ const Comment = ({
     const deleteComment = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       try {
         // const response = await axios.delete(`${process.env.END_POINT}api/studies/${studyId}/comments/${id}`, { headers });
 

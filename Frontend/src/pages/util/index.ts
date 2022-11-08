@@ -10,6 +10,14 @@ export const makeCustomKey = (targetKey: string) => {
   return `SEC_${targetKey.slice(startIndex, endIndex)}`;
 };
 
+export const getHeaders = () => {
+  const token = localStorage.getItem('accessToken');
+
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+};
+
 // export const ENCODED_REFRESH_TOKEN_KEY = encrypt(`${process.env.SECURE_TOKEN}`, `${process.env.SECURE_TOKEN_KEY}`);
 // export const ENCODED_MEMBER_ID_KEY = encrypt(`${process.env.SECURE_ID_KEY}`, `${process.env.SECURE_ID_KEY_KEY}`);
 // export const ENCODED_NICKNAME_KEY = encrypt(`${process.env.SECURE_IDENTIFI_KEY}`, `${process.env.SECURE_IDENTIFI_KEY_KEY}`);

@@ -11,6 +11,7 @@ import hoverInfosState from '@store/HoverInfos';
 import { useRecoilState } from 'recoil';
 import userInfosState from '@store/UserInfos';
 import isAlertModalVisibleState from '@store/AlertModal';
+import { getHeaders } from '@pages/util';
 import * as S from './style';
 import { LOGIN_PATH, ETC_PATH, SERVER_ERROR_PATH } from '../../constants/route';
 
@@ -91,11 +92,7 @@ const CommentInfos = ({
     const follow = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const data = {
         targetId: writerId,
       };
@@ -131,11 +128,7 @@ const CommentInfos = ({
     const getIsFollowing = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token ? { headers } : {};
 
       const url = `api/members/${writerId}/friendship/follow-history`;
@@ -196,15 +189,11 @@ const CommentInfos = ({
     if (isHoverLoading) {
       return;
     }
-    console.log(isHoverLoading);
+
     const getProfile = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token ? { headers } : {};
 
       const url = `api/members/${writerId}/hover-info`;
