@@ -394,7 +394,7 @@ const Initial = () => {
       ) : (
         <>
           <S.Container>
-            <S.TitleLabel>모집중인 스터디</S.TitleLabel>
+            <S.TitleLabel>최신 스터디</S.TitleLabel>
             <S.TitleHorizontalDivider direction="horizontal" />
             <S.ItemsContainer>
               {currentShowingStudies?.map(({ id, title, nickName, content, viewCount, likeCount, commentCount, isRecruiting, tags }) => (
