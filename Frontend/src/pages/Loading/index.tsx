@@ -34,8 +34,7 @@ const Loading = () => {
     const getToken = async (currentCode: string) => {
       try {
         const response = await axios.get(`${process.env.END_POINT}${CALL_BACK_URL}${currentCode}`, body);
-        console.log('response');
-        console.log(response);
+
         cookies.remove('logined', {
           path: '/',
         });
