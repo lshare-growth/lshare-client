@@ -185,6 +185,19 @@ const Header = ({ className, type, alt = '' }: HeaderProps) => {
     }
   }, [loginInfo, userInfos?.memberId, userInfos?.notification, userInfos?.nickName, userInfos?.profileImage]);
 
+  useEffect(() => {
+    const restoreProfileImage = cookies.get('SEC_RFDM33');
+    const profileImage = cookies.get('SEC_DMIF22');
+
+    if (!profileImage && restoreProfileImage) {
+      const originRestoreProfileImage = decrypt(restoreProfileImage, `${process.env.SECURE_PROFILE_KEY}`);
+      const encodedProfileImage = encrypt(originRestoreProfileImage, `${process.env.SECURE_PROFILE_KEY}`);
+      cookies.set(`SEC_DMIF22`, encodedProfileImage, {
+        path: '/',
+      });
+    }
+  }, [cookies]);
+
   // TODO : 로그아웃 모달
   // useEffect(() => {
   //   if (state?.isLogouted) {

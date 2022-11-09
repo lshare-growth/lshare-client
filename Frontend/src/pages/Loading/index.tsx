@@ -78,6 +78,7 @@ const Loading = () => {
           const encodedNickName = encrypt(nickname, `${process.env.SECURE_IDENTIFI_KEY}`);
           const encodedNotificationRead = encrypt(notification, `${process.env.SECURE_ALARM_KEY}`);
           const encodedProfileImage = encrypt(profileimageurl, `${process.env.SECURE_PROFILE_KEY}`);
+          const encodedRestoreProfileImage = encrypt(profileimageurl, `${process.env.SECURE_PROFILE_KEY}`);
 
           // cookies.set(`a`, encodedMemberId);
           // cookies.set(`b`, encodedNickName);
@@ -107,6 +108,9 @@ const Loading = () => {
             path: '/',
           });
           cookies.set(`SEC_DMIF22`, encodedProfileImage, {
+            path: '/',
+          });
+          cookies.set(`SEC_RFDM33`, encodedRestoreProfileImage, {
             path: '/',
           });
         }
