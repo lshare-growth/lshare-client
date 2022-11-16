@@ -46,14 +46,7 @@ import isAlertModalVisibleState from '@store/AlertModal';
 import { getHeaders } from '@pages/util';
 import * as S from './style';
 import { ETC_PATH, MAIN_PATH, UPDATE_PATH, LANDING_PATH, SERVER_ERROR_PATH, LOGIN_PATH } from '../../constants/route';
-// const items = [
-//   { id: 1, content: '', nickName: '이든' },
-//   { id: 2, content: '', nickName: 'Jun' },
-//   { id: 3, content: '', nickName: '방태' },
-//   { id: 4, content: '', nickName: 'Jay' },
-//   { id: 5, content: '', nickName: 'crong' },
-//   { id: 6, content: '', nickName: '호눅스' },
-// ];
+
 type koreanDistrictsKeyType = 'SEOUL' | 'BUSAN' | 'DAEGU' | 'INCHEON' | 'DAEJEON' | 'ULSAN';
 type koreanDistrictsType = Record<koreanDistrictsKeyType, string>;
 const koreanDistricts: koreanDistrictsType = {

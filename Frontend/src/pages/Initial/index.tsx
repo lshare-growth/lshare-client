@@ -110,39 +110,6 @@ const Initial = () => {
       const response = await axios.get(`${process.env.END_POINT}${url}`, body);
 
       setIsStudyLoading(false);
-      // 임시 데이터 테스트
-      // const response = {
-      //   data: {
-      //     response: {
-      //       githubId: 'devjun10',
-      //       content: [
-      //         {
-      //           studyId: 1,
-      //           title: 'asf',
-      //           content: 'af',
-      //           studyOrganizer: 'devjun10',
-      //           studyStatus: 'RECRUITING',
-      //           hashTags: [],
-      //           createdAt: '2022-09-08T19:56:13',
-      //           startDate: '2022-09-08',
-      //           endDate: '2022-09-08',
-      //           currentStudyMemberCount: 1,
-      //           maxStudyMemberCount: 3,
-      //           progressOfStudy: 'ONLINE',
-      //           district: 'SEOUL',
-      //           commentCount: 0,
-      //           viewCount: 1,
-      //           likeCount: 0,
-      //         },
-      //       ],
-      //       first: true,
-      //       last: true,
-      //       sorted: false,
-      //       empty: false,
-      //       hasNext: false,
-      //     },
-      //   },
-      // };
 
       // try {
       //   const response = await axios.get(`${process.env.END_POINT}${url}`);
@@ -178,26 +145,6 @@ const Initial = () => {
       type apiStudiesType = typeof response.data.contents.content[0];
       const apiStudies: apiStudiesType[] = response.data.contents.content;
 
-      // const targetDatas = [
-      //   {
-      //     id: 1,
-      //     title: 'asf',
-      //     content: 'af',
-      //     studyOrganizer: 'devjun10',
-      //     studyStatus: 'RECRUITING',
-      //     hashTags: null,
-      //     createdAt: '2022-09-08T19:56:13',
-      //     startDate: '2022-09-08',
-      //     endDate: '2022-09-08',
-      //     currentStudyMemberCount: 1,
-      //     maxStudyMemberCount: 3,
-      //     progressOfStudy: 'ONLINE',
-      //     district: 'SEOUL',
-      //     commentCount: 2,
-      //     viewCount: 1,
-      //     likeCount: 3,
-      //   },
-      // ];
       // type tagKeyType = 'studyId' | 'tagName';
       // type tagType = Record<tagKeyType, any>;
       const currentPostings = apiStudies.map((targetData) => {
