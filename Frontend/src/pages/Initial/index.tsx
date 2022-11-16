@@ -18,6 +18,7 @@ import Portal from '@components/Modal/Portal';
 import AlertModalArea from '@components/Modal/AlertModalArea';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LabelList from '@components/LabelList';
+import { getHeaders } from '@pages/util';
 import { STUDY_PATH, INTRODUCE_DETAIL_PATH } from '../../constants/route';
 import * as S from './style';
 
@@ -67,9 +68,6 @@ const Initial = () => {
   }, [contentControls?.hasNext]);
 
   useEffect(() => {
-    console.log('limit');
-    console.log(limit);
-    console.log(showingStudies);
     if (showingStudies.length < limit) {
       setIsLastContent(true);
     }
@@ -85,11 +83,7 @@ const Initial = () => {
       // TODO: 주석풀기
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       // if (!contentControls?.hasNext) {
       //   return;
@@ -116,39 +110,6 @@ const Initial = () => {
       const response = await axios.get(`${process.env.END_POINT}${url}`, body);
 
       setIsStudyLoading(false);
-      // 임시 데이터 테스트
-      // const response = {
-      //   data: {
-      //     response: {
-      //       githubId: 'devjun10',
-      //       content: [
-      //         {
-      //           studyId: 1,
-      //           title: 'asf',
-      //           content: 'af',
-      //           studyOrganizer: 'devjun10',
-      //           studyStatus: 'RECRUITING',
-      //           hashTags: [],
-      //           createdAt: '2022-09-08T19:56:13',
-      //           startDate: '2022-09-08',
-      //           endDate: '2022-09-08',
-      //           currentStudyMemberCount: 1,
-      //           maxStudyMemberCount: 3,
-      //           progressOfStudy: 'ONLINE',
-      //           district: 'SEOUL',
-      //           commentCount: 0,
-      //           viewCount: 1,
-      //           likeCount: 0,
-      //         },
-      //       ],
-      //       first: true,
-      //       last: true,
-      //       sorted: false,
-      //       empty: false,
-      //       hasNext: false,
-      //     },
-      //   },
-      // };
 
       // try {
       //   const response = await axios.get(`${process.env.END_POINT}${url}`);
@@ -184,26 +145,6 @@ const Initial = () => {
       type apiStudiesType = typeof response.data.contents.content[0];
       const apiStudies: apiStudiesType[] = response.data.contents.content;
 
-      // const targetDatas = [
-      //   {
-      //     id: 1,
-      //     title: 'asf',
-      //     content: 'af',
-      //     studyOrganizer: 'devjun10',
-      //     studyStatus: 'RECRUITING',
-      //     hashTags: null,
-      //     createdAt: '2022-09-08T19:56:13',
-      //     startDate: '2022-09-08',
-      //     endDate: '2022-09-08',
-      //     currentStudyMemberCount: 1,
-      //     maxStudyMemberCount: 3,
-      //     progressOfStudy: 'ONLINE',
-      //     district: 'SEOUL',
-      //     commentCount: 2,
-      //     viewCount: 1,
-      //     likeCount: 3,
-      //   },
-      // ];
       // type tagKeyType = 'studyId' | 'tagName';
       // type tagType = Record<tagKeyType, any>;
       const currentPostings = apiStudies.map((targetData) => {
@@ -400,7 +341,7 @@ const Initial = () => {
       ) : (
         <>
           <S.Container>
-            <S.TitleLabel>모집중인 스터디</S.TitleLabel>
+            <S.TitleLabel>최신 스터디</S.TitleLabel>
             <S.TitleHorizontalDivider direction="horizontal" />
             <S.ItemsContainer>
               {currentShowingStudies?.map(({ id, title, nickName, content, viewCount, likeCount, commentCount, isRecruiting, tags }) => (

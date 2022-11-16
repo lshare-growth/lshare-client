@@ -11,6 +11,7 @@ import { useRecoilState } from 'recoil';
 import userInfosState from '@store/UserInfos';
 import { contents } from '@pages/MemberDetail/constants';
 import isAlertModalVisibleState from '@store/AlertModal';
+import { getHeaders } from '@pages/util';
 import * as S from './style';
 import { LOGIN_PATH, ETC_PATH, SERVER_ERROR_PATH } from '../../constants/route';
 
@@ -172,11 +173,7 @@ const FollowList = ({
       const getProfile = async () => {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token ? { headers } : {};
 
         const url = `api/members/${id}/hover-info`;
@@ -230,11 +227,7 @@ const FollowList = ({
       const getIsFollowing = async () => {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token ? { headers } : {};
 
         const url = `api/members/${id}/friendship/follow-history`;
@@ -375,11 +368,7 @@ const FollowList = ({
     const follow = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const data = {
         targetId: id,
       };
@@ -478,7 +467,7 @@ const FollowList = ({
         <S.Name onClick={handleClickUserInfo}>{nickName}</S.Name>
       </S.FollowerContainer>
       {userInfos.nickName !== nickName && (
-        <S.FollowButton size="xsmall" handleClick={handleClickFollow} isFollowing={isFollowing}>
+        <S.FollowButton size="xsmall" handleClick={handleClickFollow} isFollowing={isFollowing} disabled={userMemberId === 0}>
           {isFollowing ? <S.FollowMsg>언팔로우</S.FollowMsg> : <S.FollowMsg>팔로우</S.FollowMsg>}
         </S.FollowButton>
       )}

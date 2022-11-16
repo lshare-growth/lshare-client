@@ -25,6 +25,7 @@ import LoadingSpinner from '@components/common/LoadingSpinner';
 import { LoadingContainer } from '@components/AuthorizedLayout/style';
 import userInfosState from '@store/UserInfos';
 import studyState from '@store/Study';
+import { getHeaders } from '@pages/util';
 import { FORBIDDEN_PATH, ETC_PATH, MAIN_PATH, LANDING_PATH, SERVER_ERROR_PATH, LOGIN_PATH, STUDY_PATH } from '../../constants/route';
 import * as S from './style';
 
@@ -222,11 +223,7 @@ const Edit = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
 
         // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
         const body = token ? { headers } : {};
@@ -412,11 +409,7 @@ const Edit = () => {
     const getTags = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       try {
         const body = token ? { headers } : {};
@@ -466,11 +459,7 @@ const Edit = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token
           ? {
               headers,
@@ -531,11 +520,7 @@ const Edit = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token
           ? {
               headers,
@@ -639,11 +624,7 @@ const Edit = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token
           ? {
               headers,
@@ -676,11 +657,7 @@ const Edit = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token
           ? {
               headers,
@@ -873,11 +850,7 @@ const Edit = () => {
     const putStudy = async (data: dataType) => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token
         ? {
             headers,
@@ -1011,11 +984,7 @@ const Edit = () => {
       const token = localStorage.getItem('accessToken');
 
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'app lication/json',
-      };
+      const headers = getHeaders();
 
       const body = token
         ? {

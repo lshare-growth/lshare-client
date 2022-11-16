@@ -30,6 +30,7 @@ import Modal from '@components/Modal';
 import DoubleButtonModalArea from '@components/Modal/DoubleButtonModalArea';
 import { BUTTON_CONFIRM, BUTTON_CANCEL } from '@components/Modal/constants';
 import loginInfoState from '@store/LoginInfo';
+import { getHeaders } from '@pages/util';
 import { MEMBER_EDIT_PATH, UPDATE_PATH, NEW_STUDY_PATH, FORBIDDEN_PATH, ETC_PATH, STUDY_PATH, LOGIN_PATH, MAIN_PATH, LANDING_PATH, SERVER_ERROR_PATH } from '../../constants/route';
 import * as S from './style';
 
@@ -198,11 +199,7 @@ const Write = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token
           ? {
               headers,
@@ -245,11 +242,7 @@ const Write = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token
           ? {
               headers,
@@ -304,11 +297,7 @@ const Write = () => {
       const token = localStorage.getItem('accessToken');
 
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'app lication/json',
-      };
+      const headers = getHeaders();
 
       const body = token
         ? {
@@ -358,11 +347,7 @@ const Write = () => {
       const DISTRICT_URL = 'api/study-supports/districts';
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
       const body = token
         ? {
             headers,
@@ -393,11 +378,7 @@ const Write = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token
           ? {
               headers,
@@ -585,12 +566,7 @@ const Write = () => {
     const postStudy = async (data: dataType) => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
-
+      const headers = getHeaders();
       const body = token
         ? {
             headers,

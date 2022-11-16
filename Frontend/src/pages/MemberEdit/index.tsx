@@ -16,7 +16,7 @@ import Items from '@components/DropDown/types';
 import dropDownItemState from '@store/DropDownItem';
 // import Button from '@common/Button';
 import { Cookies } from 'react-cookie';
-import { encrypt } from '@pages/util';
+import { encrypt, getHeaders } from '@pages/util';
 import showingInputValueState from '@store/ShowingInputValue';
 import LoadingSpinner from '@components/common/LoadingSpinner';
 import Portal from '@components/Modal/Portal';
@@ -95,11 +95,7 @@ const MemberEdit = () => {
     const updateNickName = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       const nickNameExeptedSpace = nickName.trim().replace(/ /gi, '');
       const data = {
@@ -151,11 +147,7 @@ const MemberEdit = () => {
     const checkIsExistNickName = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       const body = token ? { params: { nickName }, headers } : { params: { nickName } };
       try {
@@ -244,11 +236,7 @@ const MemberEdit = () => {
     const updateProfile = async (data: any) => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'application/json',
-      };
+      const headers = getHeaders();
 
       try {
         const body = token ? { headers } : {};
@@ -303,11 +291,7 @@ const MemberEdit = () => {
       const token = localStorage.getItem('accessToken');
 
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        RefreshToken: `Bearer ${refreshToken}`,
-        'Content-Type': 'app lication/json',
-      };
+      const headers = getHeaders();
 
       const body = token
         ? {
@@ -357,11 +341,7 @@ const MemberEdit = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
         const body = token
           ? {
               headers,
@@ -437,11 +417,7 @@ const MemberEdit = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          RefreshToken: `Bearer ${refreshToken}`,
-          'Content-Type': 'application/json',
-        };
+        const headers = getHeaders();
 
         // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
         const body = token ? { headers } : {};

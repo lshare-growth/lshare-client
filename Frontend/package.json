@@ -1,5 +1,5 @@
 {
-  "name": "lshare",
+  "name": "lshare-client",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devjun10/lshare.git"
+    "url": "git+https://github.com/lshare-growth/lshare-client.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/devjun10/lshare/issues"
+    "url": "https://github.com/lshare-growth/lshare-client/issues"
   },
-  "homepage": "https://github.com/devjun10/lshare#readme",
+  "homepage": "https://github.com/lshare-growth/lshare-client#readme",
   "devDependencies": {
     "@babel/cli": "7.17.6",
     "@babel/core": "7.17.9",

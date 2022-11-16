@@ -96,6 +96,7 @@ export const ControlsContainer = styled.div`
 export const Content = styled.div`
   margin: 0 0 32px 0;
   line-height: 160%;
+  white-space: pre-wrap;
 `;
 
 export const FlexBox = styled.div`

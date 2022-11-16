@@ -104,16 +104,12 @@ export const NotFound = styled.div`
 
   @media only screen and (max-width: 767px) {
     .notfound .notfound-404 {
-      // height: 115px;
       height: 200px;
     }
     .notfound .notfound-404 h1 {
-      //font-size: 86px;
       font-size: 160px;
     }
     .notfound .notfound-404 h1 > span {
-      /* width: 86px;
-      height: 86px; */
       width: 160px;
       height: 160px;
     }
@@ -121,8 +117,6 @@ export const NotFound = styled.div`
 `;
 
 export const ErrorContainer = styled.div`
-  /* padding: 0;
-  margin: 0; */
   ${({ theme }) => theme.mixins.flexBox({})};
   height: 100vh;
   vertical-align: 'middle';
