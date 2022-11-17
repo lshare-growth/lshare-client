@@ -27,7 +27,10 @@ const Loading = () => {
     const codeDate = location.search;
     const code = codeDate.split('code=')[1];
     const myRefreshToken = cookies.get(`refreshtoken`);
-    const headers = getHeaders();
+    const headers = {
+      RefreshToken: `Bearer ${myRefreshToken}`,
+      'Content-Type': 'application/json',
+    };
 
     const body = myRefreshToken ? headers : {};
 
