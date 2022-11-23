@@ -11,14 +11,14 @@ export const CustomButton = styled(Button)`
 const tagStyle = css`
   display: inline-block;
   align-items: center;
-  padding: 8px;
   background-color: ${({ theme }) => theme.colors.tag};
   border-radius: 4px;
 `;
 
 export const Tag = styled.span`
   ${tagStyle}
-  cursor:pointer;
+  padding: 8px;
+  cursor: pointer;
   :hover {
     filter: brightness(90%);
   }
@@ -26,6 +26,7 @@ export const Tag = styled.span`
 
 export const CustomTag = styled.span`
   ${tagStyle}
+  padding: 4px 8px;
   cursor: pointer;
   :hover {
     filter: brightness(90%);

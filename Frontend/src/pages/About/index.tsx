@@ -61,6 +61,7 @@ const About = () => {
     if (!currentPageIndex) {
       return;
     }
+
     const sizeNum = location?.search?.split('size=')[1];
     const size = sizeNum || DEFAULT_SIZE_NUM;
     const url = `api/notices?page=${currentPageIndex - 1}&size=${size}`;
@@ -102,14 +103,6 @@ const About = () => {
       }
     }
   };
-
-  useEffect(() => {
-    setIsStudyLoading(true);
-
-    setDatas();
-
-    setIsStudyLoading(false);
-  }, [currentPageIndex]);
 
   // TODO: Main과 중복제거
   useEffect(() => {
