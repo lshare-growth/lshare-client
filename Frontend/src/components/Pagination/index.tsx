@@ -35,7 +35,7 @@ const Pagination = ({ className, showingPageButtonNum, totalPageNum, selectedPag
       <S.ItemContainer>
         {pageButtons.slice(offset, limit).map((num, index) => (
           <S.Item key={`pagination-${index}`}>
-            <S.PageButton type="button" onClick={() => handleClickPageButton(num)} isSelected={selectedPage === num}>
+            <S.PageButton type="button" onClick={() => handleClickPageButton(num)} isSelected={selectedPage === num} disabled={selectedPage === num}>
               {num}
             </S.PageButton>
           </S.Item>
