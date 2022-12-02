@@ -78,9 +78,6 @@ export const CommentCount = styled.span`
 export const UserContainer = styled.div`
   ${({ theme }) => theme.mixins.flexBox({ justify: 'stretch' })};
 `;
-/* display: flex;
-flex-direction: column;
-height: 100%; */
 
 export const ReplyContainer = styled.ul`
   margin: 32px 0 0 0;

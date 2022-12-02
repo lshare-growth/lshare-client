@@ -2,7 +2,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-// import AuthorizedLayout from '@components/AuthorizedLayout';
 import Layout from '@components/Layout';
 import Avatar from '@components/common/Avatar';
 import axios from 'axios';
@@ -10,11 +9,9 @@ import useLogOut from '@hooks/useLogout';
 import { useLocation, useNavigate } from 'react-router-dom';
 import userInfosState from '@store/UserInfos';
 import { useRecoilState } from 'recoil';
-// import DropDown from '@components/DropDown';
 import { useState, useEffect, ChangeEvent, useRef } from 'react';
 import Items from '@components/DropDown/types';
 import dropDownItemState from '@store/DropDownItem';
-// import Button from '@common/Button';
 import { Cookies } from 'react-cookie';
 import { encrypt, getHeaders } from '@pages/util';
 import showingInputValueState from '@store/ShowingInputValue';
@@ -30,7 +27,6 @@ const MAX_BLOG_LENGTH = 60;
 
 const MemberEdit = () => {
   const navigate = useNavigate();
-  // const handleError = () => {};
   const [userInfos, setUserInfos] = useRecoilState(userInfosState);
   const [districts, setDistricts] = useState<Items[]>();
   const [originDistricts, setOriginDistricts] = useState<Items[]>();
@@ -57,8 +53,6 @@ const MemberEdit = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthorizedPage, setIsAuthorizedPage] = useState(false);
   const [currentNickName, setCurrentNickName] = useState('');
-  // const [currentProfileImage, setProfileImage] = useState('');
-  // const [currentDistrict, setCurrentDistrict] = useState('');
   const [currentBirth, setCurrentBirth] = useState('');
   const [currentIntroduction, setCurrentIntroduction] = useState('');
   const [currentBlogUrl, setCurrentBlogUrl] = useState('');
@@ -154,12 +148,7 @@ const MemberEdit = () => {
         // eslint-disable-next-line no-unused-vars
         const url = `${process.env.END_POINT}api/members/duplicated-nickName`;
         const response = await axios.get(`${process.env.END_POINT}api/members/duplicated-nickName`, body);
-        // const response = await axios({
-        //   method: 'get',
-        //   url,
-        //   params: { nickName },
-        //   headers,
-        // });
+
         setIsDuplicatedNickName(response.data.nickNameExistence);
         setIsCheckDuplication(true);
         const isDuplicatedName = response.data.nickNameExistence;
@@ -187,7 +176,7 @@ const MemberEdit = () => {
       setBlankMsg('공백은 입력 불가능합니다.');
       return;
     }
-    // setNickNameMsg(isDuplicatedName ? '중복된 닉네임입니다.' : '사용가능한 닉네임입니다');
+
     checkIsExistNickName();
   };
 
@@ -197,22 +186,6 @@ const MemberEdit = () => {
       setBirthMsg('생년월일은 8글자 입니다.');
       return;
     }
-
-    // if (!targetDistricts) {
-    //   targetDistricts = {
-    //     id: 1,
-    //     type: 'district',
-    //     content: '서울',
-    //   };
-    // }
-
-    // if (!targetDistricts) {
-    //   targetDistricts = {
-    //     id: 1,
-    //     type: 'district',
-    //     content: '서울',
-    //   };
-    // }
 
     const targetDistricts = dropDownItem.find((item) => item.type === 'district');
     const districtData = districts?.find((currentDistrict) => currentDistrict.content === targetDistricts?.content);
@@ -266,9 +239,6 @@ const MemberEdit = () => {
       }
     };
 
-    // if (!districtData) {
-    //   return;
-    // }
     const currentDistrictData = districtData?.content === DEFAUlT_SELECT ? '' : districtData;
     const data = {
       memberId: userInfos.memberId,
@@ -284,56 +254,6 @@ const MemberEdit = () => {
   const handleClickCancel = () => {
     navigate(`${MAIN_PATH}`);
   };
-
-  useEffect(() => {
-    // 접근 권한 api요청
-    const investigateAuthorization = async () => {
-      const token = localStorage.getItem('accessToken');
-
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
-
-      const body = token
-        ? {
-            headers,
-          }
-        : {};
-      try {
-        const targetPathName = location.pathname;
-        const response = await axios.get(`${process.env.END_POINT}${targetPathName}`, body);
-        setIsLoading(false);
-        if (response.status === 200) {
-          // setIsAuthorizedPage(true);
-        }
-      } catch (error: any) {
-        setIsLoading(false);
-        // setIsAuthorizedPage(false);
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 403) {
-          navigate(`${FORBIDDEN_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
-    };
-
-    // setIsLoading(true);
-
-    // investigateAuthorization();
-  }, []);
 
   useEffect(() => {
     const getDistricts = async () => {
@@ -419,7 +339,6 @@ const MemberEdit = () => {
         const refreshToken = cookies.get(`SEC_EKIL15`);
         const headers = getHeaders();
 
-        // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
         const body = token ? { headers } : {};
 
         const url = `api/members/my-profile`;
@@ -491,7 +410,6 @@ const MemberEdit = () => {
   }, [isModalVisible]);
 
   return (
-    // <AuthorizedLayout url={`${process.env.END_POINT}member/update-profile`}>
     <Layout>
       {isLoading ? (
         <S.LoadingContainer>
@@ -513,20 +431,8 @@ const MemberEdit = () => {
               <S.CustomDropDown width="77px" height="48px" type="district" selectTitle={(districts && districts[0]?.content) || '선택'} options={districts || []} />
             </div>
             <S.BirthContainer>
-              {/* <S.CustomInput label="생년월일" size="xsmall" id="birth" placeholder="YYYYMMDD" handleChangeValue={handleChangeBirth} /> */}
               <S.BirthLabel>생년월일</S.BirthLabel>
-              <S.CustomInput
-                id="memberEdit-date"
-                placeholder={currentBirth || 'YYYYMMDD'}
-                size="xsmall"
-                mode="calendar"
-                label=""
-                isLabelHorizontal={false}
-                // handleClickDate={handleClickDate}
-                // handleClickReset={handleClickReset}
-                handleChangeValue={handleChangeBirth}
-              />
-              {/* <S.Msg>-없이 입력해주세요</S.Msg> */}
+              <S.CustomInput id="memberEdit-date" placeholder={currentBirth || 'YYYYMMDD'} size="xsmall" mode="calendar" label="" isLabelHorizontal={false} handleChangeValue={handleChangeBirth} />
               {birth.length > 0 && birth.length < 8 + DELIMITER_NUM && <S.NickNameMsg isDuplicated={isDuplicatedNickName}>{birthMsg}</S.NickNameMsg>}
               {showingInputValue.length === 8 + DELIMITER_NUM && overBirthMsg && <S.NickNameMsg>{overBirthMsg}</S.NickNameMsg>}
             </S.BirthContainer>

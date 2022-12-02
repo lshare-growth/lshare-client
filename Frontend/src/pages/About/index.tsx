@@ -21,9 +21,6 @@ const About = () => {
   type noticeType = Record<noticeKeyType, any>;
   const [studies, setStudies] = useState<noticeType[]>([]);
   const [userInfos] = useRecoilState(userInfosState);
-  // const [selectedTabId, setSelectedTabId] = useState(0);
-  // const [selectedProgressTabId, setSelectedProgressTabId] = useState(0);
-  // const [currentPageIndex, setCurrentPageIndex] = useState(1);
   type CotnentControlsKeyType = 'sorted' | 'requestPageSize' | 'currentPageNumber' | 'totalElementSize' | 'firstPage' | 'last' | 'empty';
   type CotnentControlsType = Record<CotnentControlsKeyType, any>;
   // eslint-disable-next-line no-unused-vars
@@ -35,13 +32,9 @@ const About = () => {
   const { logout } = useLogOut();
   const initialPageIndex = 1;
   const [showingPageIndex, setShowingPageIndex] = useState(
-    // initialPageIndex ||
     (location?.search.includes('tagName') && initialPageIndex) || sessionStorage.getItem('page') || location?.search?.split('page=')[1]?.split('&')[0]
   );
-  const [currentPageIndex, setCurrentPageIndex] = useState(
-    // initialPageIndex ||
-    (location?.search.includes('tagName') && initialPageIndex) || Number(location?.search?.split('page=')[1]?.split('&')[0])
-  );
+  const [currentPageIndex, setCurrentPageIndex] = useState((location?.search.includes('tagName') && initialPageIndex) || Number(location?.search?.split('page=')[1]?.split('&')[0]));
   const handleClickPageButton = (pageIndex: number) => {
     setCurrentPageIndex(pageIndex);
     setShowingPageIndex(`${pageIndex}`);
@@ -69,7 +62,6 @@ const About = () => {
       const refreshToken = cookies.get(`SEC_EKIL15`);
       const headers = getHeaders();
 
-      // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
       const body = token ? { headers } : {};
 
       const response = await axios.get(`${process.env.END_POINT}${url}`, body);
@@ -113,43 +105,16 @@ const About = () => {
 
   // TODO: Main과 중복제거
   useEffect(() => {
-    // if (currentPageIndex === 0) {
-    //   return;
-    // }
-    // const searchTag = sessionStorage.getItem('tag');
-    // // if (location.pathname === MAIN_PATH) {
-    // // if (!currentPageIndex) {
-    // //   return;
-    // // }
-    // if (searchTag) {
-    //   return;
-    // }
-
     const sizeNum = location?.search?.split('size=')[1];
-
     const sizeQueryString = sizeNum ? `&size=${sizeNum}` : `&size=${DEFAULT_SIZE_NUM}`;
-
     const pageQueryString = currentPageIndex ? `${INTRODUCE_PATH}?page=${currentPageIndex}` : `${INTRODUCE_PATH}?page=${initialPageIndex}`;
     const queryStrings = sizeQueryString ? `${pageQueryString}${sizeQueryString}` : pageQueryString;
     const showingURL = showingPageIndex ? queryStrings : `${INTRODUCE_PATH}`;
-
-    // TODO: 로직 분리
-    // if (state?.isSearched) {
-    //   setIsStudyLoading(false);
-    //   setContentControls(state?.contentControls);
-    //   return;
-    // }
-
-    // const tag = sessionStorage.getItem('tag');
-    // if (tag) {
-    //   return;
-    // }
 
     setIsStudyLoading(true);
     setDatas();
 
     setIsStudyLoading(false);
-    //
     navigate(showingURL);
   }, [showingPageIndex, currentPageIndex]);
 
@@ -159,83 +124,6 @@ const About = () => {
       setCurrentPageIndex(1);
     }
   }, [currentPageIndex]);
-
-  useEffect(() => {
-    // const currentPostings = studies.map(({id}) => {
-    // const response = await axios.get(`${process.env.END_POINT}api/tags/study/${id}`, { headers });
-    // console.log(response);
-    // }
-    // const studiesKeys = studies.map((study) => Object.keys(study));
-    // const allIds = studiesKeys.map((id) => id);
-    // const allIds = [];
-    // const allUrls: string[] = [];
-    // const url = `${process.env.END_POINT}api/tags/study`;
-    // // eslint-disable-next-line no-restricted-syntax
-    // for (const study of studies) {
-    //   allIds.push(study.id);
-    //   allUrls.push(`${process.env.END_POINT}api/tags/study/${study.id}`);
-    // }
-    // console.log('allIds');
-    // console.log(allIds);
-    // // const getAllTags = () => Promise.all();
-    // // eslint-disable-next-line no-shadow
-    // const token = localStorage.getItem('accessToken');
-    // const refreshToken = cookies.get(`SEC_EKIL15`);
-    // const headers = {
-    //   Authorization: `Bearer ${token}`,
-    //   RefreshToken: `Bearer ${refreshToken}`,
-    //   'Content-Type': 'application/json',
-    // };
-    // // eslint-disable-next-line no-shadow
-    // const fetchData = async (url: string) =>
-    //   axios
-    //     .get(url, { headers })
-    //     .then((response) => response)
-    //     .catch((error) => {
-    //       if (error.response.status === 401) {
-    //         console.log('401 error');
-    //         logout();
-    //         navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-    //       }
-    //       if (error.response.status === 404) {
-    //         navigate(`${LANDING_PATH}`);
-    //       }
-    //       if (error.response.status === 500) {
-    //         navigate(`${SERVER_ERROR_PATH}`);
-    //       }
-    //     });
-    // const getAllData = async () => Promise.all(allUrls.map(fetchData));
-    // getAllData()
-    //   .then((result) => {
-    //     console.log('result====!!!!!!!!!!!!!!!');
-    //     console.log(result);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
-    // const token = localStorage.getItem('accessToken');
-    // const refreshToken = cookies.get(`SEC_EKIL15`);
-    // const headers = {
-    //   Authorization: `Bearer ${token}`,
-    //   RefreshToken: `Bearer ${refreshToken}`,
-    //   'Content-Type': 'application/json',
-    // };
-    // const getTag = async () => {
-    //   const res = await axios.get(`${process.env.END_POINT}api/hashtags/study/10`, { headers });
-    //   console.log('tag -=====');
-    //   console.log(res);
-    // };
-    // getTag();
-  }, []);
-
-  // currentPageIndex, studies
-  // const handleClickProgressTab = (selectedId: number) => {
-  //   setSelectedProgressTabId(selectedId);
-  // };
-
-  // const handleClickTab = (selectedId: number) => {
-  //   setSelectedTabId(selectedId);
-  // };
 
   // eslint-disable-next-line no-unused-vars
   const handleClickPosting = () => {
@@ -252,93 +140,51 @@ const About = () => {
     showingPageButtonNum = 1;
   }
 
-  // const ITEM_NUM = 3;
-  // const skeletonItems = Array.from({ length: ITEM_NUM }, (_, index) => index + 1);
-
   return (
     <Layout>
-      {/* {isStudyLoading && (
-        <LoadingContainer>
-          <LoadingSpinner />
-        </LoadingContainer>
-      )} */}
       <S.Container>
-        {/* <S.FlexBetween>
-          <S.Category>전체 스터디</S.Category>
-          <Button mode="accent" size="small" handleClick={handleClickPosting}>
-            글 작성
-          </Button>
-        </S.FlexBetween> */}
-        {/* <S.HorizontalDivider direction="horizontal" /> */}
-        {
-          <S.NoticeContainer>
-            <S.TitleLabel>공지사항</S.TitleLabel>
-            <S.HorizontalDivider direction="horizontal" />
-            {isStudyLoading ? (
-              <S.LoadingContainer>
-                <LoadingSpinner />
-              </S.LoadingContainer>
-            ) : (
-              <S.PostingContainer isPostingExist={!contentControls?.empty && currentPageIndex > 0}>
-                {!contentControls?.empty &&
-                  currentPageIndex > 0 &&
-                  studies?.map(({ noticeId, nickName, profileImageUrl, noticeTitle }) => (
-                    <S.CustomLink to={`${INTRODUCE_DETAIL_PATH}/${noticeId}`}>
-                      <S.NoticeItem key={`About-page-notice-${noticeId}`}>
-                        <Image src={profileImageUrl} alt="" handleError={() => {}} mode="square" size="megaLarge" />
-                        <S.Content>
-                          <S.NoticeCategory>공지사항</S.NoticeCategory>
-                          <S.CustomCommentContent content={noticeTitle} clamp={1} />
-                          <S.NickName>{nickName}</S.NickName>
-                        </S.Content>
-                      </S.NoticeItem>
-                    </S.CustomLink>
-                    // <>
-                    //   <S.CustomLink to={`${INTRODUCE_DETAIL_PATH}/${id}`}>
-                    //     <S.PostingItem key={`main-posting-${id}`}>
-                    //       <S.TitleContainer>
-                    //         <S.CustomTitle title={title} />
-                    //       </S.TitleContainer>
-                    //       <S.CustomPostingContent content={content} clamp={clamp} />
-                    //       {/* <Posting
-                    //         nickName={nickName}
-                    //         time={time}
-                    //         title={title}
-                    //         infos={infos}
-                    //         viewCount={viewCount}
-                    //         likeCount={likeCount}
-                    //         commentCount={commentCount}
-                    //         isRecruiting={isRecruiting}
-                    //         content={content}
-                    //         tags={tags}
-                    //         handleClick={handleClickPosting}
-                    //       /> */}
-                    //     </S.PostingItem>
-                    //   </S.CustomLink>
-                    //   <S.HorizontalDivider direction="horizontal" />
-                    // </>
-                  ))}
-                {contentControls?.empty ||
-                  (currentPageIndex <= 0 && (
-                    <S.FlexBox>
-                      <S.EmptyMsg>글이 존재하지 않습니다.</S.EmptyMsg>
-                    </S.FlexBox>
-                  ))}
-                {/* {!contentControls?.empty && currentPageIndex <= 0} */}
-              </S.PostingContainer>
-            )}
-            {!contentControls?.empty && currentPageIndex > 0 && (
-              <S.CustomPagination
-                showingPageButtonNum={showingPageButtonNum}
-                totalPageNum={contentControls?.totalElementSize}
-                selectedPage={currentPageIndex}
-                handleClickPageButton={handleClickPageButton}
-                handleClickLeftButton={handleClickPrevPage}
-                handleClickRightButton={handleClickNextPage}
-              />
-            )}
-          </S.NoticeContainer>
-        }
+        <S.NoticeContainer>
+          <S.TitleLabel>공지사항</S.TitleLabel>
+          <S.HorizontalDivider direction="horizontal" />
+          {isStudyLoading ? (
+            <S.LoadingContainer>
+              <LoadingSpinner />
+            </S.LoadingContainer>
+          ) : (
+            <S.PostingContainer isPostingExist={!contentControls?.empty && currentPageIndex > 0}>
+              {!contentControls?.empty &&
+                currentPageIndex > 0 &&
+                studies?.map(({ noticeId, nickName, profileImageUrl, noticeTitle }) => (
+                  <S.CustomLink to={`${INTRODUCE_DETAIL_PATH}/${noticeId}`}>
+                    <S.NoticeItem key={`About-page-notice-${noticeId}`}>
+                      <Image src={profileImageUrl} alt="" handleError={() => {}} mode="square" size="megaLarge" />
+                      <S.Content>
+                        <S.NoticeCategory>공지사항</S.NoticeCategory>
+                        <S.CustomCommentContent content={noticeTitle} clamp={1} />
+                        <S.NickName>{nickName}</S.NickName>
+                      </S.Content>
+                    </S.NoticeItem>
+                  </S.CustomLink>
+                ))}
+              {contentControls?.empty ||
+                (currentPageIndex <= 0 && (
+                  <S.FlexBox>
+                    <S.EmptyMsg>글이 존재하지 않습니다.</S.EmptyMsg>
+                  </S.FlexBox>
+                ))}
+            </S.PostingContainer>
+          )}
+          {!contentControls?.empty && currentPageIndex > 0 && (
+            <S.CustomPagination
+              showingPageButtonNum={showingPageButtonNum}
+              totalPageNum={contentControls?.totalElementSize}
+              selectedPage={currentPageIndex}
+              handleClickPageButton={handleClickPageButton}
+              handleClickLeftButton={handleClickPrevPage}
+              handleClickRightButton={handleClickNextPage}
+            />
+          )}
+        </S.NoticeContainer>
       </S.Container>
     </Layout>
   );

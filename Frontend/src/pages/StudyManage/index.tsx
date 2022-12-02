@@ -12,16 +12,10 @@ const StudyManage = () => {
   // eslint-disable-next-line no-unused-vars
   const [studies, setStudies] = useRecoilState(studiesState);
 
-  // useEffect(() => {
-  //   // TODO: 서버요청으로 postings받아오기
-  //   setStudies(postings);
-  // }, []);
-
   const handleClickManage = () => {
     navigate(`${MEMBER_MANAGE_PATH}`);
   };
 
-  // <AuthorizedLayout url={`${process.env.END_POINT}member/my-studies`}>
   return (
     <Layout>
       <S.Container>

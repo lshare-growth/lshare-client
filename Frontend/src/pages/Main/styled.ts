@@ -78,15 +78,10 @@ export const CustomButton = styled(Button)`
 export const CustomPostingButton = styled(Button)`
   font-size: 10px;
   margin: 0 0 0 8px;
-  /* color: ${({ theme }) => theme.colors.white}; */
   background-color: ${({ theme }) => theme.colors.skeleton};
 `;
 
 export const ProgressContainer = styled.div`
-  /* position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 1; */
   width: 100%;
   height: 4px;
   background-color: ${({ theme }) => theme.colors.accent.initial};
@@ -104,9 +99,6 @@ const ChargingBar = keyframes`
 `;
 
 export const ProgressBar = styled.div`
-  /* position: absolute;
-  top: 2px;
-  left: 2px; */
   width: 100%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.modal};

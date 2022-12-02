@@ -2,16 +2,12 @@
 import Layout from '@components/Layout';
 import { useEffect, useState, useRef } from 'react';
 import Icon from '@components/common/Icon';
-// import Carousel from '@components/Carousel';
-// import { items as carouselItems } from '@components/Carousel/constants';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import studiesState from '@store/Studies';
 import timeForToday from '@pages/Detail/util';
 import studyType from '@components/types/Studies';
 import LandingCarousel from '@assets/img/landingCarousel.png';
-// import LandingCarousel from '@assets/img/landingCarousel.svg';
-// import { postings } from '@components/mocks';
 import { Cookies } from 'react-cookie';
 import Modal from '@components/Modal';
 import Portal from '@components/Modal/Portal';
@@ -46,13 +42,6 @@ const Initial = () => {
   const logoutModalRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  // TODO : 로그아웃 모달
-  // useEffect(() => {
-  //   if (state?.isLogouted) {
-  //     setIsLogoutAlertVisible(true);
-  //   }
-  // }, [state?.isLogouted]);
-
   useEffect(() => {
     setLimit(offset + DEFAUL_PAGE_NUM * (currentPageIndex + 1));
   }, [currentPageIndex]);
@@ -61,10 +50,6 @@ const Initial = () => {
     if (!contentControls?.hasNext && currentPageIndex > 0) {
       setLimit(limit + DEFAUL_PAGE_NUM);
     }
-
-    // if (!contentControls?.hasNext) {
-    //   setIsLastContent(true);
-    // }
   }, [contentControls?.hasNext]);
 
   useEffect(() => {
@@ -85,72 +70,17 @@ const Initial = () => {
       const refreshToken = cookies.get(`SEC_EKIL15`);
       const headers = getHeaders();
 
-      // if (!contentControls?.hasNext) {
-      //   return;
-      // }
-
-      // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
       const body = token ? { headers } : {};
 
       const url = `api/studies/landing?page=${currentPageIndex}&size=10`;
-
-      // fetch(`api/studies/landing?page=${currentPageIndex}&size=10`, {
-      //   method: 'GET',
-      //   headers,
-      //   credentials: 'include',
-      // })
-      //   .then((res) => {
-      //     console.log(res);
-      //     console.log(res?.headers.get('Set-Cookie')); // undefined
-      //     console.log(document?.cookie); // nope
-      //     return res.json();
-      //   })
-      //   .then((json) => {});
-      // const url = `api/studies/landing?page=${currentPageIndex}&pageSzie=10&sortOrder=CURRENT`;
       const response = await axios.get(`${process.env.END_POINT}${url}`, body);
 
       setIsStudyLoading(false);
 
-      // try {
-      //   const response = await axios.get(`${process.env.END_POINT}${url}`);
-
-      //   if (response.status === 404) {
-      //     console.log('404 error');
-      //     return;
-      //   }
-      //   if (response.status === 500) {
-      //     console.log('500 error');
-      //     return;
-      //   }
-      // type dataKeyType =
-      //   | 'id'
-      //   | 'title'
-      //   | 'content'
-      //   | 'studyOrganizer'
-      //   | 'studyStatus'
-      //   | 'hashTags'
-      //   | 'currentStudyMemberCount'
-      //   | 'district'
-      //   | 'processOfStudy'
-      //   | 'commentCount'
-      //   | 'viewCount'
-      //   | 'likeCount'
-      //   | 'createdAt'
-      //   | 'maxStudyMemberCount'
-      //   | 'startDate'
-      //   | 'endDate'
-      //   | 'meeting';
-      // type dataType = Record<dataKeyType, any>;
-      // const targetDatas: dataType[] = response.content;
       type apiStudiesType = typeof response.data.contents.content[0];
       const apiStudies: apiStudiesType[] = response.data.contents.content;
 
-      // type tagKeyType = 'studyId' | 'tagName';
-      // type tagType = Record<tagKeyType, any>;
       const currentPostings = apiStudies.map((targetData) => {
-        // const { id, title, content, studyOrganizer, studyStatus, meeting, commentCount, viewCount, likeCount, createdAt, maxStudyMemberCount, currentStudyMemberCount, startDate, endDate } =
-        //   targetData;
-        // API 활용시
         const {
           studyId,
           title,
@@ -175,29 +105,7 @@ const Initial = () => {
           id: hashTag.hashTagId,
           content: `#${hashTag.tagName}`,
         }));
-        // TODO: API
-        /**
-             *   const { id, title, content, studyOrganizer, studyStatus, processOfStudy, commentCount, viewCount, likeCount, createdAt, maxStudyMemberCount, currentStudyMemberCount, startDate, endDate } =
-            response.content;
 
-            const { nickName } = response;
-            50줄 type에서 meeting제거하기
-             */
-        // eslint-disable-next-line prefer-destructuring
-        // const hashTags = [
-        //   { studyId: 1, tagName: 'java' },
-        //   { studyId: 2, tagName: 'javascript' },
-        // ];
-
-        // eslint-disable-next-line no-shadow
-        // const tags =
-        //   // eslint-disable-next-line no-shadow
-        //   hashTags?.map(({ studyId, tagName }) => ({
-        //     id: studyId,
-        //     content: `#${tagName}`,
-        //   })) || [];
-
-        // TODO: API : 해시태그 백엔드 미정
         return {
           id: studyId,
           nickName: studyOrganizer,
@@ -236,23 +144,6 @@ const Initial = () => {
           maxStudyMemberCount,
         };
       });
-      // const remainStudies = studies.filter(({id}))
-      /// setStudies([...studies, ...currentPostings]);
-      // const remainStudies = studies.map(({ id }) => currentPostings.filter((posting) => id !== posting.id));
-
-      // if (currentPageIndex > 0) {
-      //   setShowingStudies([...currentPostings, ...showingStudies]);
-      // } else {
-      //   setStudies([...currentPostings]);
-      //   // setShowingStudies([...showingStudies, ...currentPostings]);
-      //   setShowingStudies(currentPostings);
-      // }
-
-      // setStudies([...studies, ...currentPostings]);
-      // setShowingStudies([...currentPostings, ...showingStudies]);
-      //   } catch (error: any) {
-      //     console.log(error);
-      //   }
 
       const { sorted, first, last, empty, hasNext } = response.data.contents;
 
@@ -265,14 +156,6 @@ const Initial = () => {
       });
 
       setShowingStudies([...showingStudies, ...currentPostings]);
-      // if (!hasNext) {
-      //   // setShowingStudies([...currentPostings]);
-      //   setShowingStudies([...showingStudies, ...currentPostings]);
-      // } else {
-      //   currentPostings.pop();
-      //   setShowingStudies([...showingStudies, ...currentPostings]);
-      //   // setShowingStudies([...showingStudies, ...currentPostings]);
-      // }
     };
 
     if (!contentControls?.hasNext && currentPageIndex > 0) {
@@ -280,8 +163,6 @@ const Initial = () => {
     }
     setDatas();
 
-    // setTimeout(() => {
-    // }, 2000);
     setIsStudyLoading(false);
   }, [currentPageIndex]);
 
@@ -308,11 +189,6 @@ const Initial = () => {
   return (
     <Layout>
       <S.CarouselContainer>
-        {/* <Carousel showingSlideCardNum={1}>
-          {carouselItems.map(({ id, content }) => (
-            <S.CarouselItem key={`content-${id}`}>{content}</S.CarouselItem>
-          ))}
-        </Carousel> */}
         <S.CustomLink to={`${INTRODUCE_DETAIL_PATH}/1`}>
           <S.ImgItem src={LandingCarousel} alt="" width="100%" height="200px" />
         </S.CustomLink>
@@ -374,13 +250,6 @@ const Initial = () => {
                       </div>
                     </S.Content>
                     <S.CustomLabelList mode="default" size="xsmall" items={tags} />
-                    {/* <S.TagContainer>
-                      {tags.map((tag) => (
-                        <S.TagItem key={`initial-page-tag-${tag.id}`}>
-                          <span>{tag.content}</span>
-                        </S.TagItem>
-                      ))}
-                    </S.TagContainer> */}
                   </S.Item>
                 </S.CustomLink>
               ))}
@@ -395,15 +264,6 @@ const Initial = () => {
           </S.MoreButtonContainer>
         </>
       )}
-      {/* <Portal>
-        {isLogoutAlertVisible && (
-          <Modal position="right" onClose={handleLogoutModal} ref={logoutModalRef}>
-            <AlertModalArea size="small" handleClickCancel={handleLogoutClickCancel}>
-              로그아웃되었습니다.
-            </AlertModalArea>
-          </Modal>
-        )}
-      </Portal> */}
     </Layout>
   );
 };

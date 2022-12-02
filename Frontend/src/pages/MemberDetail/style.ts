@@ -116,7 +116,6 @@ export const FollowerContainer = styled.div`
 `;
 
 export const FollowerListContainer = styled.ul`
-  /* width: 240px; */
   height: 268px;
   padding: 4px 16px;
   overflow-y: auto;
@@ -128,8 +127,6 @@ export const FollowerContent = styled.li`
 `;
 
 export const FollowerTitleArea = styled.div`
-  //width: 256px;
-  /* width: 256px; */
   padding: 8px;
   background-color: ${({ theme }) => theme.colors.background};
 `;

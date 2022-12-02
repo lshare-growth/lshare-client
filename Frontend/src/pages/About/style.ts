@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Divider from '@components/common/Divider';
 import Pagination from '@components/Pagination';
 import CommentContent from '@components/CommentContent';
+
 // TODO: POSTING과 중복 제거
 export const TitleContainer = styled.div`
   display: flex;
@@ -91,12 +92,9 @@ export const Container = styled.div`
   width: 1224px;
 
   margin: 0 auto;
-  /* display: flex;
-  flex-wrap: wrap; */
 `;
 
 export const NoticeItem = styled.li`
-  //width: 160px;
   width: 384px;
   :hover {
     filter: brightness(96%);
@@ -104,7 +102,6 @@ export const NoticeItem = styled.li`
 `;
 
 export const PostingContainer = styled.ul<{ isPostingExist: boolean }>`
-  /* width: 528px; */
   width: 1224px;
   display: ${({ isPostingExist }) => isPostingExist && 'flex'};
   flex-wrap: ${({ isPostingExist }) => isPostingExist && 'wrap'};

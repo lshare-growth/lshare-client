@@ -54,7 +54,6 @@ export const ErrorContainer = styled.div`
       color: rgb(84, 84, 206);
     }
   }
-  //
 `;
 
 export const Msg = styled.h3`

@@ -2,20 +2,13 @@ const path = require('path');
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/preset-create-react-app',
-    '@storybook/addon-interactions',
-  ],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/preset-create-react-app', '@storybook/addon-interactions'],
   framework: '@storybook/react',
   core: {
     builder: 'webpack4',
   },
   webpackFinal: async (config) => {
-    const fileLoaderRule = config.module.rules.find(
-      (rule) => rule.test && rule.test.test('.svg')
-    );
+    const fileLoaderRule = config.module.rules.find((rule) => rule.test && rule.test.test('.svg'));
     fileLoaderRule.exclude = /\.svg$/;
     config.module.rules.push({
       test: /\.svg$/,
@@ -31,6 +24,7 @@ module.exports = {
       '@store': path.resolve(__dirname, '../src/store'),
       '@style': path.resolve(__dirname, '../src/style'),
       '@assets': path.resolve(__dirname, '../src/assets'),
+      '@api': path.resolve(__dirname, '../src/api'),
     };
     return config;
   },

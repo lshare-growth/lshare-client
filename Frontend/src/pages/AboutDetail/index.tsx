@@ -144,7 +144,6 @@ const Detail = () => {
 
   const handleClickEdit = () => {
     navigate(`${UPDATE_PATH}?study_id=${currentId}`); /// ${study?.id}
-    // navigate(`?study_id=${currentId}`);
   };
 
   const handleClickDelete = () => {
@@ -155,9 +154,6 @@ const Detail = () => {
     const postStudySignUp = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      // const data = {
-      //   studyId,
-      // };
       const headers = getHeaders();
 
       const body = token
@@ -189,10 +185,6 @@ const Detail = () => {
 
   const handleClickCancel = () => {};
 
-  // const handleClickConfirm = () => {
-  //   deleteCurrentStudy();
-  // };
-
   const handleModal = () => {
     setIsModalVisible(false);
   };
@@ -219,9 +211,6 @@ const Detail = () => {
                 <S.CustomCommentLabel isMyComment={false} isStudyOrganizer={false} nickname={study?.nickName || '닉네임'} />
                 <div style={{ display: 'flex', alignItems: 'center', padding: '4px' }}>
                   <S.Day>{study?.createdAt.slice().split('T')[0]}</S.Day>
-                  {/* <S.Count count={study?.viewCount || 0}>
-                    <Icon mode="views" />
-                  </S.Count> */}
                 </div>
               </div>
             </div>

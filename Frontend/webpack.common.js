@@ -20,6 +20,7 @@ module.exports = {
       '@store': path.resolve(__dirname, 'src/store'),
       '@style': path.resolve(__dirname, 'src/style'),
       '@assets': path.resolve(__dirname, 'src/assets'),
+      '@api': path.resolve(__dirname, 'src/api'),
     },
   },
   entry: path.resolve(__dirname, 'src/index.tsx'),

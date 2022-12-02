@@ -114,7 +114,6 @@ const Detail = () => {
     | 'isAuthorized'
     | 'studyOrganizerProfile'
     | 'studyOrganizerId';
-  //    | 'myId'
 
   type currentStudyType = Record<keyType, any>;
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -159,9 +158,7 @@ const Detail = () => {
   }, []);
 
   useEffect(() => {
-    // const isLogined = cookies.get('logined');
     const isLogined = cookies.get('logined');
-    // setLoginInfo(isLogined);
     if (!isLogined || isLogined === 'false') {
       logout();
     }
@@ -179,48 +176,7 @@ const Detail = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const listenBackEvent = () => {
-  //     if (state?.from === `${MAIN_PATH}`) {
-  //       navigate(`${MAIN_PATH}`, { state: { hasPage: true } });
-  //     }
-  //   };
-
-  //   const unlistenHistoryEvent = history.listen(({ action }) => {
-  //     if (action === 'POP') {
-  //       listenBackEvent();
-  //     }
-  //   });
-
-  //   return unlistenHistoryEvent;
-  // }, []);
-
-  // TODO : 로그아웃 모달
-  // useEffect(() => {
-  //   if (state?.isLogouted) {
-  //     setIsLogoutAlertVisible(true);
-  //   }
-  // }, [state?.isLogouted]);
-
   const [locationKeys, setLocationKeys] = useState([]);
-
-  // useEffect(
-  //   () =>
-  //     navigation.listen(() => {
-  //       if (navigation.action === 'POP') {
-  //         navigate(`${MAIN_PATH}`);
-  //       }
-  //     }),
-  //   [navigation]
-  // );
-
-  // useEffect(() => {
-  //   const newTags = keywords.map((keyword, index) => ({
-  //     id: index,
-  //     content: keyword,
-  //   }));
-  //   setTags([...newTags]);
-  // }, [keywords]);
 
   useEffect(() => {
     setCurrentUserInfos(userInfos);
@@ -233,23 +189,10 @@ const Detail = () => {
         const refreshToken = cookies.get(`SEC_EKIL15`);
         const headers = getHeaders();
 
-        // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
         const body = token ? { headers } : {};
 
         const response = await axios.get(`${process.env.END_POINT}api/studies/${currentId}`, body);
-        // console.log('study response');
-        // console.log(currentId);
-        // console.log(response);
-        /// console.log(response.data.contents);
-        // if (response.status === 404) {
-        //   console.log('404 error');
-        //   return;
-        // }
-        // if (response.status === 500) {
-        //   navigate(`${SERVER_ERROR_PATH}`);
-        // }
 
-        // TODO: study 업데이트 하기
         type dataKeyType =
           | 'studyId'
           | 'memberId'
@@ -299,33 +242,13 @@ const Detail = () => {
           studyOrganizerId,
         } = targetData;
         const district: koreanDistrictsKeyType = targetData.district;
-        // myId,
-        // nickName,
-        // TODO: API
-        // const { id, nickName, title, content, likeClicked, studyOrganizer, studyStatus, progressOfStudy, commentCount, viewCount, likeCount, createdAt, maxStudyMemberCount, currentStudyMemberCount, startDate, endDate } =
-        // targetData;
-        // isWriter: studyOrganizer === nickName
-
-        // eslint-disable-next-line prefer-destructuring
-        // const hashTags: tagType[] = targetData.hashTags;
-        // const tags = hashTags?.map(({ studyId, tagName }) => ({
-        //   id: studyId,
-        //   content: `#${tagName}`,
-        // }));
 
         type tagDataKeyType = 'hashTagResponses';
         type tagDataType = Record<tagDataKeyType, any>;
 
-        // const tagResponse: tagDataType = await axios.get(`${process.env.END_POINT}api/tags/study/${currentId}`, { headers });
         const tagResponse = {
           hashTagResponses: [],
         };
-        // const tagResponse = [
-        //   {
-        //     studyId: 1,
-        //     tagName: 'backend',
-        //   },
-        // ];
 
         const hashTags: tagType[] = tagResponse.hashTagResponses;
         const tags = hashTags?.map(({ studyId, tagName }) => ({
@@ -383,106 +306,6 @@ const Detail = () => {
         setStudy(currentStudy);
 
         const isLiked = targetData.likeClicked !== 'FALSE';
-
-        // TODO: api변경시 제거
-        // setIsShowingLiked(isLiked);
-
-        // type apiCommentType = typeof response.data.comments[0];
-
-        // // const apiComments: apiCommentType[] = response.data.comments;
-        // const apiComments: apiCommentType[] = response.data.comments;
-        // const targetReactions = apiComments[0]?.reactions[0];
-        // type reactionType = typeof targetReactions;
-
-        // if (!apiComments) {
-        //   return;
-        // }
-
-        // // TODO: studyMembers
-        // // type apiStudyMemberType = typeof response.data.studyMembers[0];
-        // // const apiMembers: apiStudyMemberType[] = response.data.studyMembers;
-
-        // // const members = apiMembers.map(({ id, githubId, profileImageUrl }) => ({
-        // //   id,
-        // //   nickName: githubId,
-        // //   content: profileImageUrl,
-        // // }));
-        // // setStudyMembers(members);
-        // const apiMembers = [
-        //   {
-        //     memberId: 1,
-        //     nickName: 'devjun10',
-        //     profileImageUrl: 'www.naver.com',
-        //   },
-        // ];
-        // const members = apiMembers.map(({ memberId, nickName, profileImageUrl }) => ({
-        //   id: memberId,
-        //   nickName,
-        //   content: profileImageUrl,
-        // }));
-        // setStudyMembers(members);
-
-        // // eslint-disable-next-line no-shadow
-        // const currentReplys = apiComments.map((reply) => {
-        //   // eslint-disable-next-line no-shadow
-        //   const { writerGithubId, commentId, profileImage, content, lastModifiedAt, reCommentCount } = reply;
-        //   // eslint-disable-next-line prefer-destructuring
-        //   const reactions: reactionType[] = reply.reactions;
-        //   return {
-        //     id: commentId,
-        //     // nickname: currentStudy.nickName,
-        //     nickname: writerGithubId,
-        //     time: timeForToday(createdAt),
-        //     isEditied: !!lastModifiedAt,
-        //     replyNum: reCommentCount,
-        //     commentId: id,
-        //     content,
-        //     avatorSrc: profileImage,
-        //     avatorAlt: `${currentStudy.nickName}-profile-image`,
-        //     // eslint-disable-next-line no-shadow
-        //     emojis: reactions.map(({ commentReactionId, emotion, reactionCount, memberIds }) => ({
-        //       id: commentReactionId,
-        //       type: emotion,
-        //       value: emotion,
-        //       count: reactionCount,
-        //       isSelected: !!memberIds.find((memberId) => memberId === currentStudy.myId),
-        //     })),
-        //     // sAuthorized: currentStudy.nickName === writerGithubId,
-        //     isAuthorized: !!writerGithubId,
-        //     isStudyOrganizer: currentStudy.nickName === studyOrganizer,
-        //     isMyComment: currentStudy.nickName === writerGithubId,
-        //   };
-        // });
-        // // isWriter: nickNameState === writerNickName
-        // // isMyComment: nickName === writerGithubId
-        // // TODO: reCommentCount로 댓글 개수
-        // // const newDatas = [
-        // //   {
-        // //     id: commentId,
-        // //     nickname, // TODO: 랜딩 페이지에서 얻은 아이디와 같은지로 내 댓글인지 판단
-        // //     time: '', // TODO: API : createdAt을 이용하여 구하기
-        // //     isEditied: lastModifiedAt ? true : false,
-        // //     // replyNum: 0,
-        // //     commentId: study.id, // TODO: study Id는 랜딩페이지에서 얻은 걸로
-        // //     content,
-        // //     avatorSrc: profileImage,
-        // //     avatorAlt: `${githubId} profile image`,
-        // //     // eslint-disable-next-line no-shadow
-        // //     emojis: reactions.map(({ id, emotion, reactionCount, reactionClicked, memberIds }) => ({
-        // //       id,
-        // //       type: emotion,
-        // //       value: emotion,
-        // //       count: reactionCount,
-        // //       isSelected: memberIds.find((memberId) => memberId === myId) ? true : false,
-        // //     })),
-        // //     isAuthorized: githubId ? true : false,
-        // //   };
-        // // ];
-        // // isWriter: nickNameState === writerNickName
-        // // isMyComment: nickName === writerGithubId
-        // // TODO: reCommentCount로 댓글 개수
-        // setComments([...currentReplys]);
-        // setCurrentComments([...currentReplys]);
       } catch (error: any) {
         if (error.response.status === 401) {
           logout();
@@ -500,9 +323,7 @@ const Detail = () => {
         }
       }
     };
-    // if (userInfos.memberId) {
     getStudy();
-    // }
 
     setIsStudyLoading(false);
   }, []);
@@ -547,7 +368,6 @@ const Detail = () => {
       try {
         const body = token ? { headers } : {};
         const response = await axios.get(`${process.env.END_POINT}api/hashtags/study/${currentId}`, body);
-        // {"hashTagId":22,"tagName":"adfasdf"}
         const hashTags: tagType[] = response.data.hashTagResponses;
         const tags = hashTags?.map(({ hashTagId, tagName }) => ({
           id: hashTagId,
@@ -590,27 +410,14 @@ const Detail = () => {
       return;
     }
 
-    // if (isCommentLoading) {
-    //   return;
-    // }
     const getComments = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
       const headers = getHeaders();
 
-      // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
       const body = token ? { headers } : {};
       const response = await axios.get(`${process.env.END_POINT}api/comments/study/${currentId}?page=${contentPageIdx}&size=10`, body);
-      // console.log('res.data.content');
-      // type apiCommentType = typeof response.data.content[0];
-      // const apiComments: apiCommentType[] = response.data.content;
 
-      // {
-      //   memberIds: [2, 3, 100],
-      //   commentReactionId: '1',
-      //   emotion: '::heart::',
-      //   reactionCount: 1,
-      // },
       type apiCommentType = typeof response.data.content[0];
 
       const apiComments: apiCommentType[] = response.data.content;
@@ -622,39 +429,6 @@ const Detail = () => {
         return;
       }
 
-      // TODO: studyMembers
-      // type apiStudyMemberType = typeof response.data.studyMembers[0];
-      // const apiMembers: apiStudyMemberType[] = response.data.studyMembers;
-
-      // const members = apiMembers.map(({ id, githubId, profileImageUrl }) => ({
-      //   id,
-      //   nickName: githubId,
-      //   content: profileImageUrl,
-      // }));
-      // setStudyMembers(members);
-
-      // const apiMembers = [
-      //   {
-      //     memberId: 1,
-      //     nickName: 'devjun10',
-      //     profileImageUrl: 'www.naver.com',
-      //   },
-      // ];
-      // const members = apiMembers.map(({ memberId, nickName, profileImageUrl }) => ({
-      //   id: memberId,
-      //   nickName,
-      //   content: profileImageUrl,
-      // }));
-      // setStudyMembers(members);
-
-      // {
-      //   memberIds: [2, 3],
-      //   commentReactionId: '1',
-      //   emotion: '::heart::',
-      //   reactionCount: 1,
-      // },
-
-      // TODO API 주석 풀기
       const { sorted, first, last, empty, hasNext } = response.data;
 
       setContentControls(() => ({
@@ -668,15 +442,13 @@ const Detail = () => {
       // eslint-disable-next-line no-shadow
       const currentReplys = apiComments.map((reply) => {
         // eslint-disable-next-line no-shadow
-        // const { writer, writerId, commentId, profileImage, content, lastModifiedAt, reCommentCount, createdAt } = reply;
         const { deleted, writer, writerId, commentId, profileImage, content, lastModifiedAt, reCommentCount, createdAt } = reply;
         // eslint-disable-next-line prefer-destructuring
         const reactions: reactionType[] = reply.reactions;
 
         return {
           id: commentId,
-          // nickname: currentStudy.nickName,
-          nickname: deleted === 'TRUE' ? '(삭제)' : writer, // writerGithubId가 nickName으로 바뀐것 같다.
+          nickname: deleted === 'TRUE' ? '(삭제)' : writer,
           writerId,
           time: timeForToday(createdAt),
           isEditied: deleted === 'TRUE' ? '' : new Date(createdAt).getTime() < new Date(lastModifiedAt).getTime(),
@@ -695,10 +467,9 @@ const Detail = () => {
               isSelected: reactionClicked !== 'FALSE',
             }))
             .sort((aEmoji, bEmoji) => aEmoji.id - bEmoji.id),
-          // sAuthorized: currentStudy.nickName === writerGithubId,
           isAuthorized: deleted === 'TRUE' ? false : !!userInfos?.memberId,
-          isStudyOrganizer: false, // study?.nickName === study?.studyOrganizer,
-          isMyComment: deleted === 'TRUE' ? false : writer === userInfos?.nickName, // writerId === study?.memberId, // study?.nickName === writerGithubId, // TODO: study?.nickName이 댓글쪽에서 주는걸로 백엔드에서 변경해주심
+          isStudyOrganizer: false,
+          isMyComment: deleted === 'TRUE' ? false : writer === userInfos?.nickName,
           isDeleted: deleted === 'TRUE',
         };
       });
@@ -711,9 +482,6 @@ const Detail = () => {
     setIsCommentLoading(true);
     getComments();
     setIsCommentLoading(false);
-
-    // TODO: study 정보를 백엔드에서 주시면 배열에서 삭제
-    // }, []);
   }, [study?.id]);
 
   useEffect(() => {
@@ -864,17 +632,14 @@ const Detail = () => {
     }
     const currentReplys = currentComments.map((reply) => {
       // eslint-disable-next-line no-shadow
-      // const { writer, writerId, commentId, profileImage, content, lastModifiedAt, reCommentCount, createdAt } = reply;
       const { id, nickname, writerId, time, isEditied, replyNum, commentId, content, avatorSrc, avatorAlt, isDeleted, emojis } = reply;
       // eslint-disable-next-line prefer-destructuring
-      // type reactionType = typeof reply.emojis;
       type reactionKeyType = 'id' | 'type' | 'value' | 'count';
       type reactionType = Record<reactionKeyType, any>;
       const reactions: reactionType[] = emojis;
 
       return {
         id,
-        // nickname: currentStudy.nickName,
         nickname,
         writerId,
         time,
@@ -892,10 +657,9 @@ const Detail = () => {
           count,
           isSelected: false,
         })),
-        // sAuthorized: currentStudy.nickName === writerGithubId,
         isAuthorized: isDeleted ? false : !!userInfos?.memberId,
-        isStudyOrganizer: isDeleted ? false : study?.isAuthorized, // study?.nickName === study?.studyOrganizer,
-        isMyComment: isDeleted ? false : nickname === userInfos?.nickName, // writerId === study?.memberId, // study?.nickName === writerGithubId, // TODO: study?.nickName이 댓글쪽에서 주는걸로 백엔드에서 변경해주심
+        isStudyOrganizer: isDeleted ? false : study?.isAuthorized,
+        isMyComment: isDeleted ? false : nickname === userInfos?.nickName,
         isDeleted,
       };
     });
@@ -912,7 +676,7 @@ const Detail = () => {
   );
 
   useEffect(() => {
-    // TODO: studyMembers
+    // TODO: studyMembers 추후 추가
     const getStudyMembers = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
@@ -925,31 +689,14 @@ const Detail = () => {
         : {};
 
       const res = await axios.get(`${process.env.END_POINT}api/members/study/${currentId}`, body);
-      // console.log(res.data.studyMembers);
-      // res.studyMembers
       type apiMemberType = typeof res.data.studyMembers[0];
       const apiMembers: apiMemberType[] = res.data.studyMembers;
-      // const apiMembers = [
-      //   {
-      //     memberId: 1,
-      //     nickName: 'devjun10',
-      //     profileImageUrl: 'www.naver.com',
-      //   },
-      // ];
       const members = apiMembers.map(({ memberId, nickName, profileImageUrl }) => ({
         id: memberId,
         nickName,
         content: profileImageUrl,
       }));
       setStudyMembers(members);
-      // type apiStudyMemberType = typeof response.data.studyMembers[0];
-      // const apiMembers: apiStudyMemberType[] = response.data.studyMembers;
-      // const members = apiMembers.map(({ id, githubId, profileImageUrl }) => ({
-      //   id,
-      //   nickName: githubId,
-      //   content: profileImageUrl,
-      // }));
-      // setStudyMembers(members);
     };
     // getStudyMembers();
   }, []);
@@ -959,6 +706,7 @@ const Detail = () => {
       return;
     }
 
+    // TODO : getEmotions 추후 백엔드와 상의후 도입 결정
     const getEmotions = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
@@ -1002,11 +750,7 @@ const Detail = () => {
     if (study?.id) {
       // getEmotions();
     }
-    // getEmotions();
   }, [study?.id]);
-  // if (currentReactions.length > 0) {
-  //   return;
-  // }
 
   useEffect(() => {
     setCurrentComments(comments);
@@ -1043,9 +787,7 @@ const Detail = () => {
         : {};
 
       try {
-        // const response = await axios.post(`${process.env.END_POINT}api/studies/${currentId}/likes`, undefined, {
         const response = await axios.post(`${process.env.END_POINT}api/likes/study/${currentId}`, undefined, body);
-        // const response = await axios.post(`${process.env.END_POINT}api/studies/${currentId}`, undefined, body);
         toggleLike();
         setReactionModalInfo({
           studyId: Number(id),
@@ -1058,7 +800,6 @@ const Detail = () => {
             studyId: Number(id),
             isVisible: true,
           });
-          // navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
           return;
         }
 
@@ -1078,7 +819,6 @@ const Detail = () => {
 
   const handleClickEdit = () => {
     navigate(`${UPDATE_PATH}?study_id=${currentId}`); /// ${study?.id}
-    // navigate(`?study_id=${currentId}`);
   };
   const deleteCurrentStudy = () => {
     const deleteStudy = async () => {
@@ -1113,7 +853,6 @@ const Detail = () => {
     deleteStudy();
     const remainStudies = studies.filter(({ id }) => id !== currentId);
     setStudies([...remainStudies]);
-    // navigate(`${MAIN_PATH}`);
     window.location.href = `${MAIN_PATH}`;
   };
 
@@ -1122,7 +861,6 @@ const Detail = () => {
   };
 
   const handleToggleProgress = () => {
-    // TODO: 모집상태 변경 API 요청
     setIsStudyRecruiting(!isStudyRecruiting);
     const postDone = async () => {
       const token = localStorage.getItem('accessToken');
@@ -1164,9 +902,6 @@ const Detail = () => {
     const postStudySignUp = async () => {
       const token = localStorage.getItem('accessToken');
       const refreshToken = cookies.get(`SEC_EKIL15`);
-      // const data = {
-      //   studyId,
-      // };
       const headers = getHeaders();
       const body = token
         ? {
@@ -1217,14 +952,7 @@ const Detail = () => {
       }
 
       entries.forEach((entry) => {
-        // TODO: 주석풀기
-
-        // if (contentPageIdx > lastPageIdx) {
-        //   return;
-        // }
-
         if (entry.isIntersecting) {
-          // observer.unobserve(target);
           if (isCommentLoading) {
             return;
           }
@@ -1260,8 +988,7 @@ const Detail = () => {
 
               return {
                 id: commentId,
-                // nickname: currentStudy.nickName,
-                nickname: deleted === 'TRUE' ? '(삭제)' : writer, // writerGithubId가 nickName으로 바뀐것 같다.
+                nickname: deleted === 'TRUE' ? '(삭제)' : writer,
                 writerId,
                 time: timeForToday(createdAt),
                 isEditied: !!lastModifiedAt,
@@ -1280,15 +1007,13 @@ const Detail = () => {
                     isSelected: reactionClicked !== 'FALSE',
                   }))
                   .sort((aEmoji, bEmoji) => aEmoji.id - bEmoji.id),
-                // sAuthorized: currentStudy.nickName === writerGithubId,
-                isAuthorized: !!userInfos.memberId, // deleted === 'TRUE' ? '' : userInfos.memberId,
-                isStudyOrganizer: deleted === 'TRUE' ? false : study?.isAuthorized, // study?.nickName === study?.studyOrganizer,
-                isMyComment: deleted === 'TRUE' ? false : writer === userInfos?.nickName, // writerId === study?.memberId, // study?.nickName === writerGithubId, // TODO: study?.nickName이 댓글쪽에서 주는걸로 백엔드에서 변경해주심
+                isAuthorized: !!userInfos.memberId,
+                isStudyOrganizer: deleted === 'TRUE' ? false : study?.isAuthorized,
+                isMyComment: deleted === 'TRUE' ? false : writer === userInfos?.nickName,
                 isDeleted: deleted === 'TRUE',
               };
             });
-            // setComments(() => [...comments, ...currentReplys]);
-            // setCurrentComments(() => [...currentComments, ...currentReplys]);
+
             setCurrentComments([...currentComments, ...currentReplys]);
 
             const { sorted, first, last, empty, hasNext } = response.data;
@@ -1312,10 +1037,6 @@ const Detail = () => {
           }
 
           setIsCommentLoading(false);
-
-          // setContentPageIdx(contentPageIdx + 1);
-
-          // observer.observe(target);
         }
       });
     };
@@ -1329,7 +1050,6 @@ const Detail = () => {
     }
     observer.observe(target);
     // eslint-disable-next-line consistent-return
-    // return () => observer?.unobserve(target);
     // eslint-disable-next-line consistent-return
     return () => observer?.unobserve(target);
   }, [target, contentControls?.hasNext, contentPageIdx]);
@@ -1365,12 +1085,9 @@ const Detail = () => {
     const showingComments = currentComments.filter(({ isDeleted }) => !isDeleted);
     setShowingCommentNum(showingComments.length);
   }, [currentComments]);
-
-  // const { isMouseOvered, handleMouseOver, handleMouseOut } = useMouse(false);
   const [isFollowing, setIsFollowing] = useState(false);
   type profileKeyType = 'memberId' | 'nickName' | 'profileImageUrl' | 'introduction' | 'githubLink' | 'district';
   type profileType = Record<profileKeyType, any>;
-  // memberId, nickName, profileImageUrl, introduction, githubLink, district
   const [currentProfile, setCurrentProfile] = useState<profileType>({
     memberId: 0,
     profileImageUrl: '',
@@ -1378,7 +1095,6 @@ const Detail = () => {
     introduction: '',
     district: '',
     githubLink: '',
-    // blogUrl: '',
   });
 
   useEffect(() => {
@@ -1405,10 +1121,6 @@ const Detail = () => {
       try {
         const response = await axios.get(`${process.env.END_POINT}${url}`, body);
         const apiData = response.data.followHistory;
-        // const data = {
-        //   followHistory: 'EXIST', // NON_EXIST
-        // };
-        // const apiData = data.followHistory;
         const currentIsFollowing = apiData === 'EXIST';
         setIsFollowing(currentIsFollowing);
       } catch (error: any) {
@@ -1541,9 +1253,7 @@ const Detail = () => {
           </>
         ) : (
           <>
-            {/* <S.TitleContainer> */}
             <S.Flex>
-              {/* <S.FlexBox> */}
               <div style={{ display: 'flex' }} onMouseOut={handleMouseOut}>
                 <span onMouseOver={handleMouse}>
                   <S.OrganizerAvatar src={study?.studyOrganizerProfile} alt="" size="small" handleClick={handleClickUserInfo} />
@@ -1589,11 +1299,6 @@ const Detail = () => {
                         <S.CustomTextButton handleClick={() => window.open(`${currentProfile?.githubLink}`, '_blank')}>깃허브 주소</S.CustomTextButton>
                       </S.InfoContainer>
                     )}
-
-                    {/* <S.InfoContainer>
-                        <S.CustomIcon mode="link" color="disabled" />
-                        <S.CustomTextButton handleClick={() => window.open(`${currentProfile?.githubLink}`, '_blank')}>블로그 주소</S.CustomTextButton>
-                      </S.InfoContainer> */}
                   </S.ProfileCard>
                 )}
               </div>
@@ -1609,26 +1314,9 @@ const Detail = () => {
                 </div>
               )}
             </S.Flex>
-            {/* </S.TitleContainer> */}
-            {/* <S.Flex> */}
             <S.Title>{study?.title}</S.Title>
-            {/* </S.Flex> */}
             <S.HorizontalDivider direction="horizontal" />
             <S.InfosWrapper>
-              {/* <S.DatesContainer>
-                {datesInfos?.map((info: any) => (
-                  <S.InfoItem key={`detail-page-${info.id}-${info.content}`}>
-                    <span>{info.content}</span>
-                  </S.InfoItem>
-                ))}
-              </S.DatesContainer>
-              <S.InfosContainer>
-                {otherInfos?.map((info: any) => (
-                  <S.OtherInfo key={`detail-page-${info.id}-${info.content}`}>
-                    <span>{info.content}</span>
-                  </S.OtherInfo>
-                ))}
-              </S.InfosContainer> */}
               <S.RigthText>
                 {datesInfos
                   ?.map(({ content }) => content)
@@ -1643,13 +1331,6 @@ const Detail = () => {
               </S.RigthText>
             </S.InfosWrapper>
             <S.Content>{study?.content}</S.Content>
-            {/* <S.InfoContainer> */}
-            {/* {study?.infos?.map((info: any) => (
-                <S.InfoItem key={`detail-page-${info.id}-${info.content}`}>
-                  <span>{info.type === 'limit' ? `최대${info.content}명` : info.content}</span>
-                </S.InfoItem>
-              ))} */}
-            {/* </S.InfoContainer> */}
             {currentTags && <S.CustomLabelList mode="default" size="small" items={currentTags} />}
             <S.ControlsContainer>
               {study?.studyOrganizer === userInfos.nickName &&
@@ -1667,38 +1348,11 @@ const Detail = () => {
                   {study?.isRecruiting ? '모집중' : '모집완료'}
                 </S.CustomLabel>
               )}
-              {/* {study?.studyOrganizer !== userInfos.nickName &&
-                (isStudyRecruiting ? (
-                  <Button mode="accent" size="medium" handleClick={handleClickRegister}>
-                    참여신청
-                  </Button>
-                ) : (
-                  <Button mode="accent" size="medium" disabled>
-                    모집완료
-                  </Button>
-                ))} */}
               <S.CustomLikeButton className="reaction" mode="default" size="small" handleClick={handleClickToggleLike} isSelected={isShowingLiked}>
                 <S.CustomLikeIconCountBox className="reaction" count={showingLikeCount}>
                   <Icon className="reaction" mode="thumbsUp" />
                 </S.CustomLikeIconCountBox>
               </S.CustomLikeButton>
-              {/* <span style={{ position: 'relative' }} onFocus={handleMouseOver} onBlur={handleMouseOut} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-                <S.PopUp isHovered={isMouseOvered}>
-                  {studyMembers.map((item) => (
-                    <S.EmojiItem key={`items-${item.id}-${item.content}`}>
-                      <S.UserContainer>
-                        <S.CustomAvatar src={item.content} alt="" />
-                        <Title title={item.nickName} />
-                      </S.UserContainer>
-                    </S.EmojiItem>
-                  ))}
-                </S.PopUp>
-                <S.CustomButton mode="default" size="medium">
-                  <S.CustomIconCountBox count={`${study?.currentStudyMemberCount}/${study?.maxStudyMemberCount}`}>
-                    <Icon mode="users" />
-                  </S.CustomIconCountBox>
-                </S.CustomButton>
-              </span> */}
             </S.ControlsContainer>
           </>
         )}
@@ -1729,7 +1383,6 @@ const Detail = () => {
         ) : (
           <S.ReplyContainer>
             {currentId &&
-              // currentComments.map(({ id, commentId, writerId, nickname, isDeleted, time, isEditied, replyNum, avatorSrc, avatorAlt, emojis, isAuthorized, isStudyOrganizer, isMyComment }, index) => (
               currentComments?.map(({ id, commentId, writerId, nickname, time, isEditied, replyNum, avatorSrc, avatorAlt, emojis, isAuthorized, isStudyOrganizer, isMyComment, isDeleted }, index) => (
                 <S.CommentItem key={`reply-${id}`}>
                   <Comment
@@ -1748,7 +1401,6 @@ const Detail = () => {
                     isAuthorized={isAuthorized}
                     isStudyOrganizer={isStudyOrganizer}
                     isMyComment={isMyComment}
-                    // writer={study?.nickName || '닉네임'}
                     studyOrganizer={study?.studyOrganizer}
                     isDeleted={isDeleted}
                   />
@@ -1756,7 +1408,6 @@ const Detail = () => {
               ))}
           </S.ReplyContainer>
         )}
-        {/* <div ref={(currentTarget) => setTarget(currentTarget)} /> */}
         <div ref={setTarget} />
       </S.Container>
       <Portal>
@@ -1771,15 +1422,6 @@ const Detail = () => {
           </Modal>
         )}
       </Portal>
-      {/* <Portal>
-        {isLogoutAlertVisible && (
-          <Modal position="moreRight" onClose={handleLogoutModal} ref={logoutModalRef}>
-            <AlertModalArea size="small" handleClickCancel={handleLogoutClickCancel}>
-              로그아웃되었습니다.
-            </AlertModalArea>
-          </Modal>
-        )}
-      </Portal> */}
     </Layout>
   );
 };
