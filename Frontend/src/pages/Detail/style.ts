@@ -10,8 +10,6 @@ import Divider from '@components/common/Divider';
 import CommentContent from '@components/CommentContent';
 import Icon from '@components/common/Icon';
 import TextButton from '@components/common/TextButton';
-import PostingContent from '@components/PostingContent';
-import Image from '@components/common/Image';
 import { Link } from 'react-router-dom';
 import BasicButton from '@components/common/BasicButton';
 
@@ -163,8 +161,6 @@ export const OrganizerAvatar = styled(Avatar)`
 `;
 
 export const SkeletonTitle = styled.div`
-  /* width: 320px; */
-  /* width: 720px; */
   height: 32px;
   background-color: ${({ theme }) => theme.colors.default.border};
   margin: 16px 0;
@@ -172,9 +168,6 @@ export const SkeletonTitle = styled.div`
 `;
 
 export const SkeletonContent = styled.div`
-  /* width: 320px;
-  height: 30px; */
-  /* width: 968px; */
   height: 56px;
   margin: 0 0 16px 0;
   background-color: ${({ theme }) => theme.colors.default.border};
@@ -216,29 +209,11 @@ export const CustomCommentContent = styled(CommentContent)`
   font-size: 16px;
 `;
 
-export const InfosWrapper = styled.div`
-  /* position: relative;
-  width: 600px;
-  height: 60px; */
-`;
-export const DatesContainer = styled.ul`
-  /* display: flex;
-  text-align: right;
-  float: right; */
-`;
+export const InfosWrapper = styled.div``;
+export const DatesContainer = styled.ul``;
 
-export const InfosContainer = styled.ul`
-  /* display: flex;
-  text-align: right;
-  align-items: center;
-  position: relative;
-  right: 0; */
-  /* width: 120px;
-  height: 22px; */
-`;
-// margin: 40px 0 0 0;
+export const InfosContainer = styled.ul``;
 
-// display: flex;
 export const OtherInfo = styled.li``;
 
 export const RigthText = styled.div`
@@ -272,7 +247,6 @@ export const FollowerContainer = styled.div`
 `;
 
 export const FollowerListContainer = styled.ul`
-  /* width: 240px; */
   height: 240px;
   padding: 4px 16px;
   overflow-y: auto;
@@ -284,8 +258,6 @@ export const FollowerContent = styled.li`
 `;
 
 export const FollowerTitleArea = styled.div`
-  //width: 256px;
-  /* width: 256px; */
   padding: 8px;
   background-color: ${({ theme }) => theme.colors.background};
 `;
@@ -318,7 +290,7 @@ export const CustomLink = styled(Link)`
   text-decoration: none;
 `;
 
-/** */
+/** 프로필 카드 */
 export const UserInfo = styled.div`
   ${FlexBox}
 `;

@@ -61,7 +61,6 @@ const Edit = () => {
   const { logout } = useLogOut();
 
   const [keywords, setKeywords] = useRecoilState(keywordsState);
-  // const { id } = useParams<{ id: string }>();
   const id = location.search.split('=')[1];
   const [studies, setStudies] = useRecoilState(studiesState);
   const targetStudy = studies.find((study) => study.id === Number(id));
@@ -80,16 +79,10 @@ const Edit = () => {
   const [maxParticipants, setMaxParticipants] = useState(maxPraticipantsNum);
   const [showingDistrict, setShowingDistrict] = useState(targetStudy?.infos.find(({ type }) => type === 'district')?.content || '');
   const [showingStudyWay, setShowingStudyWay] = useState(targetStudy?.infos.find(({ type }) => type === 'studyWay')?.content || '');
-  // type previousTagKeyType = 'hashTagId' | 'content';
-  // type previousTagType = Record<previousTagKeyType, any>;
   type tagsKeyType = 'id' | 'content';
   type tagsType = Record<tagsKeyType, any>;
   const [tags, setTags] = useRecoilState(tagsState);
-  // const [tags, setTags] = useState<string[]>([]);
-  // const [tags, setTags] = useState<tagsType[]>([]);
   const [tag, setTag] = useState('');
-  // const [tags, setTags] = useState<any[]>([]);
-  // const [currentTags, setCurrentTags] = useState(targetStudy?.tags || tagsState);
   // TODO: Write와 다르게 초기값은 오늘이 아님
   const [dates, setDates] = useState<DateType[]>([]);
   const [initialDates, setInitialDates] = useRecoilState(datesState);
@@ -103,7 +96,6 @@ const Edit = () => {
   const [realTimeDateMsg, setRealTimeDateMsg] = useState('');
   const [study, setStudy] = useRecoilState(studyState);
   const [isEmpty, setIsEmpty] = useState(false);
-  // const [studies] = useRecoilState(studiesState);
   const [userInfos] = useRecoilState(userInfosState);
   const checkIsSameDay = (dateA: Date, dateB: Date) => dateA.getFullYear() === dateB.getFullYear() && dateA.getMonth() === dateB.getMonth() && dateA.getDate() === dateB.getDate();
 
@@ -208,13 +200,11 @@ const Edit = () => {
       if (isStartBeforeEnd) {
         setDates([clickedDate]);
       } else {
-        // setCurrentEndDate('0000-00-00');
         setDates([dates[0], clickedDate]);
       }
       return;
     }
 
-    // setCurrentEndDate('0000-00-00');
     setDates([...dates, clickedDate]);
   };
 
@@ -225,7 +215,6 @@ const Edit = () => {
         const refreshToken = cookies.get(`SEC_EKIL15`);
         const headers = getHeaders();
 
-        // const body = token ? { headers, withCredentials: true } : { withCredentials: true };
         const body = token ? { headers } : {};
 
         const response = await axios.get(`${process.env.END_POINT}api/studies/${id}`, body);
@@ -250,17 +239,13 @@ const Edit = () => {
           | 'progressOfStudy'
           | 'likeClicked'
           | 'memberProfileImageUrl';
-        // | 'hashTags';
 
         type dataType = Record<dataKeyType, any>;
 
-        const targetData: dataType = response.data; // response.data.contents.page[0];
+        const targetData: dataType = response.data;
 
         type tagKeyType = 'studyId' | 'tagName';
         type tagType = Record<tagKeyType, any>;
-
-        // const { id, title, content, studyOrganizer, studyStatus, meeting, commentCount, viewCount, likeCount, createdAt, maxStudyMemberCount, currentStudyMemberCount, startDate, endDate } =
-        //   targetData;
 
         const {
           studyId,
@@ -288,7 +273,6 @@ const Edit = () => {
         type tagDataKeyType = 'hashTagResponses';
         type tagDataType = Record<tagDataKeyType, any>;
 
-        // const tagResponse: tagDataType = await axios.get(`${process.env.END_POINT}api/tags/study/${currentId}`, { headers });
         const tagResponse = {
           hashTagResponses: [],
         };
@@ -302,7 +286,7 @@ const Edit = () => {
 
         const currentStudy = {
           id: studyId,
-          nickName: studyOrganizer, // TODO 배포 nickName은 추후 헤더에서 얻어오기
+          nickName: studyOrganizer,
           memberId,
           studyOrganizer,
           studyOrganizerProfile: memberProfileImageUrl,
@@ -339,7 +323,7 @@ const Edit = () => {
           createdDate: '',
           currentStudyMemberCount,
           maxStudyMemberCount,
-          isAuthorized: false, // studyOrganizer === 'devjun10', // nickName은 추후 헤더에서 얻어오기
+          isAuthorized: false,
         };
 
         setCurrentStartDate(startDate);
@@ -350,7 +334,6 @@ const Edit = () => {
 
         const studyWay: koreanStudyWayKeyType = targetData?.progressOfStudy;
         setShowingStudyWay((targetData && koreanStudyWay[studyWay]) || '');
-        // setStudy(currentStudy);
 
         const isLiked = targetData.likeClicked !== 'FALSE';
       } catch (error: any) {
@@ -370,11 +353,8 @@ const Edit = () => {
         }
       }
     };
-    // if (userInfos.memberId) {
-    getStudy();
-    // }
 
-    // setIsStudyLoading(false);
+    getStudy();
   }, []);
 
   useEffect(() => {
@@ -443,15 +423,6 @@ const Edit = () => {
 
     getTags();
   }, []);
-
-  // useEffect(() => {
-  //   console.log('targetStudy===');
-  //   console.log(targetStudy);
-  //   if (!targetStudy?.tags) {
-  //     return;
-  //   }
-  //   setTags(targetStudy?.tags);
-  // }, [targetStudy]);
 
   useEffect(() => {
     const getDistricts = async () => {
@@ -577,36 +548,6 @@ const Edit = () => {
     setCurrentStudyWay(newStudyWay);
   }, [showingStudyWay]);
 
-  // useEffect(() => {
-  //   const targetTags = localStorage.getItem('tags');
-  //   if (targetTags) {
-  //     setTags(JSON.parse(targetTags));
-  //   }
-
-  //   const targetDates = localStorage.getItem('dates');
-  //   if (targetDates) {
-  //     const originDates = JSON.parse(targetDates);
-  //     const splitedStartDate = originDates[0].split('-');
-  //     setDates([
-  //       ...dates,
-  //       {
-  //         year: splitedStartDate[0],
-  //         month: splitedStartDate[1],
-  //         date: splitedStartDate[2],
-  //       },
-  //     ]);
-  //     const splitedEndDate = originDates[0].split('-');
-  //     setDates([
-  //       ...dates,
-  //       {
-  //         year: splitedEndDate[0],
-  //         month: splitedEndDate[1],
-  //         date: splitedEndDate[2],
-  //       },
-  //     ]);
-  //   }
-  // }, []);
-
   const handleChangeStartDate = (event: ChangeEvent<HTMLInputElement>) => {
     setStartInputDate(event.target.value);
   };
@@ -617,73 +558,6 @@ const Edit = () => {
   type errorMsgKeyType = 'title' | 'content' | 'tags' | 'maxMember' | 'date';
   type errorMsgType = Record<errorMsgKeyType, any>;
   const [errorMsg, setErrorMsg] = useState<errorMsgType>();
-
-  useEffect(() => {
-    const getDistricts = async () => {
-      const DISTRICT_URL = 'api/study-supports/districts';
-      try {
-        const token = localStorage.getItem('accessToken');
-        const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = getHeaders();
-        const body = token
-          ? {
-              headers,
-            }
-          : {};
-        const response = await axios.get(`${process.env.END_POINT}${DISTRICT_URL}`, body);
-      } catch (error: any) {
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
-    };
-    // getDistricts();
-  }, []);
-
-  useEffect(() => {
-    const getStudyWay = async () => {
-      const STUDY_WAY_URL = 'api/study-supports/progress-of-study';
-      try {
-        const token = localStorage.getItem('accessToken');
-        const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = getHeaders();
-        const body = token
-          ? {
-              headers,
-            }
-          : {};
-        const response = await axios.get(`${process.env.END_POINT}${STUDY_WAY_URL}`, body);
-      } catch (error: any) {
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
-    };
-
-    // getStudyWay();
-  }, []);
 
   const handleChangeValue = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const currentValue = event.target.value;
@@ -718,32 +592,10 @@ const Edit = () => {
     };
 
     const getInputPosting = () => {
-      // TODO 배포 studyOrganizer은 사용자로 수정
       const maxStudyMemberCount = Number(maxParticipants);
       const targetDistricts = dropDownItem.find((item) => item.type === 'district');
 
-      // if (!targetDistricts) {
-      //   targetDistricts = {
-      //     id: 1,
-      //     type: 'district',
-      //     content: '서울',
-      //   };
-      // }
       const targetStudyWay = dropDownItem.find((item) => item.type === 'studyWay');
-      // if (!targetStudyWay) {
-      //   targetStudyWay = {
-      //     id: 3,
-      //     type: 'studyWay',
-      //     content: '온라인/오프라인',
-      //   };
-      // }
-      // if (!targetStudyWay) {
-      //   targetStudyWay = {
-      //     id: 1,
-      //     type: 'studyWay',
-      //     content: '온라인',
-      //   };
-      // }
 
       if (!currentDistricts || !showingDistrict) {
         setIsEmpty(true);
@@ -756,7 +608,6 @@ const Edit = () => {
       const districtData = currentDistricts.find((currentDistrict) => currentDistrict.content === targetDistricts?.content);
       const studyWayData = currentStudyWay.find((meeting) => meeting.content === targetStudyWay?.content);
       const endDate = makeFormattedDate(dates[1]);
-      // endDate === INITIAL_DATE_FORM ? currentEndDate : endDate
       const data = {
         title,
         content: value,
@@ -786,26 +637,6 @@ const Edit = () => {
       maxMemberMsg = maxStudyMemberCount < maxMemberNum ? '인원은 1명 이상 가능합니다.' : maxMemberMsg;
 
       const dateMsg = makeFormattedDate(dates[0]) === INITIAL_DATE_FORM || makeFormattedDate(dates[1]) === INITIAL_DATE_FORM ? '캘린더 버튼을 클릭하여 날짜를 선택해주세요.' : '';
-
-      // let currentRealTimeDateMsg = '';
-      // if (dates[0] && dates[1]) {
-      //   const studyStartDate = new Date(dates[0].year, dates[0].month - 1, dates[0].date);
-      //   const studyEndDate = new Date(dates[1].year, dates[1].month - 1, dates[1].date);
-      //   const startDateMiliSec = studyStartDate.getTime();
-      //   const studyEndDateMiliSec = studyEndDate.getTime();
-      //   const currentDateMiliSec = new Date().getTime();
-
-      //   const isSameDay = checkIsSameDay(studyStartDate, new Date());
-      //   currentRealTimeDateMsg += startDateMiliSec < currentDateMiliSec && !isSameDay ? '시작일은 오늘부터 설정가능합니다.' : '';
-      //   currentRealTimeDateMsg += startDateMiliSec > studyEndDateMiliSec ? '시작일 이후로 종료일을 설정할 수 있습니다.' : dateMsg;
-      //   if (checkIsStartBeforeEnd(dates[0], dates[1])) {
-      //     console.log('setRealTimeDateMsg===');
-      //     setRealTimeDateMsg(() => '');
-      //   } else {
-      //     console.log('setRealTimeDateMsg===2');
-      //     setRealTimeDateMsg(() => currentRealTimeDateMsg + realTimeDateMsg);
-      //   }
-      // }
 
       let tagsMsg = '';
 
@@ -1028,10 +859,6 @@ const Edit = () => {
         }
       }
     };
-
-    // setIsLoading(true);
-
-    // investigateAuthorization();
   }, []);
 
   const handleClickCancelCalendar = () => {
@@ -1115,12 +942,6 @@ const Edit = () => {
             <div>
               <S.FloatBox>
                 <S.CalendarInputContainer>
-                  <div>
-                    {/* {makeFormattedDate(dates[0]) !== INITIAL_DATE_FORM &&
-                      new Date(dates[0].year, dates[0].month - 1, dates[0].date).getTime() < new Date().getTime() &&
-                      !checkIsSameDay(new Date(dates[0].year, dates[0].month - 1, dates[0].date), new Date()) && <S.RightErrorMsg>시작일은 오늘부터 설정가능합니다.</S.RightErrorMsg>}
-                    {makeFormattedDate(dates[1]) !== INITIAL_DATE_FORM && !checkIsStartBeforeEnd(dates[0], dates[1]) && <S.RightErrorMsg>시작일 이후로 종료일을 설정할 수 있습니다.</S.RightErrorMsg>} */}
-                  </div>
                   <S.FlexBox>
                     <S.Label>시작일</S.Label>
                     <S.CustomCalendarInput
@@ -1161,15 +982,7 @@ const Edit = () => {
                         <div style={{ margin: '48px 24px 0 0' }}>
                           {makeFormattedDate(dates[0]) !== INITIAL_DATE_FORM &&
                             new Date(dates[0].year, dates[0].month - 1, dates[0].date).getTime() < new Date().getTime() &&
-                            !checkIsSameDay(new Date(dates[0].year, dates[0].month - 1, dates[0].date), new Date()) && (
-                              // <S.FloatBox>
-                              //   <S.ErrorMsg>시작일은 오늘부터 설정가능합니다.</S.ErrorMsg>
-                              // </S.FloatBox>
-                              <S.RightErrorMsg>시작일은 오늘부터 설정가능합니다.</S.RightErrorMsg>
-                            )}
-                          {/* {makeFormattedDate(dates[0]) === INITIAL_DATE_FORM ||
-                      (makeFormattedDate(dates[1]) === INITIAL_DATE_FORM && <S.ErrorMessage>캘린더 버튼을 클릭하여 날짜를 선택해주세요.</S.ErrorMessage>)} */}
-
+                            !checkIsSameDay(new Date(dates[0].year, dates[0].month - 1, dates[0].date), new Date()) && <S.RightErrorMsg>시작일은 오늘부터 설정가능합니다.</S.RightErrorMsg>}
                           {makeFormattedDate(dates[1]) !== INITIAL_DATE_FORM && !checkIsStartBeforeEnd(dates[0], dates[1]) && (
                             <S.RightErrorMsg>시작일 이후로 종료일을 설정할 수 있습니다.</S.RightErrorMsg>
                           )}
@@ -1182,11 +995,6 @@ const Edit = () => {
             </div>
           </div>
           {errorMsg?.date && <S.FloatBox>{dates.length < 2 && <S.ErrorMsg>{errorMsg?.date}</S.ErrorMsg>}</S.FloatBox>}
-          {/* {errorMsg?.date && (
-        <S.FloatBox>
-          <S.ErrorMsg>{errorMsg?.date}</S.ErrorMsg>
-        </S.FloatBox>
-      )} */}
           <S.CustomTextArea size="large" id="edit-posting" handleChange={handleChangeValue} value={value} />
           {errorMsg?.content && value.length === 0 && <S.ErrorMessage>내용을 입력해주세요.</S.ErrorMessage>}
           {value.length > maxContentNum && <S.ErrorMessage>내용은 2000자까지 입력가능합니다.</S.ErrorMessage>}

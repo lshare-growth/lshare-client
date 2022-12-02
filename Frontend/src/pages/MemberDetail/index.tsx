@@ -483,8 +483,6 @@ const MemberDetail = () => {
       const headers = getHeaders();
       const body = token ? { headers } : {};
 
-      // userInfos.memberId
-
       const url = `api/members/${userMemberId}/friendship/following-list?cursorTarget=0&size=5`;
       try {
         const response = await axios.get(`${process.env.END_POINT}${url}`, body);
@@ -493,7 +491,7 @@ const MemberDetail = () => {
         const data: dataType[] = response.data.followerList;
         const followList: number[] = response.data.myFollowList;
         const { hasNext } = response.data;
-        // setContentControls({ hasNext });
+
         setFollowingContentControls({ hasNext });
         setHasFollowings(true);
         const currentData = data.map(({ memberId, nickName, profileImageUrl }) => ({
@@ -545,10 +543,6 @@ const MemberDetail = () => {
     // TODO : api로 팔로워 혹은 팔로잉 데이터 받아오기, 상태에 값이 없는 경우에만
     if (followMode === contents[0]?.path) {
       setIsFollowingTitle(false);
-      // setFollowersNum(data.length);
-      // console.log('newData');
-      // console.log(newData);
-      // setFollows(newData);
       setIsModalVisible(true);
       setContentControls(followerContentControls);
       if (userMemberId) {
@@ -559,10 +553,6 @@ const MemberDetail = () => {
       }
 
       setIncreasingTop(40);
-      // if (!userMemberId && userNickName) {
-      //   console.log('nick1');
-      //   getUserInfoByNickName();
-      // }
     } else if (followMode === contents[1]?.path) {
       setIsFollowingTitle(true);
       setIsModalVisible(true);
@@ -574,11 +564,6 @@ const MemberDetail = () => {
       }
 
       setIncreasingTop(40);
-      // if (!userMemberId && userNickName) {
-      //   console.log(userMemberId, userNickName);
-      //   console.log('nick2');
-      //   getUserInfoByNickName();
-      // }
     }
   }, [location?.pathname, userNickName, userMemberId, followMode, followingContentControls, followerContentControls]);
 
@@ -631,7 +616,6 @@ const MemberDetail = () => {
     setIsScrollStopped(false);
     setTimeout(() => {
       setIsScrollStopped(true);
-      // console.log('scrolling');
     }, 1000);
   };
 
@@ -644,9 +628,6 @@ const MemberDetail = () => {
       return;
     }
 
-    // if (isCommentLoading) {
-    //   return;
-    // }
     if (!contentControls || !contentControls?.hasNext) {
       return;
     }
@@ -662,10 +643,6 @@ const MemberDetail = () => {
 
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // if (isCommentLoading) {
-          //   return;
-          // }
-
           const addData = async (url: string) => {
             const token = localStorage.getItem('accessToken');
             const refreshToken = cookies.get(`SEC_EKIL15`);
@@ -706,13 +683,10 @@ const MemberDetail = () => {
                 }
                 return targetData;
               });
-              // setFollows([...follows, ...newData]);
               if (url.includes('follower')) {
                 setFollowers([...follows, ...newData]);
-                // setFollowerCount(newData.length + followerCount);
               } else if (url.includes('following')) {
                 setFollowings([...follows, ...newData]);
-                // setFollowingCount(newData.length + followingCount);
               }
             } catch (error: any) {
               if (error.response.status === 401) {
@@ -733,8 +707,6 @@ const MemberDetail = () => {
           };
 
           const currentPathname = location?.pathname;
-          // setIncreasingTop(80);
-          // console.log(isTop, currentY, previousY);
 
           if (followMode === contents[0]?.path) {
             if (followers.length > 0) {
@@ -759,7 +731,6 @@ const MemberDetail = () => {
     const observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
     observer.observe(target);
     // eslint-disable-next-line consistent-return
-    // return () => observer?.unobserve(target);
     // eslint-disable-next-line consistent-return
     return () => observer?.unobserve(target);
   }, [target, contentControls?.hasNext, userMemberId, follows, followers, followings]);
@@ -773,7 +744,6 @@ const MemberDetail = () => {
     };
     const newFollowings = [targetFollowing, ...followings];
     newFollowings.sort((aFollowing, bFollowing) => bFollowing.memberId - aFollowing.memberId);
-    // setFollowings(newFollowings);
     setFollowingCount(followingCount + 1);
   };
 
@@ -800,51 +770,15 @@ const MemberDetail = () => {
             <S.FollowContainer>
               {contents.map(({ id, content, path }) => (
                 <S.FollowItem key={`content-${id}`} ref={path === 'following' ? followRef : followerRef}>
-                  {/* <S.CustomLink to={`/${userNickName}/${path}/`} onClick={handleClickFollowOption}> */}
                   <div onClick={() => handleClickFollowOption(path)}>
                     <S.FollowContent>{content}</S.FollowContent>
                     <S.FollowContent>{path === 'following' ? followingCount : followerCount}</S.FollowContent>
                   </div>
-                  {/* </S.CustomLink> */}
                 </S.FollowItem>
               ))}
             </S.FollowContainer>
-            {/* <S.ItemContainer>
-              {userInfos.map(({ id, content, num }) => (
-                <S.Item key={`memberDetail-info-${id}`}>
-                  <S.Infos>
-                    {content} {num}
-                  </S.Infos>
-                </S.Item>
-              ))}
-            </S.ItemContainer> */}
           </S.UserInfoContainer>
         </S.UserInfos>
-        {/* <S.Category>참여한 스터디</S.Category>
-        <S.HorizontalDivider direction="horizontal" />
-        <S.PostingContainer>
-          {studies.map(({ id, nickName, time, title, infos, viewCount, likeCount, commentCount, isRecruiting, content, tags }) => (
-            <S.LinkContainer>
-              <S.CustomLink to={`${STUDY_PATH}/${id}`}>
-                <S.PostingItem key={`meberDetail-posting-${id}`}>
-                  <Posting
-                    nickName={nickName}
-                    time={time}
-                    title={title}
-                    infos={infos}
-                    viewCount={viewCount}
-                    likeCount={likeCount}
-                    commentCount={commentCount}
-                    isRecruiting={isRecruiting}
-                    content={content}
-                    tags={tags}
-                  />
-                </S.PostingItem>
-              </S.CustomLink>
-              <S.HorizontalDivider direction="horizontal" />
-            </S.LinkContainer>
-          ))}
-        </S.PostingContainer> */}
       </S.Container>
       <Portal>
         {isModalVisible && (
@@ -852,9 +786,7 @@ const MemberDetail = () => {
             <S.FollowerWrapper>
               <S.FollowerTitleArea>
                 <S.FlexCenter>
-                  {/* <S.Flex> */}
                   <S.FollowerTitle>{isFollowingTitle ? '팔로우' : '팔로워'}</S.FollowerTitle>
-                  {/* </S.Flex> */}
                   <div style={{ float: 'right', margin: '0 8px 0 0' }}>
                     <S.FollowCancelButton handleClick={handleClickCancel}>
                       <S.FollowCancelIcon mode="delete" />
@@ -866,15 +798,6 @@ const MemberDetail = () => {
               <S.FollowerListContainer onScroll={handleScroll}>
                 {follows.map(({ memberId, profileImageUrl, nickName, isFollowing }) => (
                   <S.FollowerContent key={`followerList-${memberId}`}>
-                    {/* <S.FlexBetween>
-                      <S.FollowerContainer>
-                        <Avatar size="xsmall" src={avatorSrc} />
-                        <S.Name>{nickName}</S.Name>
-                      </S.FollowerContainer>
-                      <S.FollowButton size="xsmall" handleClick={() => setIsFollowing(!isFollowing)} isFollowing={isFollowing}>
-                        {isFollowing ? <S.FollowMsg>언팔로우</S.FollowMsg> : <S.FollowMsg>팔로우</S.FollowMsg>}
-                      </S.FollowButton>
-                    </S.FlexBetween> */}
                     <FollowList
                       id={memberId}
                       avatorSrc={profileImageUrl}

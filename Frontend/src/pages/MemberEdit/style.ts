@@ -90,9 +90,7 @@ export const CustomDropDown = styled(DropDown)`
   margin: 24px 0 0 0;
 `;
 
-export const NickNameInput = styled(Input)`
-  /* margin: 0 8px 0 0; */
-`;
+export const NickNameInput = styled(Input)``;
 
 export const CustomButton = styled(Button)`
   margin: 0 0 0 12px;

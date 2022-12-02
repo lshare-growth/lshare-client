@@ -82,7 +82,6 @@ export const CalendarAreaContainer = styled.div<{ isClicked: boolean }>`
 export const CalendarInputContainer = styled.span`
   position: relative;
 `;
-//
 
 export const FlexBox = styled.div`
   ${({ theme }) => theme.mixins.flexBox({})}

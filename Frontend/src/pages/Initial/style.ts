@@ -10,9 +10,8 @@ import Divider from '@components/common/Divider';
 import IconCountBox from '@components/IconCountBox';
 import CommentContent from '@components/CommentContent';
 import LabelList from '@components/LabelList';
-// const widthSize = '320px';
+
 const widthSize = '232px';
-// const itemPadding = 8;
 const itemPaddingSize = '16px';
 const marginSize = '16px';
 const itemNum = 3;
@@ -48,7 +47,6 @@ export const Item = styled.li`
 `;
 
 export const CarouselContainer = styled.div`
-  /* padding: 0 16px; */
   margin: 0 0 32px 0;
 `;
 
@@ -65,9 +63,9 @@ export const MoreButtonContainer = styled.div`
   margin: 0 0 32px 0;
   ${({ theme }) => theme.mixins.flexBox({})}
 `;
-// calc(widthSize + marginSize + itemPaddingSize * ${itemNum});
+
 export const MoreButton = styled(Button)``;
-// width: 1056px;
+
 export const Container = styled.div`
   width: calc((${widthSize} + ${marginSize} + ${itemPaddingSize} * 2) * ${itemNum});
   margin: 0 auto;
@@ -76,8 +74,6 @@ export const Container = styled.div`
 export const ItemsContainer = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  /* margin: 16px 0 0 0; */
-  //width: 1160px;
   width: 900px;
   margin: 0 auto;
 `;
@@ -88,7 +84,6 @@ export const Content = styled.div`
 `;
 
 export const ReactionsContainer = styled.div`
-  /* width: 240px; */
   ${({ theme }) => theme.mixins.flexBox({ justify: 'space-between' })}
 `;
 
@@ -133,8 +128,6 @@ export const TitleLabel = styled.span`
 `;
 
 export const SkeletonTitle = styled.div`
-  /* width: 320px; */
-  /* width: 720px; */
   height: 32px;
   background-color: ${({ theme }) => theme.colors.default.border};
   margin: 16px 0;
@@ -142,9 +135,6 @@ export const SkeletonTitle = styled.div`
 `;
 
 export const SkeletonContent = styled.div`
-  /* width: 320px;
-  height: 30px; */
-  /* width: 968px; */
   height: 56px;
   background-color: ${({ theme }) => theme.colors.default.border};
   border-radius: 4px;
@@ -168,7 +158,6 @@ export const SkeletonItem = styled.li`
 `;
 
 export const SkeletonLabel = styled.div`
-  /* width: 100%; //96px; */
   height: 40px;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.default.border};
@@ -200,7 +189,6 @@ export const SkeletonPosting = styled.div`
 `;
 
 export const SkeletonReactionsContainer = styled.ul`
-  /* width: 240px; */
   ${({ theme }) => theme.mixins.flexBox({ justify: 'space-between' })}
 `;
 

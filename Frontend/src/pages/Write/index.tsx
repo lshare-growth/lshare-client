@@ -76,7 +76,6 @@ const Write = () => {
   const [maxParticipants, setMaxParticipants] = useState('');
   const [tags, setTags] = useRecoilState(tagsState);
   const [keywords, setKeywords] = useRecoilState(keywordsState);
-  // const [tags, setTags] = useState<string[]>([]);
   const [dates, setDates] = useState<DateType[]>([
     {
       year: new Date().getFullYear(),
@@ -130,68 +129,10 @@ const Write = () => {
     }
   }, [dates]);
 
-  // const handleEvent = () => {
-  //   window.history.pushState(null, '', location.pathname);
-  //   // alert('정말 나가시겠습니까?');
-  //   setIsModalVisible(true);
-  // };
-
-  // useEffect(() => {
-  //   window.history.pushState(null, '', location.pathname);
-
-  //   window.addEventListener('popstate', handleEvent);
-
-  //   return () => {
-  //     window.removeEventListener('popstate', handleEvent);
-  //   };
-  // }, [isModalVisible]);
-
-  // const handleReloadEvent = (e: any) => {
-  //   e.preventDefault();
-  //   e.returnValue = '';
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener('beforeunload', handleReloadEvent);
-  //   return () => {
-  //     window.removeEventListener('beforeunload', handleReloadEvent);
-  //   };
-  // }, []);
-
   const handleClickOutPageConfirm = () => {
     window.history.pushState(null, '', previousPathName);
     navigate(`${MAIN_PATH}`);
   };
-
-  // useEffect(() => {
-  //   const unlisten = history.listen((location) => {
-  //     if (history.action === 'PUSH') {
-  //       console.log('push~~');
-  //     }
-  //     if (history.action === 'POP') {
-  //       console.log('pop~~');
-  //     }
-  //   });
-
-  //   return () => {
-  //     unlisten();
-  //   };
-  // }, [history]);
-
-  // useEffect(() => {
-  //   const listenBackEvent = () => {
-  //     // alert('정말 나가시겠습니까?');
-  //     // setIsModalVisible(true);
-  //   };
-
-  //   const unlistenHistoryEvent = history.listen(({ action }) => {
-  //     if (action === 'POP') {
-  //       listenBackEvent();
-  //     }
-  //   });
-
-  //   return unlistenHistoryEvent;
-  // }, []);
 
   useEffect(() => {
     const getDistricts = async () => {
@@ -291,122 +232,6 @@ const Write = () => {
   type errorMsgType = Record<errorMsgKeyType, any>;
   const [errorMsg, setErrorMsg] = useState<errorMsgType>();
 
-  useEffect(() => {
-    // 접근 권한 api요청
-    const investigateAuthorization = async () => {
-      const token = localStorage.getItem('accessToken');
-
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
-
-      const body = token
-        ? {
-            headers,
-          }
-        : {};
-      try {
-        const targetPathName = location.pathname;
-
-        const response = await axios.get(`${process.env.END_POINT}${targetPathName}`, body);
-        setIsLoading(false);
-        if (response.status === 200) {
-          // setIsAuthorizedPage(true);
-        }
-      } catch (error: any) {
-        setIsLoading(false);
-        // setIsAuthorizedPage(false);
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 403) {
-          navigate(`${FORBIDDEN_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
-    };
-
-    // setIsLoading(true);
-
-    // investigateAuthorization();
-  }, []);
-
-  useEffect(() => {
-    const getDistricts = async () => {
-      const DISTRICT_URL = 'api/study-supports/districts';
-      const token = localStorage.getItem('accessToken');
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
-      const body = token
-        ? {
-            headers,
-          }
-        : {};
-      try {
-        const response = await axios.get(`${process.env.END_POINT}${DISTRICT_URL}`, body);
-      } catch (error: any) {
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
-    };
-
-    const getStudyWay = async () => {
-      const STUDY_WAY_URL = 'api/study-supports/progress-of-study';
-      try {
-        const token = localStorage.getItem('accessToken');
-        const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = getHeaders();
-        const body = token
-          ? {
-              headers,
-            }
-          : {};
-        const response = await axios.get(`${process.env.END_POINT}${STUDY_WAY_URL}`, body);
-      } catch (error: any) {
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
-    };
-
-    // getDistricts();
-    // getStudyWay();
-  }, []);
-
   const handleChangeValue = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const currentValue = event.target.value;
     setValue(currentValue);
@@ -489,7 +314,6 @@ const Write = () => {
         hashTags: tags,
       };
 
-      // localStorage.setItem('dates', JSON.stringify([makeFormattedDate(dates[0]), makeFormattedDate(dates[1])]));
       let titleMsg = '';
       if (title.length < 1) {
         titleMsg = '제목을 입력해주세요.';
@@ -660,13 +484,6 @@ const Write = () => {
     }
 
     postStudy(inputPosting);
-    // localStorage.setItem('tags', JSON.stringify(tags));
-    // setTags([]);
-
-    // console.log('newStudyId==');
-    // console.log(newStudyId);
-    // navigate(`${STUDY_PATH}/${newStudyId}`);
-    // navigate(`${MAIN_PATH}`);
   };
 
   const handleClickCancel = () => {
@@ -695,7 +512,6 @@ const Write = () => {
       if (isStartBeforeEnd) {
         setDates([clickedDate]);
       } else {
-        // setCurrentEndDate('0000-00-00');
         setDates([dates[0], clickedDate]);
       }
       return;
@@ -735,7 +551,6 @@ const Write = () => {
     }
   }, [isCalendarClickAway]);
 
-  // url={`${process.env.END_POINT}study/new-study`}
   const handleChangeTagValue = (event: ChangeEvent<HTMLInputElement>) => {
     setTag(event.target.value);
   };
@@ -789,20 +604,15 @@ const Write = () => {
     <Layout>
       <S.Container>
         <S.CustomInput id="write-title" label="제목" size="xlarge" value={title} handleChangeValue={handleChangeTitle} />
-        {/* {!title && errorMsg?.title && <S.ErrorMessage>{errorMsg?.title}</S.ErrorMessage>} */}
-        {/* {!title && <S.ErrorMessage>제목을 입력해주세요.</S.ErrorMessage>} */}
         {errorMsg?.title && title.length === 0 && <S.ErrorMessage>{errorMsg?.title}</S.ErrorMessage>}
         {title.length > maxTitleLength && <S.ErrorMessage>제목은 60자까지 가능합니다.</S.ErrorMessage>}
         <S.TagLabel>태그</S.TagLabel>
         <S.CustomSearchTag id="write-tag" label="" mode="tag" size="megaLarge" isTagSingly={false} handleChangeValue={handleChangeTagValue} />
-        {/* {errorMsg?.tags && <S.ErrorMessage>{errorMsg?.tags}</S.ErrorMessage>} */}
         {tag.length > maxTagNum && <S.ErrorMessage>{errorMsg?.tags}</S.ErrorMessage>}
         {errorMsg?.tags && tag.length === 0 && tags.length === 0 && <S.ErrorMessage>태그를 입력해주세요.</S.ErrorMessage>}
         {tag.length > tagMaxTextLength && <S.ErrorMessage>태그 내용은 15자까지 가능합니다.</S.ErrorMessage>}
         {tag.length > 0 && tags.length >= maxTagNum && <S.ErrorMessage>태그는 최대 8개 가능합니다.</S.ErrorMessage>}
-        {/* {tags.find((tag) => tag.length <= 1) && <S.ErrorMessage>태그는 2글자 이상 가능합니다.</S.ErrorMessage>} */}
         {tag.length > 0 && tag.length <= 1 && <S.ErrorMessage>태그는 2글자 이상 가능합니다.</S.ErrorMessage>}
-        {/* {tags.find((tag) => tag.length > tagMaxTextLength) && <S.ErrorMessage>태그 내용은 15자까지 가능합니다.</S.ErrorMessage>} */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div>
             <S.SelectsContainer>
@@ -821,7 +631,6 @@ const Write = () => {
           )}
           {isNaN(Number(maxParticipants)) && <S.RightErrorMsg>인원은 숫자만 입력 가능합니다.</S.RightErrorMsg>}
           {(MAX_INT < Number(maxParticipants) || !Number.isSafeInteger(Number(maxParticipants))) && <S.RightErrorMsg>인원이 신청 가능한 범위가 아닙니다.</S.RightErrorMsg>}
-          {/* <S.FloatBox>{Number(maxParticipants) < maxMemberNum && <S.ErrorMessage>인원은 2명 이상 가능합니다.</S.ErrorMessage>}</S.FloatBox> */}
           <div>
             <S.FloatBox>
               <S.CalendarInputContainer>
@@ -835,8 +644,6 @@ const Write = () => {
                     mode="calendar"
                     label=""
                     isLabelHorizontal
-                    // handleClickDate={handleClickDate}
-                    // handleClickReset={handleClickReset}
                     handleChangeValue={handleChangeStartDate}
                     disabled
                   />
@@ -848,8 +655,6 @@ const Write = () => {
                     mode="calendar"
                     label=""
                     isLabelHorizontal
-                    // handleClickDate={handleClickDate}
-                    // handleClickReset={handleClickReset}
                     handleChangeValue={handleChangeEndDate}
                     disabled
                   />
@@ -870,15 +675,7 @@ const Write = () => {
                       <div style={{ margin: '48px 24px 0 0' }}>
                         {makeFormattedDate(dates[0]) !== INITIAL_DATE_FORM &&
                           new Date(dates[0].year, dates[0].month - 1, dates[0].date).getTime() < new Date().getTime() &&
-                          !checkIsSameDay(new Date(dates[0].year, dates[0].month - 1, dates[0].date), new Date()) && (
-                            // <S.FloatBox>
-                            //   <S.ErrorMsg>시작일은 오늘부터 설정가능합니다.</S.ErrorMsg>
-                            // </S.FloatBox>
-                            <S.RightErrorMsg>시작일은 오늘부터 설정가능합니다.</S.RightErrorMsg>
-                          )}
-                        {/* {makeFormattedDate(dates[0]) === INITIAL_DATE_FORM ||
-                      (makeFormattedDate(dates[1]) === INITIAL_DATE_FORM && <S.ErrorMessage>캘린더 버튼을 클릭하여 날짜를 선택해주세요.</S.ErrorMessage>)} */}
-
+                          !checkIsSameDay(new Date(dates[0].year, dates[0].month - 1, dates[0].date), new Date()) && <S.RightErrorMsg>시작일은 오늘부터 설정가능합니다.</S.RightErrorMsg>}
                         {makeFormattedDate(dates[1]) !== INITIAL_DATE_FORM && !checkIsStartBeforeEnd(dates[0], dates[1]) && (
                           <S.RightErrorMsg>시작일 이후로 종료일을 설정할 수 있습니다.</S.RightErrorMsg>
                         )}
@@ -891,7 +688,6 @@ const Write = () => {
           </div>
         </div>
         {errorMsg?.date && <S.FloatBox>{dates.length < 2 && <S.ErrorMsg>{errorMsg?.date}</S.ErrorMsg>}</S.FloatBox>}
-
         <S.CustomTextArea size="large" id="write-posting" handleChange={handleChangeValue} value={value} />
         {/* {errorMsg?.content && <S.ErrorMessage>{errorMsg?.content}</S.ErrorMessage>} */}
         {errorMsg?.content && value.length === 0 && <S.ErrorMessage>내용을 입력해주세요.</S.ErrorMessage>}

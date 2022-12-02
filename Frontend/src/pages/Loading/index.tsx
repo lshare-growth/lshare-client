@@ -40,13 +40,10 @@ const Loading = () => {
         });
 
         const { memberid, notificationmessagereadstatus, profileimageurl, nickname, logined } = response.headers;
-        // notificationmessagereadstatus
         // eslint-disable-next-line no-unused-vars
         const isLogined = logined.split('logined=')[1].split(';')[0];
-        // const expires = new Date(logined.split('Expires=')[1].split(';')[0]);
         const maxAge = Number(logined.split('Max-Age=')[1].split(';')[0]);
 
-        // // TODO: notificationread에 따라 알람 온지 표시하기
         const expires = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes() + maxAge / 1000 / 60);
         cookies.set('logined', isLogined, {
           expires,
@@ -57,12 +54,10 @@ const Loading = () => {
         const newToken = response.data.accessToken;
         if (newToken) {
           localStorage.removeItem('accessToken');
-          // const encodesAccessToken = encrypt(newToken, `${process.env.SECURE_ACCESS_TOKEN_KEY}`);
           localStorage.setItem('accessToken', newToken);
         }
 
         // TODO : encode 자체를 true, false값으로 할지 리팩토링 고민(헤더에서 오는 noticiation관련 정보가 바뀌면 다른 코드도 바꿔야하기 때문)
-        // notification: notificationmessagereadstatus !== 'READ_ALL',
         if (response.headers) {
           const userInfos = {
             memberId: Number(memberid),
@@ -79,11 +74,6 @@ const Loading = () => {
           const encodedNotificationRead = encrypt(notification, `${process.env.SECURE_ALARM_KEY}`);
           const encodedProfileImage = encrypt(profileimageurl, `${process.env.SECURE_PROFILE_KEY}`);
           const encodedRestoreProfileImage = encrypt(profileimageurl, `${process.env.SECURE_PROFILE_KEY}`);
-
-          // cookies.set(`a`, encodedMemberId);
-          // cookies.set(`b`, encodedNickName);
-          // cookies.set(`c`, encodedNotificationRead);
-          // cookies.set(`d`, encodedProfileImage);
 
           cookies.remove(`SEC_MITO78`, {
             path: '/',
@@ -115,33 +105,13 @@ const Loading = () => {
           });
         }
 
-        // const targetInfos = localStorage.getItem('userInfos');
-        // if (!targetInfos) {
-        //   return;
-        // }
-
-        // const previousePathname = localStorage.getItem('previousePathname');
-        // if (previousePathname) {
-        //   localStorage.removeItem('previousePathname');
-        //   navigate(`${previousePathname}`);
-        // }
-
-        // navigate(`${MAIN_PATH}`);
         const destionation = sessionStorage.getItem('destination');
 
         if (destionation) {
           sessionStorage.removeItem('destination');
-          // navigate(`${destionation}`);
-          //
           window.location.href = `${destionation}`;
         }
-
-        // navigate(-1);
       } catch (error: any) {
-        // if (error.response.status === 400) {
-        //   navigate(`${LANDING_PATH}`);
-        //   return;
-        // }
         if (error.response.status === 401) {
           const destionation = sessionStorage.getItem('destination');
           if (destionation) {
@@ -174,8 +144,6 @@ const Loading = () => {
     };
 
     getToken(code);
-
-    //
   }, []);
 
   return (
