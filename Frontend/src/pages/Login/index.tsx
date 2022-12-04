@@ -7,8 +7,6 @@ import axios, { AxiosResponse } from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import Button from '@components/common/Button';
-import { useRecoilState } from 'recoil';
-import previousPathNameState from '@store/PreviousPathName';
 import { LOAD_PATH, ETC_PATH, MAIN_PATH, SERVER_ERROR_PATH, NEW_STUDY_PATH, UPDATE_PATH, MEMBER_EDIT_PATH, LANDING_PATH } from '../../constants/route';
 import * as S from './style';
 
@@ -18,7 +16,6 @@ const Login = () => {
   type stateKeyType = 'previousPathname';
   type stateType = Record<stateKeyType, any>;
   const state = location.state as stateType;
-  const [previousPathName, setPreviousPathName] = useRecoilState(previousPathNameState);
 
   useEffect(() => {
     const previousPath = sessionStorage.getItem('previousPath');
@@ -46,7 +43,7 @@ const Login = () => {
       }
     };
 
-    const previousPath = state?.previousPathname;
+    const previousPath = sessionStorage.getItem('previousPathnameState');
     if (previousPath) {
       sessionStorage.setItem('previousPath', previousPath);
     }

@@ -12,6 +12,7 @@ import useLogOut from '@hooks/useLogout';
 import Image from '@components/common/Image';
 import { Cookies } from 'react-cookie';
 import { getHeaders } from '@pages/util';
+import { getNotices } from '@api/studies';
 import * as S from './style';
 import { ETC_PATH, INTRODUCE_DETAIL_PATH, LOGIN_PATH, NEW_STUDY_PATH, LANDING_PATH, SERVER_ERROR_PATH, INTRODUCE_PATH } from '../../constants/route';
 
@@ -50,55 +51,33 @@ const About = () => {
     setShowingPageIndex(`${currentPageIndex + 1}`);
   };
 
-  const setDatas = async () => {
+  const setNoticeInfos = async () => {
     if (!currentPageIndex) {
       return;
     }
     const sizeNum = location?.search?.split('size=')[1];
-    const size = sizeNum || DEFAULT_SIZE_NUM;
-    const url = `api/notices?page=${currentPageIndex - 1}&size=${size}`;
-    try {
-      const token = localStorage.getItem('accessToken');
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
+    const size = Number(sizeNum) || DEFAULT_SIZE_NUM;
 
-      const body = token ? { headers } : {};
+    const data = await getNotices(currentPageIndex - 1, size);
+    const { sorted, requestPageSize, currentPageNumber, totalElementSize, firstPage, last, empty } = data.page;
 
-      const response = await axios.get(`${process.env.END_POINT}${url}`, body);
+    setContentControls({
+      sorted,
+      requestPageSize,
+      currentPageNumber,
+      totalElementSize: Math.ceil(totalElementSize / requestPageSize),
+      firstPage,
+      last,
+      empty,
+    });
 
-      const { sorted, requestPageSize, currentPageNumber, totalElementSize, firstPage, last, empty } = response.data.page;
-
-      setContentControls({
-        sorted,
-        requestPageSize,
-        currentPageNumber,
-        totalElementSize: Math.ceil(totalElementSize / requestPageSize),
-        firstPage,
-        last,
-        empty,
-      });
-
-      setStudies([...response.data.page.page]);
-    } catch (error: any) {
-      if (error.response.status === 401) {
-        logout();
-        navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-        return;
-      }
-      if (error.response.status === 404) {
-        navigate(`${ETC_PATH}`);
-        return;
-      }
-      if (error.response.status === 500) {
-        navigate(`${SERVER_ERROR_PATH}`);
-      }
-    }
+    setStudies([...data.page.page]);
   };
 
   useEffect(() => {
     setIsStudyLoading(true);
 
-    setDatas();
+    setNoticeInfos();
 
     setIsStudyLoading(false);
   }, [currentPageIndex]);
@@ -112,7 +91,7 @@ const About = () => {
     const showingURL = showingPageIndex ? queryStrings : `${INTRODUCE_PATH}`;
 
     setIsStudyLoading(true);
-    setDatas();
+    setNoticeInfos();
 
     setIsStudyLoading(false);
     navigate(showingURL);

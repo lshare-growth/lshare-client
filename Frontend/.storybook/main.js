@@ -25,6 +25,8 @@ module.exports = {
       '@style': path.resolve(__dirname, '../src/style'),
       '@assets': path.resolve(__dirname, '../src/assets'),
       '@api': path.resolve(__dirname, '../src/api'),
+      '@utils': path.resolve(__dirname, '../src/utils'),
+      '@customTypes': path.resolve(__dirname, '../src/customTypes'),
     };
     return config;
   },

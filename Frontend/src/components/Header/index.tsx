@@ -152,6 +152,19 @@ const Header = ({ className, type, alt = '' }: HeaderProps) => {
   }, []);
 
   useEffect(() => {
+    const isLogined = cookies.get('logined') === 'true';
+
+    if (!isLogined) {
+      setUserInfos({
+        memberId: 0,
+        nickName: '',
+        notification: false,
+        profileImage: '',
+      });
+    }
+  }, [cookies.get('logined')]);
+
+  useEffect(() => {
     // const isLogined = cookies.get('logined');
     const isLogined = cookies.get('logined');
     setLoginInfo(isLogined);
@@ -349,9 +362,7 @@ const Header = ({ className, type, alt = '' }: HeaderProps) => {
       try {
         const url: AxiosResponse = await axios.get(`${process.env.END_POINT}api/oauth/login`);
         sessionStorage.setItem('destination', `${location?.pathname}${location?.search}`);
-        // navigate(`/${url.data}`, { state: { previousPathname: pathname } });
         window.location.href = url.data;
-        // localStorage.setItem('previousePathname', pathname);
       } catch (error: any) {
         if (error.response.status === 401) {
           logout();
@@ -370,7 +381,6 @@ const Header = ({ className, type, alt = '' }: HeaderProps) => {
       }
     };
 
-    // navigate(`${NEW_STUDY_PATH}`, { state: { previousPathname: `${location?.pathname}${location?.search}` } });
     if (isLoginModalVisible) {
       sessionStorage.setItem('destination', NEW_STUDY_PATH);
     } else if (reactionModalInfo.isVisible) {

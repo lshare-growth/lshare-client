@@ -26,6 +26,8 @@ import { LoadingContainer } from '@components/AuthorizedLayout/style';
 import userInfosState from '@store/UserInfos';
 import studyState from '@store/Study';
 import { getHeaders } from '@pages/util';
+import { getTags } from '@api/studies';
+import { hashTagInfo } from '@customTypes/studies';
 import { FORBIDDEN_PATH, ETC_PATH, MAIN_PATH, LANDING_PATH, SERVER_ERROR_PATH, LOGIN_PATH, STUDY_PATH } from '../../constants/route';
 import * as S from './style';
 
@@ -386,42 +388,17 @@ const Edit = () => {
   }, [dates]);
 
   useEffect(() => {
-    const getTags = async () => {
-      const token = localStorage.getItem('accessToken');
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
+    const setTagsInfos = async () => {
+      const data = await getTags(Number(id));
+      const hashTags: hashTagInfo[] = data.hashTagResponses;
 
-      try {
-        const body = token ? { headers } : {};
-        type tagKeyType = 'hashTagId' | 'tagName';
-        type tagType = Record<tagKeyType, any>;
-        const response = await axios.get(`${process.env.END_POINT}api/hashtags/study/${id}`, body);
+      const apiTags = hashTags?.map(({ tagName }) => `${tagName}`);
 
-        const hashTags: tagType[] = response.data.hashTagResponses;
-
-        const apiTags = hashTags?.map(({ tagName }, index) => `${tagName}`);
-
-        setTags([...apiTags]);
-        setKeywords([...apiTags]);
-      } catch (error: any) {
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
+      setTags([...apiTags]);
+      setKeywords([...apiTags]);
     };
 
-    getTags();
+    setTagsInfos();
   }, []);
 
   useEffect(() => {

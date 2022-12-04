@@ -18,6 +18,8 @@ import Portal from '@components/Modal/Portal';
 import AlertModalArea from '@components/Modal/AlertModalArea';
 import isLoginModalVisibleState from '@store/LoginModal';
 import { getHeaders } from '@pages/util';
+import { getStudies, getTopSearchedTags } from '@api/studies';
+import { hashTagInfo, study, studyHashTag } from '@customTypes/studies';
 import { SEARCHING_PATH, TAG_SEARCHING_PATH, FORBIDDEN_PATH, ETC_PATH, LOGIN_PATH, NEW_STUDY_PATH, STUDY_PATH, LANDING_PATH, SERVER_ERROR_PATH, MAIN_PATH } from '../../constants/route';
 
 const DEFAULT_SIZE_NUM = 10;
@@ -371,41 +373,21 @@ const Main = () => {
   };
 
   useEffect(() => {
-    const getTopTags = async () => {
-      const token = localStorage.getItem('accessToken');
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
+    const setTopTagsInfos = async () => {
+      const data = await getTopSearchedTags();
 
-      try {
-        const body = token ? { headers } : {};
-        const response = await axios.get(`${process.env.END_POINT}api/hashtags/top-searched-hashtags`, body);
-        const apiTags: topTagType[] = response.data.hashTagResponses;
-        const newTags = apiTags.map(({ hashTagId, tagName }) => ({
-          id: hashTagId,
-          content: tagName,
-        }));
-        setTags(newTags);
-      } catch (error: any) {
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
+      const apiTags: hashTagInfo[] = data.hashTagResponses;
+      const newTags = apiTags.map(({ hashTagId, tagName }) => ({
+        id: hashTagId,
+        content: tagName,
+      }));
+      setTags(newTags);
     };
 
-    getTopTags();
+    setTopTagsInfos();
   }, []);
-  const getStudy = async () => {
+
+  const setStuiesInfos = async () => {
     if (!currentPageIndex) {
       return;
     }
@@ -416,109 +398,64 @@ const Main = () => {
     }
 
     const sizeNum = location?.search?.split('size=')[1];
-    const size = sizeNum || DEFAULT_SIZE_NUM;
+    const size = Number(sizeNum) || DEFAULT_SIZE_NUM;
 
-    const url = `api/studies?page=${currentPageIndex - 1}&size=${size}`;
-    try {
-      const token = localStorage.getItem('accessToken');
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
+    const data = await getStudies(currentPageIndex - 1, size);
 
-      const body = token ? { headers } : {};
+    const targetDatas: study[] = data.studies.page || [];
+    const { sorted, requestPageSize, currentPageNumber, totalElementSize, firstPage, last, empty } = data.studies;
 
-      const response = await axios.get(`${process.env.END_POINT}${url}`, body);
+    setContentControls(() => ({
+      sorted,
+      requestPageSize,
+      currentPageNumber,
+      totalElementSize: Math.ceil(totalElementSize / requestPageSize),
+      firstPage,
+      last,
+      empty,
+    }));
+    const apiTags = data.hashTags;
 
-      type dataKeyType =
-        | 'studyId'
-        | 'title'
-        | 'content'
-        | 'studyOrganizer'
-        | 'studyStatus'
-        | 'hashTags'
-        | 'currentStudyMemberCount'
-        | 'district'
-        | 'meeting'
-        | 'commentCount'
-        | 'viewCount'
-        | 'likeCount'
-        | 'createdAt'
-        | 'maxStudyMemberCount'
-        | 'startDate'
-        | 'endDate';
-      type dataType = Record<dataKeyType, any>;
-      const targetDatas: dataType[] = response.data.studies.page || [];
-      const { sorted, requestPageSize, currentPageNumber, totalElementSize, firstPage, last, empty } = response.data.studies;
-
-      setContentControls(() => ({
-        sorted,
-        requestPageSize,
-        currentPageNumber,
-        totalElementSize: Math.ceil(totalElementSize / requestPageSize),
-        firstPage,
-        last,
-        empty,
+    const currentPostings = targetDatas.map((targetData) => {
+      const { studyId, title, content, studyOrganizer, studyStatus, commentCount, viewCount, likeCount, createdAt, maxStudyMemberCount, currentStudyMemberCount, startDate } = targetData;
+      // eslint-disable-next-line prefer-destructuring
+      const hashTags: studyHashTag[] = apiTags || [];
+      // eslint-disable-next-line no-shadow
+      const targetTags = hashTags?.filter((hashTag) => hashTag.studyId === studyId);
+      const currentTags = targetTags?.map((hashTag) => ({
+        id: hashTag.hashTagId,
+        content: `#${hashTag.tagName}`,
       }));
-      const apiTags = response.data.hashTags;
 
-      const currentPostings = targetDatas.map((targetData) => {
-        const { studyId, title, content, studyOrganizer, studyStatus, meeting, commentCount, viewCount, likeCount, createdAt, maxStudyMemberCount, currentStudyMemberCount, startDate } = targetData;
-        // eslint-disable-next-line prefer-destructuring
-        const hashTags: tagType[] = apiTags || [];
-        // eslint-disable-next-line no-shadow
-        const targetTags = hashTags?.filter((hashTag) => hashTag.studyId === studyId);
-        const currentTags = targetTags?.map((hashTag) => ({
-          id: hashTag.hashTagId,
-          content: `#${hashTag.tagName}`,
-        }));
-
-        return {
-          id: studyId,
-          nickName: studyOrganizer,
-          title,
-          time: timeForToday(createdAt),
-          content,
-          tags: currentTags,
-          infos: [
-            {
-              id: 1,
-              type: 'start',
-              content: `${startDate}`,
-            },
-            {
-              id: 2,
-              type: 'studyWay',
-              content: meeting,
-            },
-            {
-              id: 3,
-              type: 'limit',
-              content: `최대 ${maxStudyMemberCount}명`,
-            },
-          ],
-          commentCount,
-          viewCount,
-          likeCount,
-          isRecruiting: studyStatus === 'RECRUITING',
-          createdDate: createdAt,
-          currentStudyMemberCount,
-          maxStudyMemberCount,
-        };
-      });
-      setStudies(currentPostings);
-    } catch (error: any) {
-      if (error.response.status === 401) {
-        logout();
-        navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-        return;
-      }
-      if (error.response.status === 404) {
-        navigate(`${ETC_PATH}`);
-        return;
-      }
-      if (error.response.status === 500) {
-        navigate(`${SERVER_ERROR_PATH}`);
-      }
-    }
+      return {
+        id: studyId,
+        nickName: studyOrganizer,
+        title,
+        time: timeForToday(createdAt),
+        content,
+        tags: currentTags,
+        infos: [
+          {
+            id: 1,
+            type: 'start',
+            content: `${startDate}`,
+          },
+          {
+            id: 3,
+            type: 'limit',
+            content: `최대 ${maxStudyMemberCount}명`,
+          },
+        ],
+        commentCount,
+        viewCount,
+        likeCount,
+        isRecruiting: studyStatus === 'RECRUITING',
+        createdDate: createdAt,
+        currentStudyMemberCount,
+        maxStudyMemberCount,
+      };
+    });
+    setStudies(currentPostings);
   };
 
   useEffect(() => {
@@ -565,7 +502,7 @@ const Main = () => {
   const handleClickSearchAll = () => {
     setIsStudyLoading(true);
     setCurrentPageIndex(() => initialPageIndex);
-    getStudy();
+    setStuiesInfos();
     setIsStudyLoading(false);
   };
 
@@ -665,8 +602,7 @@ const Main = () => {
     }
 
     setIsStudyLoading(true);
-    getStudy();
-
+    setStuiesInfos();
     setIsStudyLoading(false);
     navigate(title ? `${SEARCHING_PATH}?title=${title}` : showingURL);
   }, [showingPageIndex, currentPageIndex]);
