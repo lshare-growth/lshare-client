@@ -8,7 +8,6 @@ type stateKeyType = 'previousPathname';
 type stateType = Record<stateKeyType, string>;
 
 export const login = (state: stateType) => {
-  // navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
   navigate(`${LOGIN_PATH}`, { state });
 };
 

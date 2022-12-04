@@ -24,6 +24,7 @@ import useLogOut from '@hooks/useLogout';
 import reactionsState from '@store/Reactions';
 import { Cookies } from 'react-cookie';
 import { getHeaders } from '@pages/util';
+import { getNotice } from '@api/notice';
 import * as S from './style';
 import { INTRODUCE_PATH, ETC_PATH, MAIN_PATH, UPDATE_PATH, LANDING_PATH, SERVER_ERROR_PATH, LOGIN_PATH } from '../../constants/route';
 
@@ -82,7 +83,16 @@ const Detail = () => {
   type currentStudyType = Record<keyType, any>;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
-  const [study, setStudy] = useState<noticeType>();
+  type notice = {
+    noticeId: number;
+    nickName: string;
+    profileImageUrl: string;
+    noticeTitle: string;
+    noticeContent: string;
+    createdAt: string;
+    lastModifiedAt: string;
+  };
+  const [study, setStudy] = useState<notice>();
   const [isShowingLiked, setIsShowingLiked] = useState(false);
   const [showingLikeCount, setShowingLikeCount] = useState(0);
   const [isStudyRecruiting, setIsStudyRecruiting] = useState(false);
@@ -135,9 +145,16 @@ const Detail = () => {
       }
     };
 
-    setIsStudyLoading(true);
+    const setNoticeInfo = async () => {
+      const data = await getNotice(currentId);
 
-    getStudy();
+      setStudy(data);
+    };
+    setIsStudyLoading(true);
+    setNoticeInfo();
+    // console.log(notice);
+    // setStudy(notice);
+    // getStudy();
 
     setIsStudyLoading(false);
   }, [userInfos]);

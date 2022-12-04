@@ -44,6 +44,9 @@ import studyState, { initialStudy } from '@store/Study';
 import Avatar from '@common/Avatar';
 import isAlertModalVisibleState from '@store/AlertModal';
 import { getHeaders } from '@pages/util';
+import { getComments } from '@api/comments';
+import { getLikes, getTags } from '@api/studies';
+import { hashTagInfo, studyDetail, studyHashTag } from '@customTypes/studies';
 import * as S from './style';
 import { ETC_PATH, MAIN_PATH, UPDATE_PATH, LANDING_PATH, SERVER_ERROR_PATH, LOGIN_PATH } from '../../constants/route';
 
@@ -329,73 +332,93 @@ const Detail = () => {
   }, []);
 
   useEffect(() => {
-    const getIsClicked = async () => {
-      try {
-        const token = localStorage.getItem('accessToken');
-        const refreshToken = cookies.get(`SEC_EKIL15`);
-        const headers = getHeaders();
-
-        const body = token ? { headers } : {};
-
-        const response = await axios.get(`${process.env.END_POINT}api/likes/study/${currentId}`, body);
-        setIsShowingLiked(response?.data?.clicked === 'TRUE');
-      } catch (error: any) {
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
+    const setLikesInfos = async () => {
+      const data = await getLikes(currentId);
+      setIsShowingLiked(data?.clicked === 'TRUE');
     };
 
-    getIsClicked();
+    setLikesInfos();
   }, []);
+
+  const setTagsInfos = async () => {
+    const data = await getTags(currentId);
+    const hashTags: tagType[] = data.hashTagResponses;
+    const tags = hashTags?.map(({ hashTagId, tagName }) => ({
+      id: hashTagId,
+      content: `#${tagName}`,
+    }));
+    if (tags) {
+      setTags(tags);
+    }
+  };
+
   useEffect(() => {
-    const getTags = async () => {
-      const token = localStorage.getItem('accessToken');
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
-
-      try {
-        const body = token ? { headers } : {};
-        const response = await axios.get(`${process.env.END_POINT}api/hashtags/study/${currentId}`, body);
-        const hashTags: tagType[] = response.data.hashTagResponses;
-        const tags = hashTags?.map(({ hashTagId, tagName }) => ({
-          id: hashTagId,
-          content: `#${tagName}`,
-        }));
-        if (tags) {
-          setTags(tags);
-        }
-      } catch (error: any) {
-        if (error.response.status === 401) {
-          logout();
-          navigate(`${LOGIN_PATH}`, { state: { previousPathname: location.pathname } });
-          return;
-        }
-
-        if (error.response.status === 404) {
-          navigate(`${ETC_PATH}`);
-          return;
-        }
-
-        if (error.response.status === 500) {
-          navigate(`${SERVER_ERROR_PATH}`);
-        }
-      }
-    };
-
-    getTags();
+    setTagsInfos();
   }, []);
+
+  const setCommentInfos = async () => {
+    const data = await getComments(currentId, contentPageIdx);
+
+    type apiCommentType = typeof data.content[0];
+
+    const apiComments: apiCommentType[] = data.content;
+
+    const targetReactions = apiComments[0]?.reactions[0];
+    type reactionType = typeof targetReactions;
+
+    if (!apiComments) {
+      return;
+    }
+
+    const { sorted, first, last, empty, hasNext } = data;
+
+    setContentControls(() => ({
+      sorted,
+      first,
+      last,
+      empty,
+      hasNext,
+    }));
+    setContentPageIdx(contentPageIdx + 1);
+    // eslint-disable-next-line no-shadow
+    const currentReplys = apiComments.map((reply) => {
+      // eslint-disable-next-line no-shadow
+      const { deleted, writer, writerId, commentId, profileImage, content, lastModifiedAt, reCommentCount, createdAt } = reply;
+      // eslint-disable-next-line prefer-destructuring
+      const reactions: reactionType[] = reply.reactions;
+
+      return {
+        id: commentId,
+        nickname: deleted === 'TRUE' ? '(삭제)' : writer,
+        writerId,
+        time: timeForToday(createdAt),
+        isEditied: deleted === 'TRUE' ? '' : new Date(createdAt).getTime() < new Date(lastModifiedAt).getTime(),
+        replyNum: reCommentCount,
+        commentId,
+        content,
+        avatorSrc: deleted === 'TRUE' ? '' : profileImage,
+        avatorAlt: `${currentUserInfos.nickName}-profile-image`,
+        // eslint-disable-next-line no-shadow
+        emojis: reactions
+          .map(({ emotion, count, reactionClicked }, index) => ({
+            id: items?.find(({ value }) => value === emotion)?.id || index + 1,
+            type: emotion,
+            value: emotion,
+            count,
+            isSelected: reactionClicked !== 'FALSE',
+          }))
+          .sort((aEmoji, bEmoji) => aEmoji.id - bEmoji.id),
+        isAuthorized: deleted === 'TRUE' ? false : !!userInfos?.memberId,
+        isStudyOrganizer: false,
+        isMyComment: deleted === 'TRUE' ? false : writer === userInfos?.nickName,
+        isDeleted: deleted === 'TRUE',
+      };
+    });
+
+    setComments([...currentReplys]);
+    setApiComments([...currentReplys]);
+    setCurrentComments([...currentReplys]);
+  };
 
   useEffect(() => {
     if (study?.commentCount === 0) {
@@ -410,77 +433,8 @@ const Detail = () => {
       return;
     }
 
-    const getComments = async () => {
-      const token = localStorage.getItem('accessToken');
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
-
-      const body = token ? { headers } : {};
-      const response = await axios.get(`${process.env.END_POINT}api/comments/study/${currentId}?page=${contentPageIdx}&size=10`, body);
-
-      type apiCommentType = typeof response.data.content[0];
-
-      const apiComments: apiCommentType[] = response.data.content;
-
-      const targetReactions = apiComments[0]?.reactions[0];
-      type reactionType = typeof targetReactions;
-
-      if (!apiComments) {
-        return;
-      }
-
-      const { sorted, first, last, empty, hasNext } = response.data;
-
-      setContentControls(() => ({
-        sorted,
-        first,
-        last,
-        empty,
-        hasNext,
-      }));
-      setContentPageIdx(contentPageIdx + 1);
-      // eslint-disable-next-line no-shadow
-      const currentReplys = apiComments.map((reply) => {
-        // eslint-disable-next-line no-shadow
-        const { deleted, writer, writerId, commentId, profileImage, content, lastModifiedAt, reCommentCount, createdAt } = reply;
-        // eslint-disable-next-line prefer-destructuring
-        const reactions: reactionType[] = reply.reactions;
-
-        return {
-          id: commentId,
-          nickname: deleted === 'TRUE' ? '(삭제)' : writer,
-          writerId,
-          time: timeForToday(createdAt),
-          isEditied: deleted === 'TRUE' ? '' : new Date(createdAt).getTime() < new Date(lastModifiedAt).getTime(),
-          replyNum: reCommentCount,
-          commentId,
-          content,
-          avatorSrc: deleted === 'TRUE' ? '' : profileImage,
-          avatorAlt: `${currentUserInfos.nickName}-profile-image`,
-          // eslint-disable-next-line no-shadow
-          emojis: reactions
-            .map(({ emotion, count, reactionClicked }, index) => ({
-              id: items?.find(({ value }) => value === emotion)?.id || index + 1,
-              type: emotion,
-              value: emotion,
-              count,
-              isSelected: reactionClicked !== 'FALSE',
-            }))
-            .sort((aEmoji, bEmoji) => aEmoji.id - bEmoji.id),
-          isAuthorized: deleted === 'TRUE' ? false : !!userInfos?.memberId,
-          isStudyOrganizer: false,
-          isMyComment: deleted === 'TRUE' ? false : writer === userInfos?.nickName,
-          isDeleted: deleted === 'TRUE',
-        };
-      });
-
-      setComments([...currentReplys]);
-      setApiComments([...currentReplys]);
-      setCurrentComments([...currentReplys]);
-    };
-
     setIsCommentLoading(true);
-    getComments();
+    setCommentInfos();
     setIsCommentLoading(false);
   }, [study?.id]);
 
@@ -961,20 +915,10 @@ const Detail = () => {
           }
 
           const addData = async () => {
-            const token = localStorage.getItem('accessToken');
-            const refreshToken = cookies.get(`SEC_EKIL15`);
-            const headers = getHeaders();
+            const data = await getComments(currentId, contentPageIdx);
+            type apiCommentType = typeof data.content[0];
 
-            const body = token
-              ? {
-                  headers,
-                }
-              : {};
-            const response = await axios.get(`${process.env.END_POINT}api/comments/study/${currentId}?page=${contentPageIdx}&size=10`, body);
-
-            type apiCommentType = typeof response.data.content[0];
-
-            const apiComments: apiCommentType[] = response.data.content;
+            const apiComments: apiCommentType[] = data.content;
 
             const targetReactions = apiComments[0]?.reactions[0];
             type reactionType = typeof targetReactions;
@@ -1016,7 +960,7 @@ const Detail = () => {
 
             setCurrentComments([...currentComments, ...currentReplys]);
 
-            const { sorted, first, last, empty, hasNext } = response.data;
+            const { sorted, first, last, empty, hasNext } = data;
 
             setContentControls(() => ({
               sorted,

@@ -15,6 +15,8 @@ import AlertModalArea from '@components/Modal/AlertModalArea';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LabelList from '@components/LabelList';
 import { getHeaders } from '@pages/util';
+import { getLandingStudies } from '@api/studies';
+import { studyHashTag } from '@customTypes/studies';
 import { STUDY_PATH, INTRODUCE_DETAIL_PATH } from '../../constants/route';
 import * as S from './style';
 
@@ -43,6 +45,10 @@ const Initial = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(window.location);
+  }, []);
+
+  useEffect(() => {
     setLimit(offset + DEFAUL_PAGE_NUM * (currentPageIndex + 1));
   }, [currentPageIndex]);
 
@@ -64,21 +70,13 @@ const Initial = () => {
 
   useEffect(() => {
     // TODO: 메인 페이지와 중복 제거
-    const setDatas = async () => {
-      // TODO: 주석풀기
-      const token = localStorage.getItem('accessToken');
-      const refreshToken = cookies.get(`SEC_EKIL15`);
-      const headers = getHeaders();
-
-      const body = token ? { headers } : {};
-
-      const url = `api/studies/landing?page=${currentPageIndex}&size=10`;
-      const response = await axios.get(`${process.env.END_POINT}${url}`, body);
+    const setLandingStudyInfos = async () => {
+      const data = await getLandingStudies(currentPageIndex);
 
       setIsStudyLoading(false);
 
-      type apiStudiesType = typeof response.data.contents.content[0];
-      const apiStudies: apiStudiesType[] = response.data.contents.content;
+      type apiStudiesType = typeof data.contents.content[0];
+      const apiStudies: apiStudiesType[] = data.contents.content;
 
       const currentPostings = apiStudies.map((targetData) => {
         const {
@@ -98,8 +96,8 @@ const Initial = () => {
           endDate,
         } = targetData;
 
-        const apiTags = response.data.hashTags;
-        const hashTags: tagType[] = apiTags || [];
+        const apiTags = data.hashTags;
+        const hashTags: studyHashTag[] = apiTags || [];
         const targetTags = hashTags?.filter((hashTag) => hashTag.studyId === studyId);
         const currentTags = targetTags?.map((hashTag) => ({
           id: hashTag.hashTagId,
@@ -145,7 +143,7 @@ const Initial = () => {
         };
       });
 
-      const { sorted, first, last, empty, hasNext } = response.data.contents;
+      const { sorted, first, last, empty, hasNext } = data.contents;
 
       setContentControls({
         sorted,
@@ -161,7 +159,8 @@ const Initial = () => {
     if (!contentControls?.hasNext && currentPageIndex > 0) {
       return;
     }
-    setDatas();
+
+    setLandingStudyInfos();
 
     setIsStudyLoading(false);
   }, [currentPageIndex]);
